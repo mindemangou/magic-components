@@ -5,11 +5,17 @@ export type Connected=({element,props}:{element:HTMLElement,props:unknown})=>voi
 
 export type Disconnected=( ({element}:{element:HTMLElement})=>void )|null;
 
-export type GlobaleElementConstructor=(connected:Connected,disconnected:Disconnected)=>CustomElementConstructor
+export type GlobaleElementConstructor=(connected:Connected,disconnected:Disconnected,name:string)=>CustomElementConstructor
 
- const getGlobalElementConstructor:GlobaleElementConstructor=(connected:Connected,disconnected:Disconnected)=> {
-    
+
+ const getGlobalElementConstructor:GlobaleElementConstructor=(connected:Connected,disconnected:Disconnected,name:string)=> {
+
+        
     class GlobalElement extends HTMLElement{
+
+        static observedAttributes = ["reload"];
+
+        static originalElement:Node|null=null;
 
         constructor() {
             
@@ -17,7 +23,26 @@ export type GlobaleElementConstructor=(connected:Connected,disconnected:Disconne
           }
 
         connectedCallback() {
+            const props=this.getProps()
+
+            connected({element:this,props})
+        }
+
+        disconnectedCallBack() {
+
+            if(disconnected) {
+                disconnected({element:this})
+            }
             
+        }
+
+       async attributeChangedCallback(_name:string, _oldValue:string, newValue:string) {
+            const {ajax}=await import('htmx.org')
+            ajax('GET',location.toString(),{target:newValue,select:newValue,swap:'outerHTML'})
+        }
+
+        private getProps() {
+
             const map=new Map()
 
             for (const element of this.attributes) {
@@ -37,17 +62,8 @@ export type GlobaleElementConstructor=(connected:Connected,disconnected:Disconne
             }
             
             const props=Object.fromEntries(map)
-            
-            connected({element:this,props})
 
-        }
-
-        disconnectedCallBack() {
-
-            if(disconnected) {
-                disconnected({element:this})
-            }
-            
+            return props
         }
 
     

@@ -24,11 +24,12 @@ dist-ssr
 
 helper.txt
 index.html
-/src/assets
-/src/App.tsx
-/src/Header.tsx
+src/assets
+src/App.tsx
+src/Header.tsx
 public
-/src/vite-env.d.ts
+src/vite-env.d.ts
+index.php
 
 
 

@@ -1,4 +1,4 @@
-import getCustomElementConstructor, { Connected, Disconnected } from "./globaleElement.ts"
+import getCustomElementConstructor, { type Connected, type Disconnected } from "./globaleElement.ts"
 
 
 const  registerCustomElement=(tagName:string, ClassRef:CustomElementConstructor)=>{
@@ -11,7 +11,22 @@ const  registerCustomElement=(tagName:string, ClassRef:CustomElementConstructor)
 
 export const define=(name:string,connected:Connected,disconnected:Disconnected=null)=> {
     
-    registerCustomElement(name,getCustomElementConstructor(connected,disconnected)) 
+    registerCustomElement(name,getCustomElementConstructor(connected,disconnected,name)) 
+}
+
+
+export const reloadElement=(names:string[])=> {
+
+  for (const name of names) {
+
+    const element=document.querySelector(name)
+
+    if(element) {
+        element?.setAttribute('reload',name)
+    }
+
+  }
+  
 }
 
 
