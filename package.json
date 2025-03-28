@@ -4,7 +4,7 @@
   "type": "module",
   "files": ["dist"],
   "main": "./dist/magiccomponents.es.js",
-  "types": "./types/magiccomponents.d.ts",
+  "types": "./dist/magiccomponents.d.ts",
   "exports": {
     ".": {
       "import": "./dist/magiccomponents.es.js"
