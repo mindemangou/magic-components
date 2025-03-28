@@ -1,7 +1,14 @@
 {
   "name": "@mindemangou/magic-components",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
+  "files": ["dist"],
+  "main": "./dist/magiccomponents.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/magiccomponents.es.js"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

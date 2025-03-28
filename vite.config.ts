@@ -12,7 +12,7 @@ export default defineConfig({
     lib: {
       entry: ['src/magiccomponents.ts'],
       fileName: (format, entryName) => `${entryName}.${format}.js`,
-      name: 'magic-components',
+      name: 'magiccomponents',
     },
     rollupOptions: {
       external: ['htmx.org'],
