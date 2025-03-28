@@ -20,10 +20,12 @@ export class MagicLoader extends HTMLElement {
         this.style.left='0'
         this.style.zIndex='9999'
         this.style.backgroundColor=color
-        this.style.display='block'
+        this.style.display='none'
 
 
-         on('htmx:beforeRequest',(e:any)=> {
+         on('htmx:beforeRequest',(event: Event)=> {
+            
+             const e = event as CustomEvent<{ boosted: boolean }>;
 
              if(e?.detail?.boosted) {
                  this.style.display='block'

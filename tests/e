@@ -1,0 +1,73 @@
+import { describe, it, expect, vi } from 'vitest';
+import { define, getPath, reload, getProps, redirect, config } from './magiccomponents';
+import { ajax, process, config as htmxconfig } from 'htmx.org';
+
+// filepath: /home/gautier/perso/bridgejs/src/magiccomponents.test.ts
+
+vi.mock('htmx.org', () => ({
+  ajax: vi.fn(),
+  process: vi.fn(),
+  config: { refreshOnHistoryMiss: false },
+}));
+
+vi.mock('./MagicComponentsConstructor.ts', () => ({
+  default: vi.fn(() => class {}),
+}));
+
+describe('magiccomponents', () => {
+  it('should register a custom element in define', () => {
+    const mockConstructor = vi.fn();
+    const mockRegister = vi.spyOn(customElements, 'define');
+    define('test-element', mockConstructor, null);
+    expect(mockRegister).toHaveBeenCalledWith('test-element', expect.any(Function));
+  });
+
+  it('should generate correct path in getPath', () => {
+    const query = { key: 'value' };
+    const fragment = 'section';
+    const result = getPath(query, fragment);
+    expect(result).toContain('?key=value');
+    expect(result).toContain('#section');
+  });
+
+  it('should call ajax in reload', () => {
+    reload('test-element', { key: 'value' }, 'section');
+    expect(ajax).toHaveBeenCalledWith('GET', expect.stringContaining('?key=value#section'), {
+      target: 'test-element',
+      select: 'test-element',
+      swap: 'innerHTML',
+    });
+  });
+
+  it('should extract props from an element in getProps', () => {
+    const element = document.createElement('div');
+    element.dataset.key = 'value';
+    const template = document.createElement('template');
+    template.innerHTML = JSON.stringify({ nested: 'data' });
+    element.appendChild(template);
+    const props = getProps(element);
+    expect(props).toEqual({
+      key: 'value',
+      data: { nested: 'data' },
+      tagName: 'div',
+    });
+  });
+
+  it('should redirect correctly in redirect', async () => {
+    htmxconfig.refreshOnHistoryMiss = true;
+    const mockClick = vi.fn();
+    document.body.innerHTML = '';
+    document.body.querySelector = vi.fn(() => ({ click: mockClick, parentElement: { remove: vi.fn() } }));
+    await redirect('/test-url', { header: 'value' });
+    expect(process).toHaveBeenCalled();
+    expect(mockClick).toHaveBeenCalled();
+  });
+
+  it('should configure correctly in config', async () => {
+    await config({ redirect: true, loader: { enable: true, color: '#123456' } });
+    expect(htmxconfig.refreshOnHistoryMiss).toBe(true);
+    const loader = document.querySelector('bridge-loader');
+    expect(loader).not.toBeNull();
+    expect(loader?.getAttribute('data-color')).toBe('#123456');
+  });
+});
