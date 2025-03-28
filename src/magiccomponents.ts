@@ -1,5 +1,5 @@
 import {ajax,process,config as htmxconfig} from 'htmx.org'
-import type { Connected, Disconnected } from '../types2/magiccomponent.ts';
+import type { Connected, Disconnected } from '../types/magiccomponent.ts';
 
 const  registerCustomElement=(tagName:string, ClassRef:CustomElementConstructor)=>{
     if (!customElements.get(tagName)) {
