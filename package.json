@@ -1,5 +1,5 @@
 {
-  "name": "bridgejs",
+  "name": "magic-components",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -11,8 +11,7 @@
     "test": "vitest"
   },
   "dependencies": {
-    "htmx.org": "^1.9.12",
-    "lodash.camelcase": "^4.3.0"
+    "htmx.org": "^1.9.12"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
