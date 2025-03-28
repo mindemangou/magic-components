@@ -1,10 +1,10 @@
 {
   "name": "@mindemangou/magiccomponents",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "type": "module",
   "files": ["dist"],
   "main": "./dist/magiccomponents.es.js",
-  "types": "./dist/magiccomponents.d.ts",
+  "types": "./src/magiccomponents.d.ts",
   "exports": {
     ".": {
       "import": "./dist/magiccomponents.es.js"

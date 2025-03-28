@@ -1,4 +1,4 @@
-import type { Connected, Disconnected, GlobaleElementConstructor } from "./magiccomponent";
+import type { Connected, Disconnected, GlobaleElementConstructor } from "./magictypes";
 import { getProps } from "./magiccomponents";
 
 
