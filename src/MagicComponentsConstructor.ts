@@ -6,6 +6,7 @@ export type Disconnected=( ({element}:{element:HTMLElement})=>void )|null;
 
 export type GlobaleElementConstructor=(connected:Connected,disconnected:Disconnected)=>CustomElementConstructor;
 
+let key=0
  const getMagicComponentsConstructor:GlobaleElementConstructor=(connected:Connected,disconnected:Disconnected)=> {
 
     class MagicConstructor extends HTMLElement{
@@ -17,6 +18,12 @@ export type GlobaleElementConstructor=(connected:Connected,disconnected:Disconne
 
 
         connectedCallback() {
+            //add unique key
+            if(!this.hasAttribute('data-key')) {
+                this.setAttribute('data-key',`component-${key}`)
+                key++
+            }
+            
             const props=getProps(this)
             
             connected({element:this,props})
