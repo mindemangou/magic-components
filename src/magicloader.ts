@@ -45,7 +45,7 @@ export class MagicLoader extends HTMLElement {
              }
             
          })
-
+ 
     }
 
     disconnectedCallback() {

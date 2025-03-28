@@ -10,6 +10,7 @@ export default defineConfig({
   },
   
   build: {
+    
     lib: {
       entry: ['src/magiccomponents.ts'],
       fileName: (format, entryName) => `${entryName}.${format}.js`,
