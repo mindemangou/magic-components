@@ -1,6 +1,12 @@
-import type { Connected, Disconnected, GlobaleElementConstructor } from "./magictypes";
 import { getProps } from "./magiccomponents";
 
+
+
+export type Connected=({element,props}:{element:HTMLElement,props:unknown})=>void;
+
+export type Disconnected=( ({element}:{element:HTMLElement})=>void )|null;
+
+export type GlobaleElementConstructor=(connected:Connected,disconnected:Disconnected)=>CustomElementConstructor;
 
  const getMagicComponentsConstructor:GlobaleElementConstructor=(connected:Connected,disconnected:Disconnected)=> {
 

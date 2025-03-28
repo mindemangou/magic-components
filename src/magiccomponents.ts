@@ -1,5 +1,7 @@
 import {ajax,process,config as htmxconfig} from 'htmx.org'
-import type { Connected, Disconnected, } from './magictypes.d.ts';
+import { Connected, Disconnected } from './MagicComponentsConstructor.ts';
+
+import {} from '@mindemangou/magiccomponents'
 
 const  registerCustomElement=(tagName:string, ClassRef:CustomElementConstructor)=>{
     if (!customElements.get(tagName)) {
@@ -66,7 +68,6 @@ export const getProps=(element:HTMLElement)=>{
     
     return props
 }
-
 
 
 let linkID=0

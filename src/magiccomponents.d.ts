@@ -1,5 +1,5 @@
-import type { Connected, Disconnected } from './magictypes.d.ts';
-export declare const define: (name: string, connected: Connected, disconnected?: Disconnected) => Promise<number>;
+import { Connected, Disconnected } from './MagicComponentsConstructor.ts';
+export declare const define: (name: string, connected: Connected, disconnected?: Disconnected) => Promise<void>;
 export declare const getPath: (query: Record<string, string>, fragment: string) => string;
 export declare const reload: (name: string, query?: Record<string, string>, fragment?: string) => Promise<void>;
 export declare const getProps: (element: HTMLElement) => {
