@@ -1,305 +1,3 @@
-var Ci = Object.defineProperty;
-var Ri = (ze, Qr, Jr) => Qr in ze ? Ci(ze, Qr, { enumerable: !0, configurable: !0, writable: !0, value: Jr }) : ze[Qr] = Jr;
-var ni = (ze, Qr, Jr) => Ri(ze, typeof Qr != "symbol" ? Qr + "" : Qr, Jr);
-var commonjsGlobal = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {};
-function getDefaultExportFromCjs(ze) {
-  return ze && ze.__esModule && Object.prototype.hasOwnProperty.call(ze, "default") ? ze.default : ze;
-}
-var lodash_camelcase, hasRequiredLodash_camelcase;
-function requireLodash_camelcase() {
-  if (hasRequiredLodash_camelcase) return lodash_camelcase;
-  hasRequiredLodash_camelcase = 1;
-  var ze = "[object Symbol]", Qr = /[^\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\x7f]+/g, Jr = /[\xc0-\xd6\xd8-\xf6\xf8-\xff\u0100-\u017f]/g, Zr = "\\ud800-\\udfff", Gr = "\\u0300-\\u036f\\ufe20-\\ufe23", Wr = "\\u20d0-\\u20f0", Yr = "\\u2700-\\u27bf", Kr = "a-z\\xdf-\\xf6\\xf8-\\xff", en = "\\xac\\xb1\\xd7\\xf7", rn = "\\x00-\\x2f\\x3a-\\x40\\x5b-\\x60\\x7b-\\xbf", nn = "\\u2000-\\u206f", on = " \\t\\x0b\\f\\xa0\\ufeff\\n\\r\\u2028\\u2029\\u1680\\u180e\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2007\\u2008\\u2009\\u200a\\u202f\\u205f\\u3000", an = "A-Z\\xc0-\\xd6\\xd8-\\xde", xn = "\\ufe0e\\ufe0f", wn = en + rn + nn + on, Ln = "['’]", In = "[" + Zr + "]", Un = "[" + wn + "]", Cn = "[" + Gr + Wr + "]", Rn = "\\d+", Sn = "[" + Yr + "]", bn = "[" + Kr + "]", Fn = "[^" + Zr + wn + Rn + Yr + Kr + an + "]", vn = "\\ud83c[\\udffb-\\udfff]", gn = "(?:" + Cn + "|" + vn + ")", kn = "[^" + Zr + "]", dn = "(?:\\ud83c[\\udde6-\\uddff]){2}", un = "[\\ud800-\\udbff][\\udc00-\\udfff]", cn = "[" + an + "]", Mn = "\\u200d", An = "(?:" + bn + "|" + Fn + ")", fn = "(?:" + cn + "|" + Fn + ")", Pn = "(?:" + Ln + "(?:d|ll|m|re|s|t|ve))?", qn = "(?:" + Ln + "(?:D|LL|M|RE|S|T|VE))?", En = gn + "?", zn = "[" + xn + "]?", Jn = "(?:" + Mn + "(?:" + [kn, dn, un].join("|") + ")" + zn + En + ")*", Hn = zn + En + Jn, Xn = "(?:" + [Sn, dn, un].join("|") + ")" + Hn, Zn = "(?:" + [kn + Cn + "?", Cn, dn, un, In].join("|") + ")", jn = RegExp(Ln, "g"), mn = RegExp(Cn, "g"), Gn = RegExp(vn + "(?=" + vn + ")|" + Zn + Hn, "g"), Kn = RegExp([
-    cn + "?" + bn + "+" + Pn + "(?=" + [Un, cn, "$"].join("|") + ")",
-    fn + "+" + qn + "(?=" + [Un, cn + An, "$"].join("|") + ")",
-    cn + "?" + An + "+" + Pn,
-    cn + "+" + qn,
-    Rn,
-    Xn
-  ].join("|"), "g"), Bn = RegExp("[" + Mn + Zr + Gr + Wr + xn + "]"), On = /[a-z][A-Z]|[A-Z]{2,}[a-z]|[0-9][a-zA-Z]|[a-zA-Z][0-9]|[^a-zA-Z0-9 ]/, ei = {
-    // Latin-1 Supplement block.
-    À: "A",
-    Á: "A",
-    Â: "A",
-    Ã: "A",
-    Ä: "A",
-    Å: "A",
-    à: "a",
-    á: "a",
-    â: "a",
-    ã: "a",
-    ä: "a",
-    å: "a",
-    Ç: "C",
-    ç: "c",
-    Ð: "D",
-    ð: "d",
-    È: "E",
-    É: "E",
-    Ê: "E",
-    Ë: "E",
-    è: "e",
-    é: "e",
-    ê: "e",
-    ë: "e",
-    Ì: "I",
-    Í: "I",
-    Î: "I",
-    Ï: "I",
-    ì: "i",
-    í: "i",
-    î: "i",
-    ï: "i",
-    Ñ: "N",
-    ñ: "n",
-    Ò: "O",
-    Ó: "O",
-    Ô: "O",
-    Õ: "O",
-    Ö: "O",
-    Ø: "O",
-    ò: "o",
-    ó: "o",
-    ô: "o",
-    õ: "o",
-    ö: "o",
-    ø: "o",
-    Ù: "U",
-    Ú: "U",
-    Û: "U",
-    Ü: "U",
-    ù: "u",
-    ú: "u",
-    û: "u",
-    ü: "u",
-    Ý: "Y",
-    ý: "y",
-    ÿ: "y",
-    Æ: "Ae",
-    æ: "ae",
-    Þ: "Th",
-    þ: "th",
-    ß: "ss",
-    // Latin Extended-A block.
-    Ā: "A",
-    Ă: "A",
-    Ą: "A",
-    ā: "a",
-    ă: "a",
-    ą: "a",
-    Ć: "C",
-    Ĉ: "C",
-    Ċ: "C",
-    Č: "C",
-    ć: "c",
-    ĉ: "c",
-    ċ: "c",
-    č: "c",
-    Ď: "D",
-    Đ: "D",
-    ď: "d",
-    đ: "d",
-    Ē: "E",
-    Ĕ: "E",
-    Ė: "E",
-    Ę: "E",
-    Ě: "E",
-    ē: "e",
-    ĕ: "e",
-    ė: "e",
-    ę: "e",
-    ě: "e",
-    Ĝ: "G",
-    Ğ: "G",
-    Ġ: "G",
-    Ģ: "G",
-    ĝ: "g",
-    ğ: "g",
-    ġ: "g",
-    ģ: "g",
-    Ĥ: "H",
-    Ħ: "H",
-    ĥ: "h",
-    ħ: "h",
-    Ĩ: "I",
-    Ī: "I",
-    Ĭ: "I",
-    Į: "I",
-    İ: "I",
-    ĩ: "i",
-    ī: "i",
-    ĭ: "i",
-    į: "i",
-    ı: "i",
-    Ĵ: "J",
-    ĵ: "j",
-    Ķ: "K",
-    ķ: "k",
-    ĸ: "k",
-    Ĺ: "L",
-    Ļ: "L",
-    Ľ: "L",
-    Ŀ: "L",
-    Ł: "L",
-    ĺ: "l",
-    ļ: "l",
-    ľ: "l",
-    ŀ: "l",
-    ł: "l",
-    Ń: "N",
-    Ņ: "N",
-    Ň: "N",
-    Ŋ: "N",
-    ń: "n",
-    ņ: "n",
-    ň: "n",
-    ŋ: "n",
-    Ō: "O",
-    Ŏ: "O",
-    Ő: "O",
-    ō: "o",
-    ŏ: "o",
-    ő: "o",
-    Ŕ: "R",
-    Ŗ: "R",
-    Ř: "R",
-    ŕ: "r",
-    ŗ: "r",
-    ř: "r",
-    Ś: "S",
-    Ŝ: "S",
-    Ş: "S",
-    Š: "S",
-    ś: "s",
-    ŝ: "s",
-    ş: "s",
-    š: "s",
-    Ţ: "T",
-    Ť: "T",
-    Ŧ: "T",
-    ţ: "t",
-    ť: "t",
-    ŧ: "t",
-    Ũ: "U",
-    Ū: "U",
-    Ŭ: "U",
-    Ů: "U",
-    Ű: "U",
-    Ų: "U",
-    ũ: "u",
-    ū: "u",
-    ŭ: "u",
-    ů: "u",
-    ű: "u",
-    ų: "u",
-    Ŵ: "W",
-    ŵ: "w",
-    Ŷ: "Y",
-    ŷ: "y",
-    Ÿ: "Y",
-    Ź: "Z",
-    Ż: "Z",
-    Ž: "Z",
-    ź: "z",
-    ż: "z",
-    ž: "z",
-    Ĳ: "IJ",
-    ĳ: "ij",
-    Œ: "Oe",
-    œ: "oe",
-    ŉ: "'n",
-    ſ: "ss"
-  }, Vn = typeof commonjsGlobal == "object" && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal, ti = typeof self == "object" && self && self.Object === Object && self, hn = Vn || ti || Function("return this")();
-  function Dn(tn, sn, ln, Qn) {
-    for (var pn = -1, Yn = tn ? tn.length : 0; ++pn < Yn; )
-      ln = sn(ln, tn[pn], pn, tn);
-    return ln;
-  }
-  function _n(tn) {
-    return tn.split("");
-  }
-  function ri(tn) {
-    return tn.match(Qr) || [];
-  }
-  function yn(tn) {
-    return function(sn) {
-      return tn == null ? void 0 : tn[sn];
-    };
-  }
-  var Tn = yn(ei);
-  function Nn(tn) {
-    return Bn.test(tn);
-  }
-  function Wn(tn) {
-    return On.test(tn);
-  }
-  function si(tn) {
-    return Nn(tn) ? ui(tn) : _n(tn);
-  }
-  function ui(tn) {
-    return tn.match(Gn) || [];
-  }
-  function li(tn) {
-    return tn.match(Kn) || [];
-  }
-  var fi = Object.prototype, ci = fi.toString, ii = hn.Symbol, oi = ii ? ii.prototype : void 0, ai = oi ? oi.toString : void 0;
-  function di(tn, sn, ln) {
-    var Qn = -1, pn = tn.length;
-    sn < 0 && (sn = -sn > pn ? 0 : pn + sn), ln = ln > pn ? pn : ln, ln < 0 && (ln += pn), pn = sn > ln ? 0 : ln - sn >>> 0, sn >>>= 0;
-    for (var Yn = Array(pn); ++Qn < pn; )
-      Yn[Qn] = tn[Qn + sn];
-    return Yn;
-  }
-  function hi(tn) {
-    if (typeof tn == "string")
-      return tn;
-    if (xi(tn))
-      return ai ? ai.call(tn) : "";
-    var sn = tn + "";
-    return sn == "0" && 1 / tn == -1 / 0 ? "-0" : sn;
-  }
-  function vi(tn, sn, ln) {
-    var Qn = tn.length;
-    return ln = ln === void 0 ? Qn : ln, di(tn, sn, ln);
-  }
-  function gi(tn) {
-    return function(sn) {
-      sn = $n(sn);
-      var ln = Nn(sn) ? si(sn) : void 0, Qn = ln ? ln[0] : sn.charAt(0), pn = ln ? vi(ln, 1).join("") : sn.slice(1);
-      return Qn[tn]() + pn;
-    };
-  }
-  function mi(tn) {
-    return function(sn) {
-      return Dn(Ei(wi(sn).replace(jn, "")), tn, "");
-    };
-  }
-  function pi(tn) {
-    return !!tn && typeof tn == "object";
-  }
-  function xi(tn) {
-    return typeof tn == "symbol" || pi(tn) && ci.call(tn) == ze;
-  }
-  function $n(tn) {
-    return tn == null ? "" : hi(tn);
-  }
-  var bi = mi(function(tn, sn, ln) {
-    return sn = sn.toLowerCase(), tn + (ln ? yi(sn) : sn);
-  });
-  function yi(tn) {
-    return Si($n(tn).toLowerCase());
-  }
-  function wi(tn) {
-    return tn = $n(tn), tn && tn.replace(Jr, Tn).replace(mn, "");
-  }
-  var Si = gi("toUpperCase");
-  function Ei(tn, sn, ln) {
-    return tn = $n(tn), sn = sn, sn === void 0 ? Wn(tn) ? li(tn) : ri(tn) : tn.match(sn) || [];
-  }
-  return lodash_camelcase = bi, lodash_camelcase;
-}
-var lodash_camelcaseExports = requireLodash_camelcase();
-const camelCase = /* @__PURE__ */ getDefaultExportFromCjs(lodash_camelcaseExports);
 var htmx_min$1 = { exports: {} }, htmx_min = htmx_min$1.exports, hasRequiredHtmx_min;
 function requireHtmx_min() {
   return hasRequiredHtmx_min || (hasRequiredHtmx_min = 1, function(module) {
@@ -348,8 +46,8 @@ function requireHtmx_min() {
           return ze || null;
         }
         function L(ze, Qr, Jr) {
-          var Zr = te(Qr, Jr), Gr = te(Qr, "hx-disinherit");
-          return ze !== Qr && Gr && (Gr === "*" || Gr.split(" ").indexOf(Jr) >= 0) ? "unset" : Zr;
+          var Zr = te(Qr, Jr), Wr = te(Qr, "hx-disinherit");
+          return ze !== Qr && Wr && (Wr === "*" || Wr.split(" ").indexOf(Jr) >= 0) ? "unset" : Zr;
         }
         function ne(ze, Qr) {
           var Jr = null;
@@ -367,9 +65,9 @@ function requireHtmx_min() {
           return Jr ? Jr[1].toLowerCase() : "";
         }
         function s(ze, Qr) {
-          for (var Jr = new DOMParser(), Zr = Jr.parseFromString(ze, "text/html"), Gr = Zr.body; Qr > 0; )
-            Qr--, Gr = Gr.firstChild;
-          return Gr == null && (Gr = re().createDocumentFragment()), Gr;
+          for (var Jr = new DOMParser(), Zr = Jr.parseFromString(ze, "text/html"), Wr = Zr.body; Qr > 0; )
+            Qr--, Wr = Wr.firstChild;
+          return Wr == null && (Wr = re().createDocumentFragment()), Wr;
         }
         function N(ze) {
           return /<body/.test(ze);
@@ -377,12 +75,12 @@ function requireHtmx_min() {
         function l(ze) {
           var Qr = !N(ze), Jr = A(ze), Zr = ze;
           if (Jr === "head" && (Zr = Zr.replace(S, "")), Q.config.useTemplateFragments && Qr) {
-            var Gr = s("<body><template>" + Zr + "</template></body>", 0), Wr = Gr.querySelector("template").content;
-            return Q.config.allowScriptTags ? oe(Wr.querySelectorAll("script"), function(Yr) {
+            var Wr = s("<body><template>" + Zr + "</template></body>", 0), Gr = Wr.querySelector("template").content;
+            return Q.config.allowScriptTags ? oe(Gr.querySelectorAll("script"), function(Yr) {
               Q.config.inlineScriptNonce && (Yr.nonce = Q.config.inlineScriptNonce), Yr.htmxExecuted = navigator.userAgent.indexOf("Firefox") === -1;
-            }) : oe(Wr.querySelectorAll("script"), function(Yr) {
+            }) : oe(Gr.querySelectorAll("script"), function(Yr) {
               _(Yr);
-            }), Wr;
+            }), Gr;
           }
           switch (Jr) {
             case "thead":
@@ -543,15 +241,15 @@ function requireHtmx_min() {
         }
         var K = function(ze, Qr) {
           for (var Jr = re().querySelectorAll(Qr), Zr = 0; Zr < Jr.length; Zr++) {
-            var Gr = Jr[Zr];
-            if (Gr.compareDocumentPosition(ze) === Node.DOCUMENT_POSITION_PRECEDING)
-              return Gr;
+            var Wr = Jr[Zr];
+            if (Wr.compareDocumentPosition(ze) === Node.DOCUMENT_POSITION_PRECEDING)
+              return Wr;
           }
         }, Y = function(ze, Qr) {
           for (var Jr = re().querySelectorAll(Qr), Zr = Jr.length - 1; Zr >= 0; Zr--) {
-            var Gr = Jr[Zr];
-            if (Gr.compareDocumentPosition(ze) === Node.DOCUMENT_POSITION_FOLLOWING)
-              return Gr;
+            var Wr = Jr[Zr];
+            if (Wr.compareDocumentPosition(ze) === Node.DOCUMENT_POSITION_FOLLOWING)
+              return Wr;
           }
         };
         function ue(ze, Qr) {
@@ -565,8 +263,8 @@ function requireHtmx_min() {
         }
         function de(ze, Qr, Jr) {
           jr(function() {
-            var Gr = ve(ze, Qr, Jr);
-            Gr.target.addEventListener(Gr.event, Gr.listener);
+            var Wr = ve(ze, Qr, Jr);
+            Wr.target.addEventListener(Wr.event, Wr.listener);
           });
           var Zr = k(Qr);
           return Zr ? Qr : Jr;
@@ -614,41 +312,41 @@ function requireHtmx_min() {
         }
         function Se(ze, Qr) {
           for (var Jr = Fr(Qr), Zr = 0; Zr < Jr.length; Zr++) {
-            var Gr = Jr[Zr];
+            var Wr = Jr[Zr];
             try {
-              if (Gr.isInlineSwap(ze))
+              if (Wr.isInlineSwap(ze))
                 return !0;
-            } catch (Wr) {
-              b(Wr);
+            } catch (Gr) {
+              b(Gr);
             }
           }
           return ze === "outerHTML";
         }
         function Ee(ze, Qr, Jr) {
-          var Zr = "#" + ee(Qr, "id"), Gr = "outerHTML";
-          ze === "true" || (ze.indexOf(":") > 0 ? (Gr = ze.substr(0, ze.indexOf(":")), Zr = ze.substr(ze.indexOf(":") + 1, ze.length)) : Gr = ze);
-          var Wr = re().querySelectorAll(Zr);
-          return Wr ? (oe(Wr, function(Yr) {
+          var Zr = "#" + ee(Qr, "id"), Wr = "outerHTML";
+          ze === "true" || (ze.indexOf(":") > 0 ? (Wr = ze.substr(0, ze.indexOf(":")), Zr = ze.substr(ze.indexOf(":") + 1, ze.length)) : Wr = ze);
+          var Gr = re().querySelectorAll(Zr);
+          return Gr ? (oe(Gr, function(Yr) {
             var Kr, en = Qr.cloneNode(!0);
-            Kr = re().createDocumentFragment(), Kr.appendChild(en), Se(Gr, Yr) || (Kr = en);
-            var rn = { shouldSwap: !0, target: Yr, fragment: Kr };
-            ce(Yr, "htmx:oobBeforeSwap", rn) && (Yr = rn.target, rn.shouldSwap && Fe(Gr, Yr, Yr, Kr, Jr), oe(Jr.elts, function(nn) {
-              ce(nn, "htmx:oobAfterSwap", rn);
+            Kr = re().createDocumentFragment(), Kr.appendChild(en), Se(Wr, Yr) || (Kr = en);
+            var tn = { shouldSwap: !0, target: Yr, fragment: Kr };
+            ce(Yr, "htmx:oobBeforeSwap", tn) && (Yr = tn.target, tn.shouldSwap && Fe(Wr, Yr, Yr, Kr, Jr), oe(Jr.elts, function(rn) {
+              ce(rn, "htmx:oobAfterSwap", tn);
             }));
           }), Qr.parentNode.removeChild(Qr)) : (Qr.parentNode.removeChild(Qr), fe(re().body, "htmx:oobErrorNoTarget", { content: Qr })), ze;
         }
         function Ce(ze, Qr, Jr) {
           var Zr = ne(ze, "hx-select-oob");
           if (Zr)
-            for (var Gr = Zr.split(","), Wr = 0; Wr < Gr.length; Wr++) {
-              var Yr = Gr[Wr].split(":", 2), Kr = Yr[0].trim();
+            for (var Wr = Zr.split(","), Gr = 0; Gr < Wr.length; Gr++) {
+              var Yr = Wr[Gr].split(":", 2), Kr = Yr[0].trim();
               Kr.indexOf("#") === 0 && (Kr = Kr.substring(1));
-              var en = Yr[1] || "true", rn = Qr.querySelector("#" + Kr);
-              rn && Ee(en, rn, Jr);
+              var en = Yr[1] || "true", tn = Qr.querySelector("#" + Kr);
+              tn && Ee(en, tn, Jr);
             }
-          oe(f(Qr, "[hx-swap-oob], [data-hx-swap-oob]"), function(nn) {
-            var on = te(nn, "hx-swap-oob");
-            on != null && Ee(on, nn, Jr);
+          oe(f(Qr, "[hx-swap-oob], [data-hx-swap-oob]"), function(rn) {
+            var nn = te(rn, "hx-swap-oob");
+            nn != null && Ee(nn, rn, Jr);
           });
         }
         function Re(ze) {
@@ -659,9 +357,9 @@ function requireHtmx_min() {
         }
         function Te(ze, Qr, Jr) {
           oe(Qr.querySelectorAll("[id]"), function(Zr) {
-            var Gr = ee(Zr, "id");
-            if (Gr && Gr.length > 0) {
-              var Wr = Gr.replace("'", "\\'"), Yr = Zr.tagName.replace(":", "\\:"), Kr = ze.querySelector(Yr + "[id='" + Wr + "']");
+            var Wr = ee(Zr, "id");
+            if (Wr && Wr.length > 0) {
+              var Gr = Wr.replace("'", "\\'"), Yr = Zr.tagName.replace(":", "\\:"), Kr = ze.querySelector(Yr + "[id='" + Gr + "']");
               if (Kr && Kr !== ze) {
                 var en = Zr.cloneNode();
                 we(Zr, Kr), Jr.tasks.push(function() {
@@ -682,8 +380,8 @@ function requireHtmx_min() {
         }
         function a(ze, Qr, Jr, Zr) {
           for (Te(ze, Jr, Zr); Jr.childNodes.length > 0; ) {
-            var Gr = Jr.firstChild;
-            z(Gr, Q.config.addedClass), ze.insertBefore(Gr, Qr), Gr.nodeType !== Node.TEXT_NODE && Gr.nodeType !== Node.COMMENT_NODE && Zr.tasks.push(Oe(Gr));
+            var Wr = Jr.firstChild;
+            z(Wr, Q.config.addedClass), ze.insertBefore(Wr, Qr), Wr.nodeType !== Node.TEXT_NODE && Wr.nodeType !== Node.COMMENT_NODE && Zr.tasks.push(Oe(Wr));
           }
         }
         function He(ze, Qr) {
@@ -726,9 +424,9 @@ function requireHtmx_min() {
         function Ie(ze, Qr, Jr) {
           if (ze.tagName === "BODY")
             return Ue(ze, Qr, Jr);
-          var Zr, Gr = ze.previousSibling;
-          for (a(u(ze), ze, Qr, Jr), Gr == null ? Zr = u(ze).firstChild : Zr = Gr.nextSibling, Jr.elts = Jr.elts.filter(function(Wr) {
-            return Wr != ze;
+          var Zr, Wr = ze.previousSibling;
+          for (a(u(ze), ze, Qr, Jr), Wr == null ? Zr = u(ze).firstChild : Zr = Wr.nextSibling, Jr.elts = Jr.elts.filter(function(Gr) {
+            return Gr != ze;
           }); Zr && Zr !== ze; )
             Zr.nodeType === Node.ELEMENT_NODE && Jr.elts.push(Zr), Zr = Zr.nextElementSibling;
           m(ze), u(ze).removeChild(ze);
@@ -759,53 +457,53 @@ function requireHtmx_min() {
         function Be(ze, Qr, Jr) {
           var Zr = Jr || ne(ze, "hx-select");
           if (Zr) {
-            var Gr = re().createDocumentFragment();
-            oe(Qr.querySelectorAll(Zr), function(Wr) {
-              Gr.appendChild(Wr);
-            }), Qr = Gr;
+            var Wr = re().createDocumentFragment();
+            oe(Qr.querySelectorAll(Zr), function(Gr) {
+              Wr.appendChild(Gr);
+            }), Qr = Wr;
           }
           return Qr;
         }
-        function Fe(ze, Qr, Jr, Zr, Gr) {
+        function Fe(ze, Qr, Jr, Zr, Wr) {
           switch (ze) {
             case "none":
               return;
             case "outerHTML":
-              Ie(Jr, Zr, Gr);
+              Ie(Jr, Zr, Wr);
               return;
             case "afterbegin":
-              ke(Jr, Zr, Gr);
+              ke(Jr, Zr, Wr);
               return;
             case "beforebegin":
-              Pe(Jr, Zr, Gr);
+              Pe(Jr, Zr, Wr);
               return;
             case "beforeend":
-              Me(Jr, Zr, Gr);
+              Me(Jr, Zr, Wr);
               return;
             case "afterend":
-              Xe(Jr, Zr, Gr);
+              Xe(Jr, Zr, Wr);
               return;
             case "delete":
               De(Jr);
               return;
             default:
-              for (var Wr = Fr(Qr), Yr = 0; Yr < Wr.length; Yr++) {
-                var Kr = Wr[Yr];
+              for (var Gr = Fr(Qr), Yr = 0; Yr < Gr.length; Yr++) {
+                var Kr = Gr[Yr];
                 try {
-                  var en = Kr.handleSwap(ze, Jr, Zr, Gr);
+                  var en = Kr.handleSwap(ze, Jr, Zr, Wr);
                   if (en) {
                     if (typeof en.length < "u")
-                      for (var rn = 0; rn < en.length; rn++) {
-                        var nn = en[rn];
-                        nn.nodeType !== Node.TEXT_NODE && nn.nodeType !== Node.COMMENT_NODE && Gr.tasks.push(Oe(nn));
+                      for (var tn = 0; tn < en.length; tn++) {
+                        var rn = en[tn];
+                        rn.nodeType !== Node.TEXT_NODE && rn.nodeType !== Node.COMMENT_NODE && Wr.tasks.push(Oe(rn));
                       }
                     return;
                   }
-                } catch (on) {
-                  b(on);
+                } catch (nn) {
+                  b(nn);
                 }
               }
-              ze === "innerHTML" ? Ue(Jr, Zr, Gr) : Fe(Q.config.defaultSwapStyle, Qr, Jr, Zr, Gr);
+              ze === "innerHTML" ? Ue(Jr, Zr, Wr) : Fe(Q.config.defaultSwapStyle, Qr, Jr, Zr, Wr);
           }
         }
         function Ve(ze) {
@@ -815,20 +513,20 @@ function requireHtmx_min() {
               return Jr[2];
           }
         }
-        function je(ze, Qr, Jr, Zr, Gr, Wr) {
-          Gr.title = Ve(Zr);
+        function je(ze, Qr, Jr, Zr, Wr, Gr) {
+          Wr.title = Ve(Zr);
           var Yr = l(Zr);
           if (Yr)
-            return Ce(Jr, Yr, Gr), Yr = Be(Jr, Yr, Wr), Re(Yr), Fe(ze, Jr, Qr, Yr, Gr);
+            return Ce(Jr, Yr, Wr), Yr = Be(Jr, Yr, Gr), Re(Yr), Fe(ze, Jr, Qr, Yr, Wr);
         }
         function _e(ze, Qr, Jr) {
           var Zr = ze.getResponseHeader(Qr);
           if (Zr.indexOf("{") === 0) {
-            var Gr = E(Zr);
-            for (var Wr in Gr)
-              if (Gr.hasOwnProperty(Wr)) {
-                var Yr = Gr[Wr];
-                P(Yr) || (Yr = { value: Yr }), ce(Jr, Wr, Yr);
+            var Wr = E(Zr);
+            for (var Gr in Wr)
+              if (Wr.hasOwnProperty(Gr)) {
+                var Yr = Wr[Gr];
+                P(Yr) || (Yr = { value: Yr }), ce(Jr, Gr, Yr);
               }
           } else
             for (var Kr = Zr.split(","), en = 0; en < Kr.length; en++)
@@ -842,13 +540,13 @@ function requireHtmx_min() {
                 Jr++;
               Qr.push(ze.substr(Zr, Jr - Zr + 1));
             } else if (Ge.indexOf(ze.charAt(Jr)) !== -1) {
-              var Gr = ze.charAt(Jr), Zr = Jr;
-              for (Jr++; Jr < ze.length && ze.charAt(Jr) !== Gr; )
+              var Wr = ze.charAt(Jr), Zr = Jr;
+              for (Jr++; Jr < ze.length && ze.charAt(Jr) !== Wr; )
                 ze.charAt(Jr) === "\\" && Jr++, Jr++;
               Qr.push(ze.substr(Zr, Jr - Zr + 1));
             } else {
-              var Wr = ze.charAt(Jr);
-              Qr.push(Wr);
+              var Gr = ze.charAt(Jr);
+              Qr.push(Gr);
             }
             Jr++;
           }
@@ -860,24 +558,24 @@ function requireHtmx_min() {
         function et(ze, Qr, Jr) {
           if (Qr[0] === "[") {
             Qr.shift();
-            for (var Zr = 1, Gr = " return (function(" + Jr + "){ return (", Wr = null; Qr.length > 0; ) {
+            for (var Zr = 1, Wr = " return (function(" + Jr + "){ return (", Gr = null; Qr.length > 0; ) {
               var Yr = Qr[0];
               if (Yr === "]") {
                 if (Zr--, Zr === 0) {
-                  Wr === null && (Gr = Gr + "true"), Qr.shift(), Gr += ")})";
+                  Gr === null && (Wr = Wr + "true"), Qr.shift(), Wr += ")})";
                   try {
                     var Kr = Tr(ze, function() {
-                      return Function(Gr)();
+                      return Function(Wr)();
                     }, function() {
                       return !0;
                     });
-                    return Kr.source = Gr, Kr;
+                    return Kr.source = Wr, Kr;
                   } catch (en) {
-                    return fe(re().body, "htmx:syntax:error", { error: en, source: Gr }), null;
+                    return fe(re().body, "htmx:syntax:error", { error: en, source: Wr }), null;
                   }
                 }
               } else Yr === "[" && Zr++;
-              Qe(Yr, Wr, Jr) ? Gr += "((" + Jr + "." + Yr + ") ? (" + Jr + "." + Yr + ") : (window." + Yr + "))" : Gr = Gr + Yr, Wr = Qr.shift();
+              Qe(Yr, Gr, Jr) ? Wr += "((" + Jr + "." + Yr + ") ? (" + Jr + "." + Yr + ") : (window." + Yr + "))" : Wr = Wr + Yr, Gr = Qr.shift();
             }
           }
         }
@@ -892,49 +590,49 @@ function requireHtmx_min() {
         }
         var rt = "input, textarea, select";
         function nt(ze, Qr, Jr) {
-          var Zr = [], Gr = Ye(Qr);
+          var Zr = [], Wr = Ye(Qr);
           do {
-            y(Gr, Je);
-            var Wr = Gr.length, Yr = y(Gr, /[,\[\s]/);
+            y(Wr, Je);
+            var Gr = Wr.length, Yr = y(Wr, /[,\[\s]/);
             if (Yr !== "")
               if (Yr === "every") {
                 var Kr = { trigger: "every" };
-                y(Gr, Je), Kr.pollInterval = d(y(Gr, /[,\[\s]/)), y(Gr, Je);
-                var en = et(ze, Gr, "event");
+                y(Wr, Je), Kr.pollInterval = d(y(Wr, /[,\[\s]/)), y(Wr, Je);
+                var en = et(ze, Wr, "event");
                 en && (Kr.eventFilter = en), Zr.push(Kr);
               } else if (Yr.indexOf("sse:") === 0)
                 Zr.push({ trigger: "sse", sseEvent: Yr.substr(4) });
               else {
-                var rn = { trigger: Yr }, en = et(ze, Gr, "event");
-                for (en && (rn.eventFilter = en); Gr.length > 0 && Gr[0] !== ","; ) {
-                  y(Gr, Je);
-                  var nn = Gr.shift();
-                  if (nn === "changed")
-                    rn.changed = !0;
-                  else if (nn === "once")
-                    rn.once = !0;
-                  else if (nn === "consume")
-                    rn.consume = !0;
-                  else if (nn === "delay" && Gr[0] === ":")
-                    Gr.shift(), rn.delay = d(y(Gr, x));
-                  else if (nn === "from" && Gr[0] === ":") {
-                    if (Gr.shift(), Ze.test(Gr[0]))
-                      var on = tt(Gr);
+                var tn = { trigger: Yr }, en = et(ze, Wr, "event");
+                for (en && (tn.eventFilter = en); Wr.length > 0 && Wr[0] !== ","; ) {
+                  y(Wr, Je);
+                  var rn = Wr.shift();
+                  if (rn === "changed")
+                    tn.changed = !0;
+                  else if (rn === "once")
+                    tn.once = !0;
+                  else if (rn === "consume")
+                    tn.consume = !0;
+                  else if (rn === "delay" && Wr[0] === ":")
+                    Wr.shift(), tn.delay = d(y(Wr, x));
+                  else if (rn === "from" && Wr[0] === ":") {
+                    if (Wr.shift(), Ze.test(Wr[0]))
+                      var nn = tt(Wr);
                     else {
-                      var on = y(Gr, x);
-                      if (on === "closest" || on === "find" || on === "next" || on === "previous") {
-                        Gr.shift();
-                        var an = tt(Gr);
-                        an.length > 0 && (on += " " + an);
+                      var nn = y(Wr, x);
+                      if (nn === "closest" || nn === "find" || nn === "next" || nn === "previous") {
+                        Wr.shift();
+                        var on = tt(Wr);
+                        on.length > 0 && (nn += " " + on);
                       }
                     }
-                    rn.from = on;
-                  } else nn === "target" && Gr[0] === ":" ? (Gr.shift(), rn.target = tt(Gr)) : nn === "throttle" && Gr[0] === ":" ? (Gr.shift(), rn.throttle = d(y(Gr, x))) : nn === "queue" && Gr[0] === ":" ? (Gr.shift(), rn.queue = y(Gr, x)) : nn === "root" && Gr[0] === ":" ? (Gr.shift(), rn[nn] = tt(Gr)) : nn === "threshold" && Gr[0] === ":" ? (Gr.shift(), rn[nn] = y(Gr, x)) : fe(ze, "htmx:syntax:error", { token: Gr.shift() });
+                    tn.from = nn;
+                  } else rn === "target" && Wr[0] === ":" ? (Wr.shift(), tn.target = tt(Wr)) : rn === "throttle" && Wr[0] === ":" ? (Wr.shift(), tn.throttle = d(y(Wr, x))) : rn === "queue" && Wr[0] === ":" ? (Wr.shift(), tn.queue = y(Wr, x)) : rn === "root" && Wr[0] === ":" ? (Wr.shift(), tn[rn] = tt(Wr)) : rn === "threshold" && Wr[0] === ":" ? (Wr.shift(), tn[rn] = y(Wr, x)) : fe(ze, "htmx:syntax:error", { token: Wr.shift() });
                 }
-                Zr.push(rn);
+                Zr.push(tn);
               }
-            Gr.length === Wr && fe(ze, "htmx:syntax:error", { token: Gr.shift() }), y(Gr, Je);
-          } while (Gr[0] === "," && Gr.shift());
+            Wr.length === Gr && fe(ze, "htmx:syntax:error", { token: Wr.shift() }), y(Wr, Je);
+          } while (Wr[0] === "," && Wr.shift());
           return Jr && (Jr[Qr] = Zr), Zr;
         }
         function it(ze) {
@@ -960,12 +658,12 @@ function requireHtmx_min() {
         function lt(ze, Qr, Jr) {
           if (ze.tagName === "A" && st(ze) && (ze.target === "" || ze.target === "_self") || ze.tagName === "FORM") {
             Qr.boosted = !0;
-            var Zr, Gr;
+            var Zr, Wr;
             if (ze.tagName === "A")
-              Zr = "get", Gr = ee(ze, "href");
+              Zr = "get", Wr = ee(ze, "href");
             else {
-              var Wr = ee(ze, "method");
-              Zr = Wr ? Wr.toLowerCase() : "get", Gr = ee(ze, "action");
+              var Gr = ee(ze, "method");
+              Zr = Gr ? Gr.toLowerCase() : "get", Wr = ee(ze, "action");
             }
             Jr.forEach(function(Yr) {
               ht(ze, function(Kr, en) {
@@ -973,7 +671,7 @@ function requireHtmx_min() {
                   m(Kr);
                   return;
                 }
-                he(Zr, Gr, Kr, en);
+                he(Zr, Wr, Kr, en);
               }, Qr, Yr, !0);
             });
           }
@@ -989,45 +687,45 @@ function requireHtmx_min() {
           if (Zr)
             try {
               return Zr.call(Qr, Jr) !== !0;
-            } catch (Gr) {
-              return fe(re().body, "htmx:eventFilter:error", { error: Gr, source: Zr.source }), !0;
+            } catch (Wr) {
+              return fe(re().body, "htmx:eventFilter:error", { error: Wr, source: Zr.source }), !0;
             }
           return !1;
         }
-        function ht(ze, Qr, Jr, Zr, Gr) {
-          var Wr = ae(ze), Yr;
+        function ht(ze, Qr, Jr, Zr, Wr) {
+          var Gr = ae(ze), Yr;
           Zr.from ? Yr = Z(ze, Zr.from) : Yr = [ze], Zr.changed && Yr.forEach(function(Kr) {
             var en = ae(Kr);
             en.lastValue = Kr.value;
           }), oe(Yr, function(Kr) {
-            var en = function(rn) {
+            var en = function(tn) {
               if (!se(ze)) {
                 Kr.removeEventListener(Zr.trigger, en);
                 return;
               }
-              if (!ft(ze, rn) && ((Gr || ut(rn, ze)) && rn.preventDefault(), !ct(Zr, ze, rn))) {
-                var nn = ae(rn);
-                if (nn.triggerSpec = Zr, nn.handledFor == null && (nn.handledFor = []), nn.handledFor.indexOf(ze) < 0) {
-                  if (nn.handledFor.push(ze), Zr.consume && rn.stopPropagation(), Zr.target && rn.target && !h(rn.target, Zr.target))
+              if (!ft(ze, tn) && ((Wr || ut(tn, ze)) && tn.preventDefault(), !ct(Zr, ze, tn))) {
+                var rn = ae(tn);
+                if (rn.triggerSpec = Zr, rn.handledFor == null && (rn.handledFor = []), rn.handledFor.indexOf(ze) < 0) {
+                  if (rn.handledFor.push(ze), Zr.consume && tn.stopPropagation(), Zr.target && tn.target && !h(tn.target, Zr.target))
                     return;
                   if (Zr.once) {
-                    if (Wr.triggeredOnce)
+                    if (Gr.triggeredOnce)
                       return;
-                    Wr.triggeredOnce = !0;
+                    Gr.triggeredOnce = !0;
                   }
                   if (Zr.changed) {
-                    var on = ae(Kr);
-                    if (on.lastValue === Kr.value)
+                    var nn = ae(Kr);
+                    if (nn.lastValue === Kr.value)
                       return;
-                    on.lastValue = Kr.value;
+                    nn.lastValue = Kr.value;
                   }
-                  if (Wr.delayed && clearTimeout(Wr.delayed), Wr.throttle)
+                  if (Gr.delayed && clearTimeout(Gr.delayed), Gr.throttle)
                     return;
-                  Zr.throttle > 0 ? Wr.throttle || (Qr(ze, rn), Wr.throttle = setTimeout(function() {
-                    Wr.throttle = null;
-                  }, Zr.throttle)) : Zr.delay > 0 ? Wr.delayed = setTimeout(function() {
-                    Qr(ze, rn);
-                  }, Zr.delay) : (ce(ze, "htmx:trigger"), Qr(ze, rn));
+                  Zr.throttle > 0 ? Gr.throttle || (Qr(ze, tn), Gr.throttle = setTimeout(function() {
+                    Gr.throttle = null;
+                  }, Zr.throttle)) : Zr.delay > 0 ? Gr.delayed = setTimeout(function() {
+                    Qr(ze, tn);
+                  }, Zr.delay) : (ce(ze, "htmx:trigger"), Qr(ze, tn));
                 }
               }
             };
@@ -1054,9 +752,9 @@ function requireHtmx_min() {
           }
         }
         function mt(ze, Qr, Jr) {
-          for (var Zr = D(Jr), Gr = 0; Gr < Zr.length; Gr++) {
-            var Wr = Zr[Gr].split(/:(.+)/);
-            Wr[0] === "connect" && xt(ze, Wr[1], 0), Wr[0] === "send" && bt(ze);
+          for (var Zr = D(Jr), Wr = 0; Wr < Zr.length; Wr++) {
+            var Gr = Zr[Wr].split(/:(.+)/);
+            Gr[0] === "connect" && xt(ze, Gr[1], 0), Gr[0] === "send" && bt(ze);
           }
         }
         function xt(ze, Qr, Jr) {
@@ -1065,27 +763,27 @@ function requireHtmx_min() {
               var Zr = location.hostname + (location.port ? ":" + location.port : "");
               location.protocol == "https:" ? Qr = "wss://" + Zr + Qr : location.protocol == "http:" && (Qr = "ws://" + Zr + Qr);
             }
-            var Gr = Q.createWebSocket(Qr);
-            Gr.onerror = function(Wr) {
-              fe(ze, "htmx:wsError", { error: Wr, socket: Gr }), yt(ze);
-            }, Gr.onclose = function(Wr) {
-              if ([1006, 1012, 1013].indexOf(Wr.code) >= 0) {
+            var Wr = Q.createWebSocket(Qr);
+            Wr.onerror = function(Gr) {
+              fe(ze, "htmx:wsError", { error: Gr, socket: Wr }), yt(ze);
+            }, Wr.onclose = function(Gr) {
+              if ([1006, 1012, 1013].indexOf(Gr.code) >= 0) {
                 var Yr = wt(Jr);
                 setTimeout(function() {
                   xt(ze, Qr, Jr + 1);
                 }, Yr);
               }
-            }, Gr.onopen = function(Wr) {
+            }, Wr.onopen = function(Gr) {
               Jr = 0;
-            }, ae(ze).webSocket = Gr, Gr.addEventListener("message", function(Wr) {
+            }, ae(ze).webSocket = Wr, Wr.addEventListener("message", function(Gr) {
               if (!yt(ze)) {
-                var Yr = Wr.data;
-                R(ze, function(an) {
-                  Yr = an.transformResponse(Yr, null, ze);
+                var Yr = Gr.data;
+                R(ze, function(on) {
+                  Yr = on.transformResponse(Yr, null, ze);
                 });
-                for (var Kr = T(ze), en = l(Yr), rn = M(en.children), nn = 0; nn < rn.length; nn++) {
-                  var on = rn[nn];
-                  Ee(te(on, "hx-swap-oob") || "true", on, Kr);
+                for (var Kr = T(ze), en = l(Yr), tn = M(en.children), rn = 0; rn < tn.length; rn++) {
+                  var nn = tn[rn];
+                  Ee(te(nn, "hx-swap-oob") || "true", nn, Kr);
                 }
                 nr(Kr.tasks);
               }
@@ -1101,12 +799,12 @@ function requireHtmx_min() {
             return ae(Jr).webSocket != null;
           });
           Qr ? ze.addEventListener(it(ze)[0].trigger, function(Jr) {
-            var Zr = ae(Qr).webSocket, Gr = xr(ze, Qr), Wr = dr(ze, "post"), Yr = Wr.errors, Kr = Wr.values, en = Hr(ze), rn = le(Kr, en), nn = yr(rn, ze);
-            if (nn.HEADERS = Gr, Yr && Yr.length > 0) {
+            var Zr = ae(Qr).webSocket, Wr = xr(ze, Qr), Gr = dr(ze, "post"), Yr = Gr.errors, Kr = Gr.values, en = Hr(ze), tn = le(Kr, en), rn = yr(tn, ze);
+            if (rn.HEADERS = Wr, Yr && Yr.length > 0) {
               ce(ze, "htmx:validation:halted", Yr);
               return;
             }
-            Zr.send(JSON.stringify(nn)), ut(Jr, ze) && Jr.preventDefault();
+            Zr.send(JSON.stringify(rn)), ut(Jr, ze) && Jr.preventDefault();
           }) : fe(ze, "htmx:noWebSocketSourceError");
         }
         function wt(ze) {
@@ -1120,9 +818,9 @@ function requireHtmx_min() {
           b('htmx.config.wsReconnectDelay must either be a function or the string "full-jitter"');
         }
         function St(ze, Qr, Jr) {
-          for (var Zr = D(Jr), Gr = 0; Gr < Zr.length; Gr++) {
-            var Wr = Zr[Gr].split(/:(.+)/);
-            Wr[0] === "connect" && Et(ze, Wr[1]), Wr[0] === "swap" && Ct(ze, Wr[1]);
+          for (var Zr = D(Jr), Wr = 0; Wr < Zr.length; Wr++) {
+            var Gr = Zr[Wr].split(/:(.+)/);
+            Gr[0] === "connect" && Et(ze, Gr[1]), Gr[0] === "swap" && Ct(ze, Gr[1]);
           }
         }
         function Et(ze, Qr) {
@@ -1134,31 +832,31 @@ function requireHtmx_min() {
         function Ct(ze, Qr) {
           var Jr = c(ze, Ot);
           if (Jr) {
-            var Zr = ae(Jr).sseEventSource, Gr = function(Wr) {
+            var Zr = ae(Jr).sseEventSource, Wr = function(Gr) {
               if (!Tt(Jr)) {
                 if (!se(ze)) {
-                  Zr.removeEventListener(Qr, Gr);
+                  Zr.removeEventListener(Qr, Wr);
                   return;
                 }
-                var Yr = Wr.data;
-                R(ze, function(nn) {
-                  Yr = nn.transformResponse(Yr, null, ze);
+                var Yr = Gr.data;
+                R(ze, function(rn) {
+                  Yr = rn.transformResponse(Yr, null, ze);
                 });
-                var Kr = wr(ze), en = ye(ze), rn = T(ze);
-                je(Kr.swapStyle, en, ze, Yr, rn), nr(rn.tasks), ce(ze, "htmx:sseMessage", Wr);
+                var Kr = wr(ze), en = ye(ze), tn = T(ze);
+                je(Kr.swapStyle, en, ze, Yr, tn), nr(tn.tasks), ce(ze, "htmx:sseMessage", Gr);
               }
             };
-            ae(ze).sseListener = Gr, Zr.addEventListener(Qr, Gr);
+            ae(ze).sseListener = Wr, Zr.addEventListener(Qr, Wr);
           } else
             fe(ze, "htmx:noSSESourceError");
         }
         function Rt(ze, Qr, Jr) {
           var Zr = c(ze, Ot);
           if (Zr) {
-            var Gr = ae(Zr).sseEventSource, Wr = function() {
-              Tt(Zr) || (se(ze) ? Qr(ze) : Gr.removeEventListener(Jr, Wr));
+            var Wr = ae(Zr).sseEventSource, Gr = function() {
+              Tt(Zr) || (se(ze) ? Qr(ze) : Wr.removeEventListener(Jr, Gr));
             };
-            ae(ze).sseListener = Wr, Gr.addEventListener(Jr, Wr);
+            ae(ze).sseListener = Gr, Wr.addEventListener(Jr, Gr);
           } else
             fe(ze, "htmx:noSSESourceError");
         }
@@ -1170,23 +868,23 @@ function requireHtmx_min() {
           return ae(ze).sseEventSource != null;
         }
         function qt(ze, Qr, Jr, Zr) {
-          var Gr = function() {
+          var Wr = function() {
             Jr.loaded || (Jr.loaded = !0, Qr(ze));
           };
-          Zr > 0 ? setTimeout(Gr, Zr) : Gr();
+          Zr > 0 ? setTimeout(Wr, Zr) : Wr();
         }
         function Ht(ze, Qr, Jr) {
           var Zr = !1;
-          return oe(w, function(Gr) {
-            if (o(ze, "hx-" + Gr)) {
-              var Wr = te(ze, "hx-" + Gr);
-              Zr = !0, Qr.path = Wr, Qr.verb = Gr, Jr.forEach(function(Yr) {
+          return oe(w, function(Wr) {
+            if (o(ze, "hx-" + Wr)) {
+              var Gr = te(ze, "hx-" + Wr);
+              Zr = !0, Qr.path = Gr, Qr.verb = Wr, Jr.forEach(function(Yr) {
                 Lt(ze, Yr, Qr, function(Kr, en) {
                   if (v(Kr, Q.config.disableSelector)) {
                     m(Kr);
                     return;
                   }
-                  he(Gr, Wr, Kr, en);
+                  he(Wr, Gr, Kr, en);
                 });
               });
             }
@@ -1198,9 +896,9 @@ function requireHtmx_min() {
           else if (Qr.trigger === "revealed")
             gt(), ht(ze, Zr, Jr, Qr), pt(ze);
           else if (Qr.trigger === "intersect") {
-            var Gr = {};
-            Qr.root && (Gr.root = ue(ze, Qr.root)), Qr.threshold && (Gr.threshold = parseFloat(Qr.threshold));
-            var Wr = new IntersectionObserver(function(Yr) {
+            var Wr = {};
+            Qr.root && (Wr.root = ue(ze, Qr.root)), Qr.threshold && (Wr.threshold = parseFloat(Qr.threshold));
+            var Gr = new IntersectionObserver(function(Yr) {
               for (var Kr = 0; Kr < Yr.length; Kr++) {
                 var en = Yr[Kr];
                 if (en.isIntersecting) {
@@ -1208,8 +906,8 @@ function requireHtmx_min() {
                   break;
                 }
               }
-            }, Gr);
-            Wr.observe(ze), ht(ze, Zr, Jr, Qr);
+            }, Wr);
+            Gr.observe(ze), ht(ze, Zr, Jr, Qr);
           } else Qr.trigger === "load" ? ct(Qr, ze, Wt("load", { elt: ze })) || qt(ze, Zr, Jr, Qr.delay) : Qr.pollInterval > 0 ? (Jr.polling = !0, ot(ze, Zr, Qr)) : ht(ze, Zr, Jr, Qr);
         }
         function At(ze) {
@@ -1249,8 +947,8 @@ function requireHtmx_min() {
           if (It(ze) && Jr.push(ze), document.evaluate)
             for (var Zr = document.evaluate('.//*[@*[ starts-with(name(), "hx-on:") or starts-with(name(), "data-hx-on:") or starts-with(name(), "hx-on-") or starts-with(name(), "data-hx-on-") ]]', ze); Qr = Zr.iterateNext(); ) Jr.push(Qr);
           else if (typeof ze.getElementsByTagName == "function")
-            for (var Gr = ze.getElementsByTagName("*"), Wr = 0; Wr < Gr.length; Wr++)
-              It(Gr[Wr]) && Jr.push(Gr[Wr]);
+            for (var Wr = ze.getElementsByTagName("*"), Gr = 0; Gr < Wr.length; Gr++)
+              It(Wr[Gr]) && Jr.push(Wr[Gr]);
           return Jr;
         }
         function Pt(ze) {
@@ -1281,28 +979,28 @@ function requireHtmx_min() {
         }
         function Bt(ze) {
           for (var Qr = Ye(ze), Jr = 0, Zr = 0; Zr < Qr.length; Zr++) {
-            const Gr = Qr[Zr];
-            Gr === "{" ? Jr++ : Gr === "}" && Jr--;
+            const Wr = Qr[Zr];
+            Wr === "{" ? Jr++ : Wr === "}" && Jr--;
           }
           return Jr;
         }
         function Ft(ze, Qr, Jr) {
           var Zr = ae(ze);
           Array.isArray(Zr.onHandlers) || (Zr.onHandlers = []);
-          var Gr, Wr = function(Yr) {
+          var Wr, Gr = function(Yr) {
             return Tr(ze, function() {
-              Gr || (Gr = new Function("event", Jr)), Gr.call(ze, Yr);
+              Wr || (Wr = new Function("event", Jr)), Wr.call(ze, Yr);
             });
           };
-          ze.addEventListener(Qr, Wr), Zr.onHandlers.push({ event: Qr, listener: Wr });
+          ze.addEventListener(Qr, Gr), Zr.onHandlers.push({ event: Qr, listener: Gr });
         }
         function Vt(ze) {
           var Qr = te(ze, "hx-on");
           if (Qr) {
             for (var Jr = {}, Zr = Qr.split(`
-`), Gr = null, Wr = 0; Zr.length > 0; ) {
+`), Wr = null, Gr = 0; Zr.length > 0; ) {
               var Yr = Zr.shift(), Kr = Yr.match(/^\s*([a-zA-Z:\-\.]+:)(.*)/);
-              Wr === 0 && Kr ? (Yr.split(":"), Gr = Kr[1].slice(0, -1), Jr[Gr] = Kr[2]) : Jr[Gr] += Yr, Wr += Bt(Yr);
+              Gr === 0 && Kr ? (Yr.split(":"), Wr = Kr[1].slice(0, -1), Jr[Wr] = Kr[2]) : Jr[Wr] += Yr, Gr += Bt(Yr);
             }
             for (var en in Jr)
               Ft(ze, en, Jr[en]);
@@ -1313,9 +1011,9 @@ function requireHtmx_min() {
           for (var Qr = 0; Qr < ze.attributes.length; Qr++) {
             var Jr = ze.attributes[Qr].name, Zr = ze.attributes[Qr].value;
             if (g(Jr, "hx-on") || g(Jr, "data-hx-on")) {
-              var Gr = Jr.indexOf("-on") + 3, Wr = Jr.slice(Gr, Gr + 1);
-              if (Wr === "-" || Wr === ":") {
-                var Yr = Jr.slice(Gr + 1);
+              var Wr = Jr.indexOf("-on") + 3, Gr = Jr.slice(Wr, Wr + 1);
+              if (Gr === "-" || Gr === ":") {
+                var Yr = Jr.slice(Wr + 1);
                 g(Yr, ":") ? Yr = "htmx" + Yr : g(Yr, "-") ? Yr = "htmx:" + Yr.slice(1) : g(Yr, "htmx-") && (Yr = "htmx:" + Yr.slice(5)), Ft(ze, Yr, Zr);
               }
             }
@@ -1334,10 +1032,10 @@ function requireHtmx_min() {
               Lt(ze, Yr, Qr, function() {
               });
             })), (ze.tagName === "FORM" || ee(ze, "type") === "submit" && o(ze, "form")) && Ut(ze);
-            var Gr = te(ze, "hx-sse");
-            Gr && St(ze, Qr, Gr);
-            var Wr = te(ze, "hx-ws");
-            Wr && mt(ze, Qr, Wr), ce(ze, "htmx:afterProcessNode");
+            var Wr = te(ze, "hx-sse");
+            Wr && St(ze, Qr, Wr);
+            var Gr = te(ze, "hx-ws");
+            Gr && mt(ze, Qr, Gr), ce(ze, "htmx:afterProcessNode");
           }
         }
         function zt(ze) {
@@ -1378,14 +1076,14 @@ function requireHtmx_min() {
           ze = p(ze), Jr == null && (Jr = {}), Jr.elt = ze;
           var Zr = Wt(Qr, Jr);
           Q.logger && !Gt(Qr) && Q.logger(ze, Qr, Jr), Jr.error && (b(Jr.error), ce(ze, "htmx:error", { errorInfo: Jr }));
-          var Gr = ze.dispatchEvent(Zr), Wr = $t(Qr);
-          if (Gr && Wr !== Qr) {
-            var Yr = Wt(Wr, Zr.detail);
-            Gr = Gr && ze.dispatchEvent(Yr);
+          var Wr = ze.dispatchEvent(Zr), Gr = $t(Qr);
+          if (Wr && Gr !== Qr) {
+            var Yr = Wt(Gr, Zr.detail);
+            Wr = Wr && ze.dispatchEvent(Yr);
           }
           return R(ze, function(Kr) {
-            Gr = Gr && Kr.onEvent(Qr, Zr) !== !1 && !Zr.defaultPrevented;
-          }), Gr;
+            Wr = Wr && Kr.onEvent(Qr, Zr) !== !1 && !Zr.defaultPrevented;
+          }), Wr;
         }
         var Jt = location.pathname + location.search;
         function Zt() {
@@ -1399,20 +1097,20 @@ function requireHtmx_min() {
               return;
             }
             ze = B(ze);
-            for (var Gr = E(localStorage.getItem("htmx-history-cache")) || [], Wr = 0; Wr < Gr.length; Wr++)
-              if (Gr[Wr].url === ze) {
-                Gr.splice(Wr, 1);
+            for (var Wr = E(localStorage.getItem("htmx-history-cache")) || [], Gr = 0; Gr < Wr.length; Gr++)
+              if (Wr[Gr].url === ze) {
+                Wr.splice(Gr, 1);
                 break;
               }
             var Yr = { url: ze, content: Qr, title: Jr, scroll: Zr };
-            for (ce(re().body, "htmx:historyItemCreated", { item: Yr, cache: Gr }), Gr.push(Yr); Gr.length > Q.config.historyCacheSize; )
-              Gr.shift();
-            for (; Gr.length > 0; )
+            for (ce(re().body, "htmx:historyItemCreated", { item: Yr, cache: Wr }), Wr.push(Yr); Wr.length > Q.config.historyCacheSize; )
+              Wr.shift();
+            for (; Wr.length > 0; )
               try {
-                localStorage.setItem("htmx-history-cache", JSON.stringify(Gr));
+                localStorage.setItem("htmx-history-cache", JSON.stringify(Wr));
                 break;
               } catch (Kr) {
-                fe(re().body, "htmx:historyCacheError", { cause: Kr, cache: Gr }), Gr.shift();
+                fe(re().body, "htmx:historyCacheError", { cause: Kr, cache: Wr }), Wr.shift();
               }
           }
         }
@@ -1458,12 +1156,12 @@ function requireHtmx_min() {
               ce(re().body, "htmx:historyCacheMissLoad", Jr);
               var Zr = l(this.response);
               Zr = Zr.querySelector("[hx-history-elt],[data-hx-history-elt]") || Zr;
-              var Gr = Zt(), Wr = T(Gr), Yr = Ve(this.response);
+              var Wr = Zt(), Gr = T(Wr), Yr = Ve(this.response);
               if (Yr) {
                 var Kr = C("title");
                 Kr ? Kr.innerHTML = Yr : window.document.title = Yr;
               }
-              Ue(Gr, Zr, Wr), nr(Wr.tasks), Jt = ze, ce(re().body, "htmx:historyRestore", { path: ze, cacheMiss: !0, serverResponse: this.response });
+              Ue(Wr, Zr, Gr), nr(Gr.tasks), Jt = ze, ce(re().body, "htmx:historyRestore", { path: ze, cacheMiss: !0, serverResponse: this.response });
             } else
               fe(re().body, "htmx:historyCacheMissLoadError", Jr);
           }, Qr.send();
@@ -1472,8 +1170,8 @@ function requireHtmx_min() {
           er(), ze = ze || location.pathname + location.search;
           var Qr = Yt(ze);
           if (Qr) {
-            var Jr = l(Qr.content), Zr = Zt(), Gr = T(Zr);
-            Ue(Zr, Jr, Gr), nr(Gr.tasks), document.title = Qr.title, setTimeout(function() {
+            var Jr = l(Qr.content), Zr = Zt(), Wr = T(Zr);
+            Ue(Zr, Jr, Wr), nr(Wr.tasks), document.title = Qr.title, setTimeout(function() {
               window.scrollTo(0, Qr.scroll);
             }, 0), Jt = ze, ce(re().body, "htmx:historyRestore", { path: ze, item: Qr });
           } else
@@ -1519,18 +1217,18 @@ function requireHtmx_min() {
             Zr === void 0 ? Jr[ze] = Qr : Array.isArray(Zr) ? Array.isArray(Qr) ? Jr[ze] = Zr.concat(Qr) : Zr.push(Qr) : Array.isArray(Qr) ? Jr[ze] = [Zr].concat(Qr) : Jr[ze] = [Zr, Qr];
           }
         }
-        function hr(ze, Qr, Jr, Zr, Gr) {
+        function hr(ze, Qr, Jr, Zr, Wr) {
           if (!(Zr == null || ur(ze, Zr))) {
             if (ze.push(Zr), fr(Zr)) {
-              var Wr = ee(Zr, "name"), Yr = Zr.value;
+              var Gr = ee(Zr, "name"), Yr = Zr.value;
               Zr.multiple && Zr.tagName === "SELECT" && (Yr = M(Zr.querySelectorAll("option:checked")).map(function(en) {
                 return en.value;
-              })), Zr.files && (Yr = M(Zr.files)), cr(Wr, Yr, Qr), Gr && vr(Zr, Jr);
+              })), Zr.files && (Yr = M(Zr.files)), cr(Gr, Yr, Qr), Wr && vr(Zr, Jr);
             }
             if (h(Zr, "form")) {
               var Kr = Zr.elements;
               oe(Kr, function(en) {
-                hr(ze, Qr, Jr, en, Gr);
+                hr(ze, Qr, Jr, en, Wr);
               });
             }
           }
@@ -1539,19 +1237,19 @@ function requireHtmx_min() {
           ze.willValidate && (ce(ze, "htmx:validation:validate"), ze.checkValidity() || (Qr.push({ elt: ze, message: ze.validationMessage, validity: ze.validity }), ce(ze, "htmx:validation:failed", { message: ze.validationMessage, validity: ze.validity })));
         }
         function dr(ze, Qr) {
-          var Jr = [], Zr = {}, Gr = {}, Wr = [], Yr = ae(ze);
+          var Jr = [], Zr = {}, Wr = {}, Gr = [], Yr = ae(ze);
           Yr.lastButtonClicked && !se(Yr.lastButtonClicked) && (Yr.lastButtonClicked = null);
           var Kr = h(ze, "form") && ze.noValidate !== !0 || te(ze, "hx-validate") === "true";
-          if (Yr.lastButtonClicked && (Kr = Kr && Yr.lastButtonClicked.formNoValidate !== !0), Qr !== "get" && hr(Jr, Gr, Wr, v(ze, "form"), Kr), hr(Jr, Zr, Wr, ze, Kr), Yr.lastButtonClicked || ze.tagName === "BUTTON" || ze.tagName === "INPUT" && ee(ze, "type") === "submit") {
-            var en = Yr.lastButtonClicked || ze, rn = ee(en, "name");
-            cr(rn, en.value, Gr);
+          if (Yr.lastButtonClicked && (Kr = Kr && Yr.lastButtonClicked.formNoValidate !== !0), Qr !== "get" && hr(Jr, Wr, Gr, v(ze, "form"), Kr), hr(Jr, Zr, Gr, ze, Kr), Yr.lastButtonClicked || ze.tagName === "BUTTON" || ze.tagName === "INPUT" && ee(ze, "type") === "submit") {
+            var en = Yr.lastButtonClicked || ze, tn = ee(en, "name");
+            cr(tn, en.value, Wr);
           }
-          var nn = me(ze, "hx-include");
-          return oe(nn, function(on) {
-            hr(Jr, Zr, Wr, on, Kr), h(on, "form") || oe(on.querySelectorAll(rt), function(an) {
-              hr(Jr, Zr, Wr, an, Kr);
+          var rn = me(ze, "hx-include");
+          return oe(rn, function(nn) {
+            hr(Jr, Zr, Gr, nn, Kr), h(nn, "form") || oe(nn.querySelectorAll(rt), function(on) {
+              hr(Jr, Zr, Gr, on, Kr);
             });
-          }), Zr = le(Zr, Gr), { errors: Wr, values: Zr };
+          }), Zr = le(Zr, Wr), { errors: Gr, values: Zr };
         }
         function gr(ze, Qr, Jr) {
           ze !== "" && (ze += "&"), String(Jr) === "[object Object]" && (Jr = JSON.stringify(Jr));
@@ -1563,8 +1261,8 @@ function requireHtmx_min() {
           for (var Jr in ze)
             if (ze.hasOwnProperty(Jr)) {
               var Zr = ze[Jr];
-              Array.isArray(Zr) ? oe(Zr, function(Gr) {
-                Qr = gr(Qr, Jr, Gr);
+              Array.isArray(Zr) ? oe(Zr, function(Wr) {
+                Qr = gr(Qr, Jr, Wr);
               }) : Qr = gr(Qr, Jr, Zr);
             }
           return Qr;
@@ -1574,8 +1272,8 @@ function requireHtmx_min() {
           for (var Jr in ze)
             if (ze.hasOwnProperty(Jr)) {
               var Zr = ze[Jr];
-              Array.isArray(Zr) ? oe(Zr, function(Gr) {
-                Qr.append(Jr, Gr);
+              Array.isArray(Zr) ? oe(Zr, function(Wr) {
+                Qr.append(Jr, Wr);
               }) : Qr.append(Jr, Zr);
             }
           return Qr;
@@ -1592,12 +1290,12 @@ function requireHtmx_min() {
             if (Jr === "*")
               return ze;
             if (Jr.indexOf("not ") === 0)
-              return oe(Jr.substr(4).split(","), function(Gr) {
-                Gr = Gr.trim(), delete ze[Gr];
+              return oe(Jr.substr(4).split(","), function(Wr) {
+                Wr = Wr.trim(), delete ze[Wr];
               }), ze;
             var Zr = {};
-            return oe(Jr.split(","), function(Gr) {
-              Gr = Gr.trim(), Zr[Gr] = ze[Gr];
+            return oe(Jr.split(","), function(Wr) {
+              Wr = Wr.trim(), Zr[Wr] = ze[Wr];
             }), Zr;
           } else
             return ze;
@@ -1608,10 +1306,10 @@ function requireHtmx_min() {
         function wr(ze, Qr) {
           var Jr = Qr || ne(ze, "hx-swap"), Zr = { swapStyle: ae(ze).boosted ? "innerHTML" : Q.config.defaultSwapStyle, swapDelay: Q.config.defaultSwapDelay, settleDelay: Q.config.defaultSettleDelay };
           if (Q.config.scrollIntoViewOnBoost && ae(ze).boosted && !br(ze) && (Zr.show = "top"), Jr) {
-            var Gr = D(Jr);
-            if (Gr.length > 0)
-              for (var Wr = 0; Wr < Gr.length; Wr++) {
-                var Yr = Gr[Wr];
+            var Wr = D(Jr);
+            if (Wr.length > 0)
+              for (var Gr = 0; Gr < Wr.length; Gr++) {
+                var Yr = Wr[Gr];
                 if (Yr.indexOf("swap:") === 0)
                   Zr.swapDelay = d(Yr.substr(5));
                 else if (Yr.indexOf("settle:") === 0)
@@ -1621,15 +1319,15 @@ function requireHtmx_min() {
                 else if (Yr.indexOf("ignoreTitle:") === 0)
                   Zr.ignoreTitle = Yr.substr(12) === "true";
                 else if (Yr.indexOf("scroll:") === 0) {
-                  var Kr = Yr.substr(7), en = Kr.split(":"), rn = en.pop(), nn = en.length > 0 ? en.join(":") : null;
-                  Zr.scroll = rn, Zr.scrollTarget = nn;
+                  var Kr = Yr.substr(7), en = Kr.split(":"), tn = en.pop(), rn = en.length > 0 ? en.join(":") : null;
+                  Zr.scroll = tn, Zr.scrollTarget = rn;
                 } else if (Yr.indexOf("show:") === 0) {
-                  var on = Yr.substr(5), en = on.split(":"), an = en.pop(), nn = en.length > 0 ? en.join(":") : null;
-                  Zr.show = an, Zr.showTarget = nn;
+                  var nn = Yr.substr(5), en = nn.split(":"), on = en.pop(), rn = en.length > 0 ? en.join(":") : null;
+                  Zr.show = on, Zr.showTarget = rn;
                 } else if (Yr.indexOf("focus-scroll:") === 0) {
-                  var xn = Yr.substr(13);
-                  Zr.focusScroll = xn == "true";
-                } else Wr == 0 ? Zr.swapStyle = Yr : b("Unknown modifier in hx-swap: " + Yr);
+                  var gn = Yr.substr(13);
+                  Zr.focusScroll = gn == "true";
+                } else Gr == 0 ? Zr.swapStyle = Yr : b("Unknown modifier in hx-swap: " + Yr);
               }
           }
           return Zr;
@@ -1639,8 +1337,8 @@ function requireHtmx_min() {
         }
         function Er(ze, Qr, Jr) {
           var Zr = null;
-          return R(Qr, function(Gr) {
-            Zr == null && (Zr = Gr.encodeParameters(ze, Jr, Qr));
+          return R(Qr, function(Wr) {
+            Zr == null && (Zr = Wr.encodeParameters(ze, Jr, Qr));
           }), Zr ?? (Sr(Qr) ? mr(Jr) : pr(Jr));
         }
         function T(ze) {
@@ -1649,31 +1347,31 @@ function requireHtmx_min() {
         function Cr(ze, Qr) {
           var Jr = ze[0], Zr = ze[ze.length - 1];
           if (Qr.scroll) {
-            var Gr = null;
-            Qr.scrollTarget && (Gr = ue(Jr, Qr.scrollTarget)), Qr.scroll === "top" && (Jr || Gr) && (Gr = Gr || Jr, Gr.scrollTop = 0), Qr.scroll === "bottom" && (Zr || Gr) && (Gr = Gr || Zr, Gr.scrollTop = Gr.scrollHeight);
+            var Wr = null;
+            Qr.scrollTarget && (Wr = ue(Jr, Qr.scrollTarget)), Qr.scroll === "top" && (Jr || Wr) && (Wr = Wr || Jr, Wr.scrollTop = 0), Qr.scroll === "bottom" && (Zr || Wr) && (Wr = Wr || Zr, Wr.scrollTop = Wr.scrollHeight);
           }
           if (Qr.show) {
-            var Gr = null;
+            var Wr = null;
             if (Qr.showTarget) {
-              var Wr = Qr.showTarget;
-              Qr.showTarget === "window" && (Wr = "body"), Gr = ue(Jr, Wr);
+              var Gr = Qr.showTarget;
+              Qr.showTarget === "window" && (Gr = "body"), Wr = ue(Jr, Gr);
             }
-            Qr.show === "top" && (Jr || Gr) && (Gr = Gr || Jr, Gr.scrollIntoView({ block: "start", behavior: Q.config.scrollBehavior })), Qr.show === "bottom" && (Zr || Gr) && (Gr = Gr || Zr, Gr.scrollIntoView({ block: "end", behavior: Q.config.scrollBehavior }));
+            Qr.show === "top" && (Jr || Wr) && (Wr = Wr || Jr, Wr.scrollIntoView({ block: "start", behavior: Q.config.scrollBehavior })), Qr.show === "bottom" && (Zr || Wr) && (Wr = Wr || Zr, Wr.scrollIntoView({ block: "end", behavior: Q.config.scrollBehavior }));
           }
         }
         function Rr(ze, Qr, Jr, Zr) {
           if (Zr == null && (Zr = {}), ze == null)
             return Zr;
-          var Gr = te(ze, Qr);
-          if (Gr) {
-            var Wr = Gr.trim(), Yr = Jr;
-            if (Wr === "unset")
+          var Wr = te(ze, Qr);
+          if (Wr) {
+            var Gr = Wr.trim(), Yr = Jr;
+            if (Gr === "unset")
               return null;
-            Wr.indexOf("javascript:") === 0 ? (Wr = Wr.substr(11), Yr = !0) : Wr.indexOf("js:") === 0 && (Wr = Wr.substr(3), Yr = !0), Wr.indexOf("{") !== 0 && (Wr = "{" + Wr + "}");
+            Gr.indexOf("javascript:") === 0 ? (Gr = Gr.substr(11), Yr = !0) : Gr.indexOf("js:") === 0 && (Gr = Gr.substr(3), Yr = !0), Gr.indexOf("{") !== 0 && (Gr = "{" + Gr + "}");
             var Kr;
             Yr ? Kr = Tr(ze, function() {
-              return Function("return (" + Wr + ")")();
-            }, {}) : Kr = E(Wr);
+              return Function("return (" + Gr + ")")();
+            }, {}) : Kr = E(Gr);
             for (var en in Kr)
               Kr.hasOwnProperty(en) && Zr[en] == null && (Zr[en] = Kr[en]);
           }
@@ -1720,164 +1418,164 @@ function requireHtmx_min() {
           return Qr;
         }
         function kr(ze, Qr, Jr) {
-          var Zr, Gr;
+          var Zr, Wr;
           if (typeof URL == "function") {
-            Gr = new URL(Qr, document.location.href);
-            var Wr = document.location.origin;
-            Zr = Wr === Gr.origin;
+            Wr = new URL(Qr, document.location.href);
+            var Gr = document.location.origin;
+            Zr = Gr === Wr.origin;
           } else
-            Gr = Qr, Zr = g(Qr, document.location.origin);
-          return Q.config.selfRequestsOnly && !Zr ? !1 : ce(ze, "htmx:validateUrl", le({ url: Gr, sameHost: Zr }, Jr));
+            Wr = Qr, Zr = g(Qr, document.location.origin);
+          return Q.config.selfRequestsOnly && !Zr ? !1 : ce(ze, "htmx:validateUrl", le({ url: Wr, sameHost: Zr }, Jr));
         }
-        function he(ze, Qr, Jr, Zr, Gr, Wr) {
+        function he(ze, Qr, Jr, Zr, Wr, Gr) {
           var Yr = null, Kr = null;
-          if (Gr = Gr ?? {}, Gr.returnPromise && typeof Promise < "u")
-            var en = new Promise(function(yn, Tn) {
-              Yr = yn, Kr = Tn;
+          if (Wr = Wr ?? {}, Wr.returnPromise && typeof Promise < "u")
+            var en = new Promise(function(vn, wn) {
+              Yr = vn, Kr = wn;
             });
           Jr == null && (Jr = re().body);
-          var rn = Gr.handler || Mr, nn = Gr.select || null;
+          var tn = Wr.handler || Mr, rn = Wr.select || null;
           if (!se(Jr))
             return ie(Yr), en;
-          var on = Gr.targetOverride || ye(Jr);
-          if (on == null || on == pe)
+          var nn = Wr.targetOverride || ye(Jr);
+          if (nn == null || nn == pe)
             return fe(Jr, "htmx:targetError", { target: te(Jr, "hx-target") }), ie(Kr), en;
-          var an = ae(Jr), xn = an.lastButtonClicked;
-          if (xn) {
-            var wn = ee(xn, "formaction");
-            wn != null && (Qr = wn);
-            var Ln = ee(xn, "formmethod");
-            Ln != null && Ln.toLowerCase() !== "dialog" && (ze = Ln);
+          var on = ae(Jr), gn = on.lastButtonClicked;
+          if (gn) {
+            var xn = ee(gn, "formaction");
+            xn != null && (Qr = xn);
+            var Cn = ee(gn, "formmethod");
+            Cn != null && Cn.toLowerCase() !== "dialog" && (ze = Cn);
           }
-          var In = ne(Jr, "hx-confirm");
-          if (Wr === void 0) {
-            var Un = function(yn) {
-              return he(ze, Qr, Jr, Zr, Gr, !!yn);
-            }, Cn = { target: on, elt: Jr, path: Qr, verb: ze, triggeringEvent: Zr, etc: Gr, issueRequest: Un, question: In };
-            if (ce(Jr, "htmx:confirm", Cn) === !1)
+          var On = ne(Jr, "hx-confirm");
+          if (Gr === void 0) {
+            var kn = function(vn) {
+              return he(ze, Qr, Jr, Zr, Wr, !!vn);
+            }, Rn = { target: nn, elt: Jr, path: Qr, verb: ze, triggeringEvent: Zr, etc: Wr, issueRequest: kn, question: On };
+            if (ce(Jr, "htmx:confirm", Rn) === !1)
               return ie(Yr), en;
           }
-          var Rn = Jr, Sn = ne(Jr, "hx-sync"), bn = null, Fn = !1;
-          if (Sn) {
-            var vn = Sn.split(":"), gn = vn[0].trim();
-            if (gn === "this" ? Rn = xe(Jr, "hx-sync") : Rn = ue(Jr, gn), Sn = (vn[1] || "drop").trim(), an = ae(Rn), Sn === "drop" && an.xhr && an.abortable !== !0)
+          var Sn = Jr, mn = ne(Jr, "hx-sync"), pn = null, Un = !1;
+          if (mn) {
+            var hn = mn.split(":"), un = hn[0].trim();
+            if (un === "this" ? Sn = xe(Jr, "hx-sync") : Sn = ue(Jr, un), mn = (hn[1] || "drop").trim(), on = ae(Sn), mn === "drop" && on.xhr && on.abortable !== !0)
               return ie(Yr), en;
-            if (Sn === "abort") {
-              if (an.xhr)
+            if (mn === "abort") {
+              if (on.xhr)
                 return ie(Yr), en;
-              Fn = !0;
-            } else if (Sn === "replace")
-              ce(Rn, "htmx:abort");
-            else if (Sn.indexOf("queue") === 0) {
-              var kn = Sn.split(" ");
-              bn = (kn[1] || "last").trim();
+              Un = !0;
+            } else if (mn === "replace")
+              ce(Sn, "htmx:abort");
+            else if (mn.indexOf("queue") === 0) {
+              var Ln = mn.split(" ");
+              pn = (Ln[1] || "last").trim();
             }
           }
-          if (an.xhr)
-            if (an.abortable)
-              ce(Rn, "htmx:abort");
+          if (on.xhr)
+            if (on.abortable)
+              ce(Sn, "htmx:abort");
             else {
-              if (bn == null) {
+              if (pn == null) {
                 if (Zr) {
-                  var dn = ae(Zr);
-                  dn && dn.triggerSpec && dn.triggerSpec.queue && (bn = dn.triggerSpec.queue);
+                  var fn = ae(Zr);
+                  fn && fn.triggerSpec && fn.triggerSpec.queue && (pn = fn.triggerSpec.queue);
                 }
-                bn == null && (bn = "last");
+                pn == null && (pn = "last");
               }
-              return an.queuedRequests == null && (an.queuedRequests = []), bn === "first" && an.queuedRequests.length === 0 ? an.queuedRequests.push(function() {
-                he(ze, Qr, Jr, Zr, Gr);
-              }) : bn === "all" ? an.queuedRequests.push(function() {
-                he(ze, Qr, Jr, Zr, Gr);
-              }) : bn === "last" && (an.queuedRequests = [], an.queuedRequests.push(function() {
-                he(ze, Qr, Jr, Zr, Gr);
+              return on.queuedRequests == null && (on.queuedRequests = []), pn === "first" && on.queuedRequests.length === 0 ? on.queuedRequests.push(function() {
+                he(ze, Qr, Jr, Zr, Wr);
+              }) : pn === "all" ? on.queuedRequests.push(function() {
+                he(ze, Qr, Jr, Zr, Wr);
+              }) : pn === "last" && (on.queuedRequests = [], on.queuedRequests.push(function() {
+                he(ze, Qr, Jr, Zr, Wr);
               })), ie(Yr), en;
             }
-          var un = new XMLHttpRequest();
-          an.xhr = un, an.abortable = Fn;
-          var cn = function() {
-            if (an.xhr = null, an.abortable = !1, an.queuedRequests != null && an.queuedRequests.length > 0) {
-              var yn = an.queuedRequests.shift();
-              yn();
+          var an = new XMLHttpRequest();
+          on.xhr = an, on.abortable = Un;
+          var dn = function() {
+            if (on.xhr = null, on.abortable = !1, on.queuedRequests != null && on.queuedRequests.length > 0) {
+              var vn = on.queuedRequests.shift();
+              vn();
             }
-          }, Mn = ne(Jr, "hx-prompt");
-          if (Mn) {
-            var An = prompt(Mn);
-            if (An === null || !ce(Jr, "htmx:prompt", { prompt: An, target: on }))
-              return ie(Yr), cn(), en;
+          }, An = ne(Jr, "hx-prompt");
+          if (An) {
+            var Tn = prompt(An);
+            if (Tn === null || !ce(Jr, "htmx:prompt", { prompt: Tn, target: nn }))
+              return ie(Yr), dn(), en;
           }
-          if (In && !Wr && !confirm(In))
-            return ie(Yr), cn(), en;
-          var fn = xr(Jr, on, An);
-          ze !== "get" && !Sr(Jr) && (fn["Content-Type"] = "application/x-www-form-urlencoded"), Gr.headers && (fn = le(fn, Gr.headers));
-          var Pn = dr(Jr, ze), qn = Pn.errors, En = Pn.values;
-          Gr.values && (En = le(En, Gr.values));
-          var zn = Hr(Jr), Jn = le(En, zn), Hn = yr(Jn, Jr);
-          Q.config.getCacheBusterParam && ze === "get" && (Hn["org.htmx.cache-buster"] = ee(on, "id") || "true"), (Qr == null || Qr === "") && (Qr = re().location.href);
-          var Xn = Rr(Jr, "hx-request"), Zn = ae(Jr).boosted, jn = Q.config.methodsThatUseUrlParams.indexOf(ze) >= 0, mn = { boosted: Zn, useUrlParams: jn, parameters: Hn, unfilteredParameters: Jn, headers: fn, target: on, verb: ze, errors: qn, withCredentials: Gr.credentials || Xn.credentials || Q.config.withCredentials, timeout: Gr.timeout || Xn.timeout || Q.config.timeout, path: Qr, triggeringEvent: Zr };
-          if (!ce(Jr, "htmx:configRequest", mn))
-            return ie(Yr), cn(), en;
-          if (Qr = mn.path, ze = mn.verb, fn = mn.headers, Hn = mn.parameters, qn = mn.errors, jn = mn.useUrlParams, qn && qn.length > 0)
-            return ce(Jr, "htmx:validation:halted", mn), ie(Yr), cn(), en;
-          var Gn = Qr.split("#"), Kn = Gn[0], Bn = Gn[1], On = Qr;
-          if (jn) {
-            On = Kn;
-            var ei = Object.keys(Hn).length !== 0;
-            ei && (On.indexOf("?") < 0 ? On += "?" : On += "&", On += pr(Hn), Bn && (On += "#" + Bn));
+          if (On && !Gr && !confirm(On))
+            return ie(Yr), dn(), en;
+          var sn = xr(Jr, nn, Tn);
+          ze !== "get" && !Sr(Jr) && (sn["Content-Type"] = "application/x-www-form-urlencoded"), Wr.headers && (sn = le(sn, Wr.headers));
+          var Nn = dr(Jr, ze), En = Nn.errors, yn = Nn.values;
+          Wr.values && (yn = le(yn, Wr.values));
+          var Vn = Hr(Jr), Fn = le(yn, Vn), qn = yr(Fn, Jr);
+          Q.config.getCacheBusterParam && ze === "get" && (qn["org.htmx.cache-buster"] = ee(nn, "id") || "true"), (Qr == null || Qr === "") && (Qr = re().location.href);
+          var Mn = Rr(Jr, "hx-request"), _n = ae(Jr).boosted, In = Q.config.methodsThatUseUrlParams.indexOf(ze) >= 0, cn = { boosted: _n, useUrlParams: In, parameters: qn, unfilteredParameters: Fn, headers: sn, target: nn, verb: ze, errors: En, withCredentials: Wr.credentials || Mn.credentials || Q.config.withCredentials, timeout: Wr.timeout || Mn.timeout || Q.config.timeout, path: Qr, triggeringEvent: Zr };
+          if (!ce(Jr, "htmx:configRequest", cn))
+            return ie(Yr), dn(), en;
+          if (Qr = cn.path, ze = cn.verb, sn = cn.headers, qn = cn.parameters, En = cn.errors, In = cn.useUrlParams, En && En.length > 0)
+            return ce(Jr, "htmx:validation:halted", cn), ie(Yr), dn(), en;
+          var Bn = Qr.split("#"), $n = Bn[0], Dn = Bn[1], bn = Qr;
+          if (In) {
+            bn = $n;
+            var Jn = Object.keys(qn).length !== 0;
+            Jn && (bn.indexOf("?") < 0 ? bn += "?" : bn += "&", bn += pr(qn), Dn && (bn += "#" + Dn));
           }
-          if (!kr(Jr, On, mn))
-            return fe(Jr, "htmx:invalidPath", mn), ie(Kr), en;
-          if (un.open(ze.toUpperCase(), On, !0), un.overrideMimeType("text/html"), un.withCredentials = mn.withCredentials, un.timeout = mn.timeout, !Xn.noHeaders) {
-            for (var Vn in fn)
-              if (fn.hasOwnProperty(Vn)) {
-                var ti = fn[Vn];
-                Lr(un, Vn, ti);
+          if (!kr(Jr, bn, cn))
+            return fe(Jr, "htmx:invalidPath", cn), ie(Kr), en;
+          if (an.open(ze.toUpperCase(), bn, !0), an.overrideMimeType("text/html"), an.withCredentials = cn.withCredentials, an.timeout = cn.timeout, !Mn.noHeaders) {
+            for (var Xn in sn)
+              if (sn.hasOwnProperty(Xn)) {
+                var zn = sn[Xn];
+                Lr(an, Xn, zn);
               }
           }
-          var hn = { xhr: un, target: on, requestConfig: mn, etc: Gr, boosted: Zn, select: nn, pathInfo: { requestPath: Qr, finalRequestPath: On, anchor: Bn } };
-          if (un.onload = function() {
+          var ln = { xhr: an, target: nn, requestConfig: cn, etc: Wr, boosted: _n, select: rn, pathInfo: { requestPath: Qr, finalRequestPath: bn, anchor: Dn } };
+          if (an.onload = function() {
             try {
-              var yn = Ir(Jr);
-              if (hn.pathInfo.responsePath = Ar(un), rn(Jr, hn), lr(Dn, _n), ce(Jr, "htmx:afterRequest", hn), ce(Jr, "htmx:afterOnLoad", hn), !se(Jr)) {
-                for (var Tn = null; yn.length > 0 && Tn == null; ) {
-                  var Nn = yn.shift();
-                  se(Nn) && (Tn = Nn);
+              var vn = Ir(Jr);
+              if (ln.pathInfo.responsePath = Ar(an), tn(Jr, ln), lr(Qn, Pn), ce(Jr, "htmx:afterRequest", ln), ce(Jr, "htmx:afterOnLoad", ln), !se(Jr)) {
+                for (var wn = null; vn.length > 0 && wn == null; ) {
+                  var Hn = vn.shift();
+                  se(Hn) && (wn = Hn);
                 }
-                Tn && (ce(Tn, "htmx:afterRequest", hn), ce(Tn, "htmx:afterOnLoad", hn));
+                wn && (ce(wn, "htmx:afterRequest", ln), ce(wn, "htmx:afterOnLoad", ln));
               }
-              ie(Yr), cn();
-            } catch (Wn) {
-              throw fe(Jr, "htmx:onLoadError", le({ error: Wn }, hn)), Wn;
+              ie(Yr), dn();
+            } catch (jn) {
+              throw fe(Jr, "htmx:onLoadError", le({ error: jn }, ln)), jn;
             }
-          }, un.onerror = function() {
-            lr(Dn, _n), fe(Jr, "htmx:afterRequest", hn), fe(Jr, "htmx:sendError", hn), ie(Kr), cn();
-          }, un.onabort = function() {
-            lr(Dn, _n), fe(Jr, "htmx:afterRequest", hn), fe(Jr, "htmx:sendAbort", hn), ie(Kr), cn();
-          }, un.ontimeout = function() {
-            lr(Dn, _n), fe(Jr, "htmx:afterRequest", hn), fe(Jr, "htmx:timeout", hn), ie(Kr), cn();
-          }, !ce(Jr, "htmx:beforeRequest", hn))
-            return ie(Yr), cn(), en;
-          var Dn = or(Jr), _n = sr(Jr);
-          oe(["loadstart", "loadend", "progress", "abort"], function(yn) {
-            oe([un, un.upload], function(Tn) {
-              Tn.addEventListener(yn, function(Nn) {
-                ce(Jr, "htmx:xhr:" + yn, { lengthComputable: Nn.lengthComputable, loaded: Nn.loaded, total: Nn.total });
+          }, an.onerror = function() {
+            lr(Qn, Pn), fe(Jr, "htmx:afterRequest", ln), fe(Jr, "htmx:sendError", ln), ie(Kr), dn();
+          }, an.onabort = function() {
+            lr(Qn, Pn), fe(Jr, "htmx:afterRequest", ln), fe(Jr, "htmx:sendAbort", ln), ie(Kr), dn();
+          }, an.ontimeout = function() {
+            lr(Qn, Pn), fe(Jr, "htmx:afterRequest", ln), fe(Jr, "htmx:timeout", ln), ie(Kr), dn();
+          }, !ce(Jr, "htmx:beforeRequest", ln))
+            return ie(Yr), dn(), en;
+          var Qn = or(Jr), Pn = sr(Jr);
+          oe(["loadstart", "loadend", "progress", "abort"], function(vn) {
+            oe([an, an.upload], function(wn) {
+              wn.addEventListener(vn, function(Hn) {
+                ce(Jr, "htmx:xhr:" + vn, { lengthComputable: Hn.lengthComputable, loaded: Hn.loaded, total: Hn.total });
               });
             });
-          }), ce(Jr, "htmx:beforeSend", hn);
-          var ri = jn ? null : Er(un, Jr, Hn);
-          return un.send(ri), en;
+          }), ce(Jr, "htmx:beforeSend", ln);
+          var Zn = In ? null : Er(an, Jr, qn);
+          return an.send(Zn), en;
         }
         function Pr(ze, Qr) {
-          var Jr = Qr.xhr, Zr = null, Gr = null;
-          if (O(Jr, /HX-Push:/i) ? (Zr = Jr.getResponseHeader("HX-Push"), Gr = "push") : O(Jr, /HX-Push-Url:/i) ? (Zr = Jr.getResponseHeader("HX-Push-Url"), Gr = "push") : O(Jr, /HX-Replace-Url:/i) && (Zr = Jr.getResponseHeader("HX-Replace-Url"), Gr = "replace"), Zr)
-            return Zr === "false" ? {} : { type: Gr, path: Zr };
-          var Wr = Qr.pathInfo.finalRequestPath, Yr = Qr.pathInfo.responsePath, Kr = ne(ze, "hx-push-url"), en = ne(ze, "hx-replace-url"), rn = ae(ze).boosted, nn = null, on = null;
-          return Kr ? (nn = "push", on = Kr) : en ? (nn = "replace", on = en) : rn && (nn = "push", on = Yr || Wr), on ? on === "false" ? {} : (on === "true" && (on = Yr || Wr), Qr.pathInfo.anchor && on.indexOf("#") === -1 && (on = on + "#" + Qr.pathInfo.anchor), { type: nn, path: on }) : {};
+          var Jr = Qr.xhr, Zr = null, Wr = null;
+          if (O(Jr, /HX-Push:/i) ? (Zr = Jr.getResponseHeader("HX-Push"), Wr = "push") : O(Jr, /HX-Push-Url:/i) ? (Zr = Jr.getResponseHeader("HX-Push-Url"), Wr = "push") : O(Jr, /HX-Replace-Url:/i) && (Zr = Jr.getResponseHeader("HX-Replace-Url"), Wr = "replace"), Zr)
+            return Zr === "false" ? {} : { type: Wr, path: Zr };
+          var Gr = Qr.pathInfo.finalRequestPath, Yr = Qr.pathInfo.responsePath, Kr = ne(ze, "hx-push-url"), en = ne(ze, "hx-replace-url"), tn = ae(ze).boosted, rn = null, nn = null;
+          return Kr ? (rn = "push", nn = Kr) : en ? (rn = "replace", nn = en) : tn && (rn = "push", nn = Yr || Gr), nn ? nn === "false" ? {} : (nn === "true" && (nn = Yr || Gr), Qr.pathInfo.anchor && nn.indexOf("#") === -1 && (nn = nn + "#" + Qr.pathInfo.anchor), { type: rn, path: nn }) : {};
         }
         function Mr(ze, Qr) {
-          var Jr = Qr.xhr, Zr = Qr.target, Gr = Qr.etc;
+          var Jr = Qr.xhr, Zr = Qr.target, Wr = Qr.etc;
           Qr.requestConfig;
-          var Wr = Qr.select;
+          var Gr = Qr.select;
           if (ce(ze, "htmx:beforeOnLoad", Qr)) {
             if (O(Jr, /HX-Trigger:/i) && _e(Jr, "HX-Trigger", ze), O(Jr, /HX-Location:/i)) {
               er();
@@ -1897,80 +1595,80 @@ function requireHtmx_min() {
               return;
             }
             O(Jr, /HX-Retarget:/i) && (Jr.getResponseHeader("HX-Retarget") === "this" ? Qr.target = ze : Qr.target = ue(ze, Jr.getResponseHeader("HX-Retarget")));
-            var rn = Pr(ze, Qr), nn = Jr.status >= 200 && Jr.status < 400 && Jr.status !== 204, on = Jr.response, an = Jr.status >= 400, xn = Q.config.ignoreTitle, wn = le({ shouldSwap: nn, serverResponse: on, isError: an, ignoreTitle: xn }, Qr);
-            if (ce(Zr, "htmx:beforeSwap", wn)) {
-              if (Zr = wn.target, on = wn.serverResponse, an = wn.isError, xn = wn.ignoreTitle, Qr.target = Zr, Qr.failed = an, Qr.successful = !an, wn.shouldSwap) {
-                Jr.status === 286 && at(ze), R(ze, function(vn) {
-                  on = vn.transformResponse(on, Jr, ze);
-                }), rn.type && er();
-                var Ln = Gr.swapOverride;
-                O(Jr, /HX-Reswap:/i) && (Ln = Jr.getResponseHeader("HX-Reswap"));
-                var Kr = wr(ze, Ln);
-                Kr.hasOwnProperty("ignoreTitle") && (xn = Kr.ignoreTitle), Zr.classList.add(Q.config.swappingClass);
-                var In = null, Un = null, Cn = function() {
+            var tn = Pr(ze, Qr), rn = Jr.status >= 200 && Jr.status < 400 && Jr.status !== 204, nn = Jr.response, on = Jr.status >= 400, gn = Q.config.ignoreTitle, xn = le({ shouldSwap: rn, serverResponse: nn, isError: on, ignoreTitle: gn }, Qr);
+            if (ce(Zr, "htmx:beforeSwap", xn)) {
+              if (Zr = xn.target, nn = xn.serverResponse, on = xn.isError, gn = xn.ignoreTitle, Qr.target = Zr, Qr.failed = on, Qr.successful = !on, xn.shouldSwap) {
+                Jr.status === 286 && at(ze), R(ze, function(hn) {
+                  nn = hn.transformResponse(nn, Jr, ze);
+                }), tn.type && er();
+                var Cn = Wr.swapOverride;
+                O(Jr, /HX-Reswap:/i) && (Cn = Jr.getResponseHeader("HX-Reswap"));
+                var Kr = wr(ze, Cn);
+                Kr.hasOwnProperty("ignoreTitle") && (gn = Kr.ignoreTitle), Zr.classList.add(Q.config.swappingClass);
+                var On = null, kn = null, Rn = function() {
                   try {
-                    var vn = document.activeElement, gn = {};
+                    var hn = document.activeElement, un = {};
                     try {
-                      gn = { elt: vn, start: vn ? vn.selectionStart : null, end: vn ? vn.selectionEnd : null };
+                      un = { elt: hn, start: hn ? hn.selectionStart : null, end: hn ? hn.selectionEnd : null };
                     } catch {
                     }
-                    var kn;
-                    Wr && (kn = Wr), O(Jr, /HX-Reselect:/i) && (kn = Jr.getResponseHeader("HX-Reselect")), rn.type && (ce(re().body, "htmx:beforeHistoryUpdate", le({ history: rn }, Qr)), rn.type === "push" ? (tr(rn.path), ce(re().body, "htmx:pushedIntoHistory", { path: rn.path })) : (rr(rn.path), ce(re().body, "htmx:replacedInHistory", { path: rn.path })));
-                    var dn = T(Zr);
-                    if (je(Kr.swapStyle, Zr, ze, on, dn, kn), gn.elt && !se(gn.elt) && ee(gn.elt, "id")) {
-                      var un = document.getElementById(ee(gn.elt, "id")), cn = { preventScroll: Kr.focusScroll !== void 0 ? !Kr.focusScroll : !Q.config.defaultFocusScroll };
-                      if (un) {
-                        if (gn.start && un.setSelectionRange)
+                    var Ln;
+                    Gr && (Ln = Gr), O(Jr, /HX-Reselect:/i) && (Ln = Jr.getResponseHeader("HX-Reselect")), tn.type && (ce(re().body, "htmx:beforeHistoryUpdate", le({ history: tn }, Qr)), tn.type === "push" ? (tr(tn.path), ce(re().body, "htmx:pushedIntoHistory", { path: tn.path })) : (rr(tn.path), ce(re().body, "htmx:replacedInHistory", { path: tn.path })));
+                    var fn = T(Zr);
+                    if (je(Kr.swapStyle, Zr, ze, nn, fn, Ln), un.elt && !se(un.elt) && ee(un.elt, "id")) {
+                      var an = document.getElementById(ee(un.elt, "id")), dn = { preventScroll: Kr.focusScroll !== void 0 ? !Kr.focusScroll : !Q.config.defaultFocusScroll };
+                      if (an) {
+                        if (un.start && an.setSelectionRange)
                           try {
-                            un.setSelectionRange(gn.start, gn.end);
+                            an.setSelectionRange(un.start, un.end);
                           } catch {
                           }
-                        un.focus(cn);
+                        an.focus(dn);
                       }
                     }
-                    if (Zr.classList.remove(Q.config.swappingClass), oe(dn.elts, function(fn) {
-                      fn.classList && fn.classList.add(Q.config.settlingClass), ce(fn, "htmx:afterSwap", Qr);
+                    if (Zr.classList.remove(Q.config.swappingClass), oe(fn.elts, function(sn) {
+                      sn.classList && sn.classList.add(Q.config.settlingClass), ce(sn, "htmx:afterSwap", Qr);
                     }), O(Jr, /HX-Trigger-After-Swap:/i)) {
-                      var Mn = ze;
-                      se(ze) || (Mn = re().body), _e(Jr, "HX-Trigger-After-Swap", Mn);
+                      var An = ze;
+                      se(ze) || (An = re().body), _e(Jr, "HX-Trigger-After-Swap", An);
                     }
-                    var An = function() {
-                      if (oe(dn.tasks, function(En) {
-                        En.call();
-                      }), oe(dn.elts, function(En) {
-                        En.classList && En.classList.remove(Q.config.settlingClass), ce(En, "htmx:afterSettle", Qr);
+                    var Tn = function() {
+                      if (oe(fn.tasks, function(yn) {
+                        yn.call();
+                      }), oe(fn.elts, function(yn) {
+                        yn.classList && yn.classList.remove(Q.config.settlingClass), ce(yn, "htmx:afterSettle", Qr);
                       }), Qr.pathInfo.anchor) {
-                        var fn = re().getElementById(Qr.pathInfo.anchor);
-                        fn && fn.scrollIntoView({ block: "start", behavior: "auto" });
+                        var sn = re().getElementById(Qr.pathInfo.anchor);
+                        sn && sn.scrollIntoView({ block: "start", behavior: "auto" });
                       }
-                      if (dn.title && !xn) {
-                        var Pn = C("title");
-                        Pn ? Pn.innerHTML = dn.title : window.document.title = dn.title;
+                      if (fn.title && !gn) {
+                        var Nn = C("title");
+                        Nn ? Nn.innerHTML = fn.title : window.document.title = fn.title;
                       }
-                      if (Cr(dn.elts, Kr), O(Jr, /HX-Trigger-After-Settle:/i)) {
-                        var qn = ze;
-                        se(ze) || (qn = re().body), _e(Jr, "HX-Trigger-After-Settle", qn);
+                      if (Cr(fn.elts, Kr), O(Jr, /HX-Trigger-After-Settle:/i)) {
+                        var En = ze;
+                        se(ze) || (En = re().body), _e(Jr, "HX-Trigger-After-Settle", En);
                       }
-                      ie(In);
+                      ie(On);
                     };
-                    Kr.settleDelay > 0 ? setTimeout(An, Kr.settleDelay) : An();
-                  } catch (fn) {
-                    throw fe(ze, "htmx:swapError", Qr), ie(Un), fn;
+                    Kr.settleDelay > 0 ? setTimeout(Tn, Kr.settleDelay) : Tn();
+                  } catch (sn) {
+                    throw fe(ze, "htmx:swapError", Qr), ie(kn), sn;
                   }
-                }, Rn = Q.config.globalViewTransitions;
-                if (Kr.hasOwnProperty("transition") && (Rn = Kr.transition), Rn && ce(ze, "htmx:beforeTransition", Qr) && typeof Promise < "u" && document.startViewTransition) {
-                  var Sn = new Promise(function(vn, gn) {
-                    In = vn, Un = gn;
-                  }), bn = Cn;
-                  Cn = function() {
+                }, Sn = Q.config.globalViewTransitions;
+                if (Kr.hasOwnProperty("transition") && (Sn = Kr.transition), Sn && ce(ze, "htmx:beforeTransition", Qr) && typeof Promise < "u" && document.startViewTransition) {
+                  var mn = new Promise(function(hn, un) {
+                    On = hn, kn = un;
+                  }), pn = Rn;
+                  Rn = function() {
                     document.startViewTransition(function() {
-                      return bn(), Sn;
+                      return pn(), mn;
                     });
                   };
                 }
-                Kr.swapDelay > 0 ? setTimeout(Cn, Kr.swapDelay) : Cn();
+                Kr.swapDelay > 0 ? setTimeout(Rn, Kr.swapDelay) : Rn();
               }
-              an && fe(ze, "htmx:responseError", le({ error: "Response Status Error Code " + Jr.status + " from " + Qr.pathInfo.requestPath }, Qr));
+              on && fe(ze, "htmx:responseError", le({ error: "Response Status Error Code " + Jr.status + " from " + Qr.pathInfo.requestPath }, Qr));
             }
           }
         }
@@ -2001,14 +1699,14 @@ function requireHtmx_min() {
             return Qr;
           Qr == null && (Qr = []), Jr == null && (Jr = []);
           var Zr = te(ze, "hx-ext");
-          return Zr && oe(Zr.split(","), function(Gr) {
-            if (Gr = Gr.replace(/ /g, ""), Gr.slice(0, 7) == "ignore:") {
-              Jr.push(Gr.slice(7));
+          return Zr && oe(Zr.split(","), function(Wr) {
+            if (Wr = Wr.replace(/ /g, ""), Wr.slice(0, 7) == "ignore:") {
+              Jr.push(Wr.slice(7));
               return;
             }
-            if (Jr.indexOf(Gr) < 0) {
-              var Wr = Xr[Gr];
-              Wr && Qr.indexOf(Wr) < 0 && Qr.push(Wr);
+            if (Jr.indexOf(Wr) < 0) {
+              var Gr = Xr[Wr];
+              Gr && Qr.indexOf(Gr) < 0 && Qr.push(Gr);
             }
           }), Fr(u(ze), Qr, Jr);
         }
@@ -2036,13 +1734,13 @@ function requireHtmx_min() {
           zt(ze);
           var Qr = re().querySelectorAll("[hx-trigger='restored'],[data-hx-trigger='restored']");
           ze.addEventListener("htmx:abort", function(Zr) {
-            var Gr = Zr.target, Wr = ae(Gr);
-            Wr && Wr.xhr && Wr.xhr.abort();
+            var Wr = Zr.target, Gr = ae(Wr);
+            Gr && Gr.xhr && Gr.xhr.abort();
           });
           const Jr = window.onpopstate ? window.onpopstate.bind(window) : null;
           window.onpopstate = function(Zr) {
-            Zr.state && Zr.state.htmx ? (ar(), oe(Qr, function(Gr) {
-              ce(Gr, "htmx:restored", { document: re(), triggerEvent: ce });
+            Zr.state && Zr.state.htmx ? (ar(), oe(Qr, function(Wr) {
+              ce(Wr, "htmx:restored", { document: re(), triggerEvent: ce });
             })) : Jr && Jr(Zr);
           }, setTimeout(function() {
             ce(ze, "htmx:load", {}), ze = null;
@@ -2053,40 +1751,64 @@ function requireHtmx_min() {
   }(htmx_min$1)), htmx_min$1.exports;
 }
 var htmx_minExports = requireHtmx_min();
-const htmx = /* @__PURE__ */ getDefaultExportFromCjs(htmx_minExports), getGlobalElementConstructor = (ze, Qr) => {
+const getMagicComponentsConstructor = (ze, Qr) => {
   class Jr extends HTMLElement {
     constructor() {
       super();
     }
     connectedCallback() {
-      const Gr = this.getProps();
-      ze({ element: this, props: Gr }), console.log(location.toString());
+      const Wr = getProps(this);
+      ze({ element: this, props: Wr });
     }
     disconnectedCallBack() {
       Qr && Qr({ element: this });
     }
-    attributeChangedCallback(Gr, Wr, Yr) {
-      htmx.ajax("GET", location.toString(), { target: Yr, select: Yr, swap: "outerHTML" });
-    }
-    getProps() {
-      var Kr;
-      const Gr = /* @__PURE__ */ new Map();
-      for (const en of this.attributes)
-        Gr.set(camelCase(en.name), en.value);
-      const Wr = this.querySelector("template");
-      if (Wr) {
-        const en = (Kr = Wr == null ? void 0 : Wr.content.textContent) == null ? void 0 : Kr.trim(), rn = en ? JSON.parse(en) : " ";
-        Gr.set("data", rn);
-      }
-      return Object.fromEntries(Gr);
-    }
   }
-  return ni(Jr, "observedAttributes", ["reload"]), ni(Jr, "originalElement", null), Jr;
+  return Jr;
 }, registerCustomElement = (ze, Qr) => {
   customElements.get(ze) || customElements.define(ze, Qr);
 }, define = (ze, Qr, Jr = null) => {
-  registerCustomElement(ze, getGlobalElementConstructor(Qr, Jr));
+  registerCustomElement(ze, getMagicComponentsConstructor(Qr, Jr));
+}, getPath = (ze, Qr) => {
+  const Jr = location.origin, Zr = Object.fromEntries(new URL(location.toString()).searchParams.entries());
+  let Wr = `?${new URLSearchParams({ ...Zr, ...ze }).toString()}`, Gr = location.hash;
+  return Qr.length > 0 && (Gr = `#${Qr}`), `${Jr}${Wr}${Gr}`;
+}, reload = (ze, Qr = {}, Jr = "") => {
+  const Zr = getPath(Qr, Jr);
+  return htmx_minExports.ajax("GET", Zr, { target: ze, select: ze, swap: "innerHTML" });
+}, getProps = (ze) => {
+  var Yr;
+  const Qr = { ...ze.dataset }, Jr = Object.entries(Qr), Zr = new Map(Jr), Wr = ze.querySelector("template");
+  if (Wr) {
+    const Kr = (Yr = Wr == null ? void 0 : Wr.content.textContent) == null ? void 0 : Yr.trim(), en = Kr ? JSON.parse(Kr) : {};
+    Zr.set("data", en);
+  }
+  return Zr.set("tagName", ze.tagName.toLowerCase()), Object.fromEntries(Zr);
+};
+let linkID = 0;
+const redirect = async (ze, Qr) => {
+  var Wr;
+  if (htmx_minExports.config.refreshOnHistoryMiss === !1)
+    return console.warn("Redirect is not enabled"), !1;
+  const Jr = document.body;
+  Jr.innerHTML += `<span hx-disinherit="*" class='link-parent' > 
+  <a class='bridge-redirect-link' href='${ze}' hx-headers='${JSON.stringify(Qr)}' hx-boost='true' id='bridge-redirect-link-${linkID}' hx-sync=".bridge-redirect-link:abort" ></a> 
+  </span>`, htmx_minExports.process(document.body);
+  const Zr = Jr.querySelector(`.link-parent>#bridge-redirect-link-${linkID}`);
+  Zr == null || Zr.click(), linkID++, (Wr = Zr == null ? void 0 : Zr.parentElement) == null || Wr.remove();
+}, config = async ({ redirect: ze, loader: Qr }) => {
+  if (ze && (htmx_minExports.config.refreshOnHistoryMiss = !0), Qr != null && Qr.enable) {
+    await import("./magicloader-BTvbq1IM.js");
+    const Jr = document.createElement("bridge-loader");
+    Jr.setAttribute("data-color", Qr.color ?? "#639ef4"), document.body.append(Jr);
+  }
 };
 export {
-  define
+  getProps as a,
+  redirect as b,
+  config as c,
+  define as d,
+  getPath as g,
+  htmx_minExports as h,
+  reload as r
 };

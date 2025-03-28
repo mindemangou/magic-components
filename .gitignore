@@ -26,10 +26,18 @@ helper.txt
 index.html
 src/assets
 src/App.tsx
+src/about.ts
+src/Footer.tsx 
+src/htmx.ts
 src/Header.tsx
+src/BridgeReact.tsx
+src/htmx.ts
 public
 src/vite-env.d.ts
 index.php
+about.php
+.vscode
+
 
 
 

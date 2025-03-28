@@ -2,10 +2,10 @@
 
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { dirname, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+/* import { dirname } from 'node:path'
+import { fileURLToPath } from 'node:url' */
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
+//const __dirname = dirname(fileURLToPath(import.meta.url))
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
@@ -14,20 +14,15 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: {
-        'my-lib': resolve(__dirname, 'src/bridgejs.ts'),
-        'brigeprovider': resolve(__dirname, 'src/BridgeProvider.tsx'),
-      },
-      name: 'MyLib',
-    },
-    rollupOptions: {
-
-      external: ['react'],
-     
+      entry: ['src/magiccomponents.ts'],
+      fileName: (format, entryName) => `${entryName}.${format}.js`,
+      name: 'magic-components',
     }
    
   }
 })
+
+/*  'bridge-react': resolve(__dirname, 'src/BridgeReact.tsx'), */
 /*  server: {
     cors: {
       origin: 'http://localhost:8000',
