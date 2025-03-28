@@ -1,7 +1,5 @@
 import {ajax,process,config as htmxconfig} from 'htmx.org'
 import type { Connected, Disconnected } from './magiccomponent';
-import getCustomElementConstructor from './MagicComponentsConstructor.ts'
-
 
 const  registerCustomElement=(tagName:string, ClassRef:CustomElementConstructor)=>{
     if (!customElements.get(tagName)) {
@@ -9,9 +7,10 @@ const  registerCustomElement=(tagName:string, ClassRef:CustomElementConstructor)
     }
 }
 
+export const define=async (name:string,connected:Connected,disconnected:Disconnected=null)=> {
+      const module=await import('./MagicComponentsConstructor.ts')
 
-export const define=(name:string,connected:Connected,disconnected:Disconnected=null)=> {
-  
+      const getCustomElementConstructor=module.default
     registerCustomElement(name,getCustomElementConstructor(connected,disconnected)) 
 }
 
