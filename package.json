@@ -1,6 +1,6 @@
 {
-  "name": "@mindemangou/magiccomponents",
-  "version": "1.0.1",
+  "name": "magiccomponents",
+  "version": "1.0.0",
   "type": "module",
   "files": ["dist"],
   "main": "./dist/magiccomponents.es.js",
