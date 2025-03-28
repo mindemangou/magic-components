@@ -38,6 +38,7 @@ src/vite-env.d.ts
 index.php
 about.php
 .vscode
+htmx.ts
 
 
 
