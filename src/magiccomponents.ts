@@ -1,5 +1,5 @@
 import {ajax,process,config as htmxconfig} from 'htmx.org'
-import { Connected, Disconnected } from './MagicComponentsConstructor.ts';
+import type { Connected, Disconnected } from './MagicComponentsConstructor.ts';
 
 const  registerCustomElement=(tagName:string, ClassRef:CustomElementConstructor)=>{
     if (!customElements.get(tagName)) {
@@ -32,11 +32,12 @@ export const getPath=(query:Record<string,string>,fragment:string):string=> {
 
 }
 
-export const reload=(name:string,query:Record<string,string>={},fragment:string='')=> {
-
+export const reload=({name,key}:{name:string,key?:string},query:Record<string,string>={},fragment:string='')=> {
  const path=getPath(query,fragment)
 
- return ajax('GET',path,{target:name,select:name,swap:'innerHTML'})
+ const selector=key?`${name}[data-key='${key}']`:`${name}:nth-child(1 of ${name})`
+
+ return ajax('GET',path,{target:selector,select:selector,swap:'outerHTML'})
 
 }
 

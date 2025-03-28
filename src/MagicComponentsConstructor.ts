@@ -1,7 +1,5 @@
 import { getProps } from "./magiccomponents";
 
-
-
 export type Connected=({element,props}:{element:HTMLElement,props:unknown})=>void;
 
 export type Disconnected=( ({element}:{element:HTMLElement})=>void )|null;
