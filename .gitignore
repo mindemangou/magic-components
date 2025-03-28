@@ -31,6 +31,7 @@ src/Footer.tsx
 src/htmx.ts
 src/Header.tsx
 src/BridgeReact.tsx
+src/BridgeReact2.tsx
 src/htmx.ts
 public
 src/vite-env.d.ts
