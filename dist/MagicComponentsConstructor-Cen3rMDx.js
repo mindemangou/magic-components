@@ -1,7 +1,7 @@
-import { getProps as i } from "./magiccomponents.es.js";
-let r = [];
-const u = (a, e) => {
-  class n extends HTMLElement {
+import { getProps as c } from "./magiccomponents.es.js";
+let a = [], r = 0;
+const h = (n, e) => {
+  class o extends HTMLElement {
     constructor() {
       super();
     }
@@ -11,19 +11,20 @@ const u = (a, e) => {
         return;
       if (this.hasAttribute("data-key")) {
         const t = this.getAttribute("data-key");
-        if (r.includes(t))
+        if (a.includes(t))
           throw new Error(`The key '${t}' already exists`);
-        r.push(t);
-      }
-      const o = i(this);
-      a({ element: this, props: o });
+        a.push(t);
+      } else
+        this.setAttribute("data-key", `component-${r}`), r++;
+      const i = c(this);
+      n({ element: this, props: i });
     }
     disconnectedCallBack() {
       e && e({ element: this });
     }
   }
-  return n;
+  return o;
 };
 export {
-  u as default
+  h as default
 };

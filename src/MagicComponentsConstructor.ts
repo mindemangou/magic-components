@@ -7,6 +7,7 @@ export type Disconnected=( ({element}:{element:HTMLElement})=>void )|null;
 export type GlobaleElementConstructor=(connected:Connected,disconnected:Disconnected)=>CustomElementConstructor;
 
 let keys:any[]=[]
+let id=0
  const getMagicComponentsConstructor:GlobaleElementConstructor=(connected:Connected,disconnected:Disconnected)=> {
 
     class MagicConstructor extends HTMLElement{
@@ -37,6 +38,9 @@ let keys:any[]=[]
                     keys.push(key)
                 }
                
+            }else {
+                this.setAttribute('data-key',`component-${id}`)
+                id++
             }
 
             const props=getProps(this)
