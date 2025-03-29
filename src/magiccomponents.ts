@@ -1,22 +1,17 @@
-import {ajax,process,config as htmxconfig} from 'htmx.org'
-import type { Connected, Disconnected } from './MagicComponentsConstructor.ts';
+import {ajax,process,config as htmxconfig, trigger} from 'htmx.org'
+import getCustomElementConstructor,{ keyMap, type Connected, type Disconnected } from './MagicComponentsConstructor.ts';
+import { keyVerification, registerCustomElement } from './utiles.ts';
 
-const  registerCustomElement=(tagName:string, ClassRef:CustomElementConstructor)=>{
-    if (!customElements.get(tagName)) {
-      customElements.define(tagName, ClassRef);
-    }
-}
-
-export const define=async (name:string,connected:Connected,disconnected:Disconnected=null)=> {
-      const module=await import('./MagicComponentsConstructor.ts')
-
-      const getCustomElementConstructor=module.default
-    registerCustomElement(name,getCustomElementConstructor(connected,disconnected)) 
+export const define=async (tagname:string,connected:Connected,disconnected:Disconnected=null)=> {  
+      const customElementConstructor=getCustomElementConstructor(connected,disconnected)
+      registerCustomElement(tagname,customElementConstructor)
+      
+      keyVerification([...keyMap.values()])
 }
 
 export const getPath=(query:Record<string,string>,fragment:string):string=> {
-
-  const requestOrigin=location.origin
+  
+  const requestOrigin=location.href
 
   const currentRequestQuery=Object.fromEntries(new URL(location.toString()).searchParams.entries())
 
@@ -32,12 +27,17 @@ export const getPath=(query:Record<string,string>,fragment:string):string=> {
 
 }
 
-export const reload=({name,key}:{name:string,key?:string},query:Record<string,string>={},fragment:string='')=> {
+export const reload=({tagname,key}:{tagname:string,key?:string},query:Record<string,string>={},fragment:string='')=> {
  const path=getPath(query,fragment)
 
- const selector=key?`${name}[data-key='${key}']`:`${name}:nth-child(1 of ${name})`
+ const selector=key?`${tagname}[data-key='${key}']`:`${tagname}:nth-child(1 of ${tagname})`
+  const target=document.querySelector(selector)
 
- return ajax('GET',path,{target:selector,select:selector,swap:'outerHTML'})
+  if(target===null) {
+    return  Promise.reject('Target not found ')
+  }
+
+  return ajax('GET',path,{target:selector,select:selector,swap:'outerHTML'})
 
 }
 
@@ -69,31 +69,38 @@ export const getProps=(element:HTMLElement)=>{
 }
 
 
-let linkID=0
-export const redirect=async (url:string,headers?:object)=> {
+let linkID = 0;
+let currentLink: HTMLLinkElement | null = null;
 
-  if(htmxconfig.refreshOnHistoryMiss===false) {
-    console.warn('Redirect is not enabled')
-    return false
+export const redirect = async (url: string, headers?: object) => {
+
+  if (htmxconfig.refreshOnHistoryMiss === false) {
+    console.warn('Redirect is not enabled');
+    return false;
   }
 
-  const body=document.body
-  body.innerHTML+=`<span hx-disinherit="*" class='link-parent' > 
-  <a class='bridge-redirect-link' href='${url}' hx-headers='${JSON.stringify(headers)}' hx-boost='true' id='bridge-redirect-link-${linkID}' hx-sync=".bridge-redirect-link:abort" ></a> 
-  </span>`
+  const body = document.body;
 
-  process(document.body)
+  // Abort the previous request if a new redirect is triggered
+  if (currentLink) {
+    trigger(currentLink, 'htmx:abort', {});
+    currentLink.parentElement?.remove();
+    currentLink = null;
+  }
 
-  const link=body.querySelector<HTMLLinkElement>(`.link-parent>#bridge-redirect-link-${linkID}`) 
-  
-  link?.click()
+  body.innerHTML += `<span hx-disinherit="*" class='link-parent'> 
+    <a class='bridge-redirect-link' href='${url}' hx-headers='${JSON.stringify(headers)}' hx-boost='true' id='bridge-redirect-link-${linkID}'></a> 
+  </span>`;
 
-  linkID++
+  process(document.body);
 
-  link?.parentElement?.remove()
-  
+  currentLink = body.querySelector<HTMLLinkElement>(`.link-parent>#bridge-redirect-link-${linkID}`);
 
-}
+  currentLink?.click();
+
+  linkID++;
+};
+
 
 export const config=async (
   { redirect,loader}:{redirect:boolean,loader?:{enable:boolean,color?:string}}

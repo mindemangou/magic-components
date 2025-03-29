@@ -27,7 +27,7 @@ index.html
 src/assets
 src/App.tsx
 src/about.ts
-src/Footer.tsx 
+src/Footer.tsx  
 src/htmx.ts
 src/Header.tsx
 src/BridgeReact.tsx
