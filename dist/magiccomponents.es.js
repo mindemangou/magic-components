@@ -2,7 +2,7 @@ import { ajax as u, config as d, process as m } from "htmx.org";
 const p = (t, e) => {
   customElements.get(t) || customElements.define(t, e);
 }, b = async (t, e, n = null) => {
-  const s = (await import("./MagicComponentsConstructor-DaGJ_XY1.js")).default;
+  const s = (await import("./MagicComponentsConstructor-BmZErMWu.js")).default;
   p(t, s(e, n));
 }, f = (t, e) => {
   const n = location.origin, r = Object.fromEntries(new URL(location.toString()).searchParams.entries());
