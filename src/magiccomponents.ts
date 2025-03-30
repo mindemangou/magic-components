@@ -47,7 +47,22 @@ export const getProps=(element:HTMLElement)=>{
 
     const dataToEntries=Object.entries(data)
 
-    const map=new Map(dataToEntries)
+    //convertir le json en objet si possible
+    const dataToEntriesValidation=dataToEntries.map<[string, string | undefined]>((el)=> {
+      const [key,value]=el
+        try {
+          if(value) {
+            return [key,JSON.parse(value)]
+          }
+          return [key, value]
+        }catch(e){
+          return [key, value]
+        }
+  
+    })
+
+    
+    const map=new Map(dataToEntriesValidation)
 
     const template=element.querySelector('template')
 
@@ -64,7 +79,7 @@ export const getProps=(element:HTMLElement)=>{
     map.set('tagName',element.tagName.toLowerCase())
 
     const props=Object.fromEntries(map)  
-    
+    console.log(props)
     return props
 }
 
