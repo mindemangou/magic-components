@@ -7,16 +7,16 @@ const E = (e, t) => {
       super();
     }
     connectedCallback() {
-      var l;
+      var i;
       const s = this.getAttribute("data-key");
       if (s) {
         const a = `key_${f}`;
         f++, g.set(a, s);
       }
-      if (((l = this.parentElement) == null ? void 0 : l.tagName) === "TEMPLATE")
+      if (((i = this.parentElement) == null ? void 0 : i.tagName) === "TEMPLATE")
         return;
-      const i = w(this);
-      e({ element: this, props: i });
+      const d = w(this);
+      e({ element: this, props: d });
     }
     disconnectedCallBack() {
       t && t({ element: this });
@@ -46,22 +46,20 @@ const E = (e, t) => {
   const s = M(r, n), o = t ? `${e}[data-key='${t}']` : `${e}:nth-child(1 of ${e})`;
   return document.querySelector(o) === null ? Promise.reject("Target not found ") : h("GET", s, { target: o, select: o, swap: "outerHTML" });
 }, w = (e) => {
-  var l;
+  var i;
   const t = { ...e.dataset }, n = Object.entries(t).map((a) => {
-    const [u, d] = a;
+    const [l, u] = a;
     try {
-      return d ? [u, JSON.parse(d)] : [u, d];
+      return u ? [l, JSON.parse(u)] : [l, u];
     } catch {
-      return [u, d];
+      return [l, u];
     }
   }), s = new Map(n), o = e.querySelector("template");
   if (o) {
-    const a = (l = o == null ? void 0 : o.content.textContent) == null ? void 0 : l.trim(), u = a ? JSON.parse(a) : {};
-    s.set("data", u);
+    const a = (i = o == null ? void 0 : o.content.textContent) == null ? void 0 : i.trim(), l = a ? JSON.parse(a) : {};
+    s.set("data", l);
   }
-  s.set("tagName", e.tagName.toLowerCase());
-  const i = Object.fromEntries(s);
-  return console.log(i), i;
+  return s.set("tagName", e.tagName.toLowerCase()), Object.fromEntries(s);
 };
 let p = 0, c = null;
 const q = async (e, t) => {

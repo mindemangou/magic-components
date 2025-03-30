@@ -79,7 +79,7 @@ export const getProps=(element:HTMLElement)=>{
     map.set('tagName',element.tagName.toLowerCase())
 
     const props=Object.fromEntries(map)  
-    console.log(props)
+    
     return props
 }
 
