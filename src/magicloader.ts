@@ -61,4 +61,4 @@ export class MagicLoader extends HTMLElement {
     }
 }
 
-customElements.define('bridge-loader',MagicLoader)
+customElements.define('magic-loader',MagicLoader)

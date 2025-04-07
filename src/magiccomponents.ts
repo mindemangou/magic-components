@@ -2,7 +2,8 @@ import {ajax,process,config as htmxconfig, trigger} from 'htmx.org'
 import getCustomElementConstructor,{ keyMap, type Connected, type Disconnected } from './MagicComponentsConstructor.ts';
 import { keyVerification, registerCustomElement } from './utiles.ts';
 
-export const define=async (tagname:string,connected:Connected,disconnected:Disconnected=null)=> {  
+export const define=async (tagname:string,connected:Connected,disconnected:Disconnected=null)=> {
+    
       const customElementConstructor=getCustomElementConstructor(connected,disconnected)
       registerCustomElement(tagname,customElementConstructor)
       
@@ -30,7 +31,7 @@ export const getPath=(query:Record<string,string>,fragment:string):string=> {
 export const reload=({tagname,key}:{tagname:string,key?:string},query:Record<string,string>={},fragment:string='')=> {
  const path=getPath(query,fragment)
 
- const selector=key?`${tagname}[data-key='${key}']`:`${tagname}:nth-child(1 of ${tagname})`
+  const selector=key?`${tagname}[data-key='${key}']`:`${tagname}:nth-child(1 of ${tagname})`
   const target=document.querySelector(selector)
 
   if(target===null) {
