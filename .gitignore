@@ -33,6 +33,7 @@ src/Header.tsx
 src/BridgeReact.tsx
 src/BridgeReact2.tsx
 src/htmx.ts
+src/css/style.css
 public
 src/vite-env.d.ts
 index.php
@@ -40,6 +41,7 @@ about.php
 .vscode
 src/htmx.ts 
 eslint.config.js 
+index.php
 
 
 

@@ -1,17 +1,21 @@
-declare module '@mindemangou/magiccomponents' {
+export type Connected=({element,props}:{element:HTMLElement|ShadowRoot,props:PropsType})=>void;
+
+
+export type Disconnected=( ({element}:{element:HTMLElement})=>void )|null;
+
+export type GlobaleElementConstructor=(connected:Connected,disconnected:Disconnected,stylecontent?:string)=>CustomElementConstructor;
+
+export type Define=({tagname,stylecontent}:{tagname:string,stylecontent?:string}, connected: Connected, disconnected?: Disconnected) => Promise<void>;
+
+ declare module '@mindemangou/magiccomponents' {
 
     type PropsType<T={ [k:string]:string}> = {
         tagName: string
         data: Record<string, any>
     }& T
     
-     type Connected=({element,props}:{element:HTMLElement,props:PropsType})=>void;
-
-
-     type Disconnected=( ({element}:{element:HTMLElement})=>void )|null;
-
     
-      const define: (tagname: string, connected: Connected, disconnected?: Disconnected) => Promise<void>;
+    const define:Define;
 
       const getPath: (query: Record<string, string>, fragment: string) => string;
 

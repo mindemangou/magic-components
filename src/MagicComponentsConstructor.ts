@@ -1,21 +1,22 @@
 import { getProps } from "./magiccomponents";
-
-export type Connected=({element,props}:{element:HTMLElement,props:unknown})=>void;
-
-export type Disconnected=( ({element}:{element:HTMLElement})=>void )|null;
-
-export type GlobaleElementConstructor=(connected:Connected,disconnected:Disconnected)=>CustomElementConstructor;
+import  type {GlobaleElementConstructor} from './magictypes'
 
 
 export const keyMap=new Map()
 let i=0
 
-const getMagicComponentsConstructor:GlobaleElementConstructor=(connected:Connected,disconnected:Disconnected)=> {
+const getMagicComponentsConstructor:GlobaleElementConstructor=(connected,disconnected,stylecontent)=> {
 
     class MagicConstructor extends HTMLElement{
         
+        private shadow:ShadowRoot|null=null
+        private stylecontent:string|undefined|null=null;
         constructor() {
+
             super();
+
+
+            this.stylecontent=stylecontent
             
           }
 
@@ -38,8 +39,35 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=(connected:Connect
             }
             
             const props=getProps(this)
-            connected({element:this,props})
+
+            const hasShadowAttribut=this.hasAttribute('data-shadow')
             
+            if(hasShadowAttribut) {
+
+                this.shadow=this.attachShadow({mode:'open'})
+
+                connected({element:this.shadow,props})
+
+                this.addStyle(this.shadow)
+            
+            }else {
+
+                connected({element:this,props})
+
+            }
+
+            
+        }
+
+        private addStyle(shadow:ShadowRoot) {
+
+            if(this.stylecontent) {
+                const style=document.createElement('style')
+
+                style.innerHTML=this.stylecontent
+                
+               shadow.appendChild(style)
+            }
         }
 
         disconnectedCallBack() {
