@@ -34,6 +34,7 @@ src/BridgeReact.tsx
 src/BridgeReact2.tsx
 src/htmx.ts
 public
+src/css
 src/vite-env.d.ts
 index.php
 about.php
