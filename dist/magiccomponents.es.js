@@ -1,87 +1,99 @@
-import { ajax as h, config as m, process as y, trigger as b } from "htmx.org";
+var b = Object.defineProperty;
+var E = (e, t, n) => t in e ? b(e, t, { enumerable: !0, configurable: !0, writable: !0, value: n }) : e[t] = n;
+var h = (e, t, n) => E(e, typeof t != "symbol" ? t + "" : t, n);
+import { ajax as w, config as y, process as k, trigger as $ } from "htmx.org";
 const g = /* @__PURE__ */ new Map();
 let f = 0;
-const E = (e, t) => {
-  class r extends HTMLElement {
+const S = (e, t, n) => {
+  class s extends HTMLElement {
     constructor() {
       super();
+      h(this, "shadow", null);
+      h(this, "stylecontent", null);
+      this.stylecontent = n;
     }
     connectedCallback() {
       var i;
-      const s = this.getAttribute("data-key");
-      if (s) {
-        const a = `key_${f}`;
-        f++, g.set(a, s);
+      const l = this.getAttribute("data-key");
+      if (l) {
+        const m = `key_${f}`;
+        f++, g.set(m, l);
       }
       if (((i = this.parentElement) == null ? void 0 : i.tagName) === "TEMPLATE")
         return;
-      const d = w(this);
-      e({ element: this, props: d });
+      const c = x(this);
+      this.hasAttribute("data-shadow") ? (this.shadow = this.attachShadow({ mode: "open" }), e({ element: this.shadow, props: c }), this.addStyle(this.shadow)) : e({ element: this, props: c });
+    }
+    addStyle(l) {
+      if (this.stylecontent) {
+        const d = document.createElement("style");
+        d.innerHTML = this.stylecontent, l.appendChild(d);
+      }
     }
     disconnectedCallBack() {
       t && t({ element: this });
     }
   }
-  return r;
-}, k = (e, t) => {
+  return s;
+}, T = (e, t) => {
   customElements.get(e) || customElements.define(e, t);
-}, $ = (e) => {
-  const t = e.reduce((n, s) => (n[s] = (n[s] || 0) + 1, n), {});
-  return Object.entries(t).filter(([n, s]) => s > 1);
-}, T = (e) => {
-  const t = $(e);
+}, M = (e) => {
+  const t = e.reduce((s, r) => (s[r] = (s[r] || 0) + 1, s), {});
+  return Object.entries(t).filter(([s, r]) => r > 1);
+}, C = (e) => {
+  const t = M(e);
   if (t.length > 0)
-    for (const r of t) {
-      const [n] = r;
-      throw new Error(`The key '${n}' already exists`);
+    for (const n of t) {
+      const [s] = n;
+      throw new Error(`The key '${s}' already exists`);
     }
-}, x = async (e, t, r = null) => {
-  const n = E(t, r);
-  k(e, n), T([...g.values()]);
-}, M = (e, t) => {
-  const r = location.href, n = Object.fromEntries(new URL(location.toString()).searchParams.entries());
-  let s = `?${new URLSearchParams({ ...n, ...e }).toString()}`, o = location.hash;
-  return t.length > 0 && (o = `#${t}`), `${r}${s}${o}`;
-}, S = ({ tagname: e, key: t }, r = {}, n = "") => {
-  const s = M(r, n), o = t ? `${e}[data-key='${t}']` : `${e}:nth-child(1 of ${e})`;
-  return document.querySelector(o) === null ? Promise.reject("Target not found ") : h("GET", s, { target: o, select: o, swap: "outerHTML" });
-}, w = (e) => {
-  var i;
-  const t = { ...e.dataset }, n = Object.entries(t).map((a) => {
-    const [l, u] = a;
+}, N = async ({ tagname: e, stylecontent: t }, n, s = null) => {
+  const r = S(n, s, t);
+  T(e, r), C([...g.values()]);
+}, O = (e, t) => {
+  const n = location.href, s = Object.fromEntries(new URL(location.toString()).searchParams.entries());
+  let r = `?${new URLSearchParams({ ...s, ...e }).toString()}`, o = location.hash;
+  return t.length > 0 && (o = `#${t}`), `${n}${r}${o}`;
+}, j = ({ tagname: e, key: t }, n = {}, s = "") => {
+  const r = O(n, s), o = t ? `${e}[data-key='${t}']` : `${e}:nth-child(1 of ${e})`;
+  return document.querySelector(o) === null ? Promise.reject("Target not found ") : w("GET", r, { target: o, select: o, swap: "outerHTML" });
+}, x = (e) => {
+  var d;
+  const t = { ...e.dataset }, s = Object.entries(t).map((c) => {
+    const [u, i] = c;
     try {
-      return u ? [l, JSON.parse(u)] : [l, u];
+      return i ? [u, JSON.parse(i)] : [u, i];
     } catch {
-      return [l, u];
+      return [u, i];
     }
-  }), s = new Map(n), o = e.querySelector("template");
+  }), r = new Map(s), o = e.querySelector("template");
   if (o) {
-    const a = (i = o == null ? void 0 : o.content.textContent) == null ? void 0 : i.trim(), l = a ? JSON.parse(a) : {};
-    s.set("data", l);
+    const c = (d = o == null ? void 0 : o.content.textContent) == null ? void 0 : d.trim(), u = c ? JSON.parse(c) : {};
+    r.set("data", u);
   }
-  return s.set("tagName", e.tagName.toLowerCase()), Object.fromEntries(s);
+  return r.set("tagName", e.tagName.toLowerCase()), Object.fromEntries(r);
 };
-let p = 0, c = null;
-const q = async (e, t) => {
-  var n;
-  if (m.refreshOnHistoryMiss === !1)
+let p = 0, a = null;
+const A = async (e, t) => {
+  var s;
+  if (y.refreshOnHistoryMiss === !1)
     return console.warn("Redirect is not enabled"), !1;
-  const r = document.body;
-  c && (b(c, "htmx:abort", {}), (n = c.parentElement) == null || n.remove(), c = null), r.innerHTML += `<span hx-disinherit="*" class='link-parent'> 
+  const n = document.body;
+  a && ($(a, "htmx:abort", {}), (s = a.parentElement) == null || s.remove(), a = null), n.innerHTML += `<span hx-disinherit="*" class='link-parent'> 
     <a class='bridge-redirect-link' href='${e}' hx-headers='${JSON.stringify(t)}' hx-boost='true' id='bridge-redirect-link-${p}'></a> 
-  </span>`, y(document.body), c = r.querySelector(`.link-parent>#bridge-redirect-link-${p}`), c == null || c.click(), p++;
-}, L = async ({ redirect: e, loader: t }) => {
-  if (e && (m.refreshOnHistoryMiss = !0), t != null && t.enable) {
-    await import("./magicloader-B7fWRlEn.js");
-    const r = document.createElement("bridge-loader");
-    r.setAttribute("data-color", t.color ?? "#639ef4"), document.body.append(r);
+  </span>`, k(document.body), a = n.querySelector(`.link-parent>#bridge-redirect-link-${p}`), a == null || a.click(), p++;
+}, H = async ({ redirect: e, loader: t }) => {
+  if (e && (y.refreshOnHistoryMiss = !0), t != null && t.enable) {
+    await import("./magicloader-BIhLYwnH.js");
+    const n = document.createElement("magic-loader");
+    n.setAttribute("data-color", t.color ?? "#639ef4"), document.body.append(n);
   }
 };
 export {
-  L as config,
-  x as define,
-  M as getPath,
-  w as getProps,
-  q as redirect,
-  S as reload
+  H as config,
+  N as define,
+  O as getPath,
+  x as getProps,
+  A as redirect,
+  j as reload
 };

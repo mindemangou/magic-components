@@ -2,7 +2,7 @@ var l = Object.defineProperty;
 var h = (e, i, t) => i in e ? l(e, i, { enumerable: !0, configurable: !0, writable: !0, value: t }) : e[i] = t;
 var o = (e, i, t) => h(e, typeof i != "symbol" ? i + "" : i, t);
 import { on as d } from "htmx.org";
-class r extends HTMLElement {
+class c extends HTMLElement {
   constructor() {
     super();
     o(this, "animationOne");
@@ -29,7 +29,7 @@ class r extends HTMLElement {
     this.animationOne && ((t = this.animationOne) == null || t.cancel()), this.animationTwo && ((n = this.animationTwo) == null || n.cancel());
   }
 }
-customElements.define("bridge-loader", r);
+customElements.define("magic-loader", c);
 export {
-  r as MagicLoader
+  c as MagicLoader
 };
