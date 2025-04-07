@@ -1,6 +1,6 @@
 {
   "name": "@mindemangou/magiccomponents",
-  "version": "2.1.8",
+  "version": "3.0.0",
   "type": "module",
   "files": [
     "dist"

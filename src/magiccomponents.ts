@@ -1,13 +1,16 @@
 import {ajax,process,config as htmxconfig, trigger} from 'htmx.org'
-import getCustomElementConstructor,{ keyMap, type Connected, type Disconnected } from './MagicComponentsConstructor.ts';
+import getCustomElementConstructor,{ keyMap } from './MagicComponentsConstructor.ts';
 import { keyVerification, registerCustomElement } from './utiles.ts';
+import type { Define } from './magictypes';
 
-export const define=async (tagname:string,connected:Connected,disconnected:Disconnected=null)=> {
-    
-      const customElementConstructor=getCustomElementConstructor(connected,disconnected)
-      registerCustomElement(tagname,customElementConstructor)
-      
-      keyVerification([...keyMap.values()])
+export const define:Define=async ({tagname,stylecontent},connected,disconnected=null)=> {
+
+  const customElementConstructor=getCustomElementConstructor(connected,disconnected,stylecontent)
+
+  registerCustomElement(tagname,customElementConstructor)
+
+  
+  keyVerification([...keyMap.values()])
 }
 
 export const getPath=(query:Record<string,string>,fragment:string):string=> {
@@ -130,11 +133,12 @@ export const config=async (
     //import lodader
     await import('./magicloader.ts')
     
-    const bridgeLoader=document.createElement('bridge-loader')
+    const magicLoader=document.createElement('magic-loader')
     
-    bridgeLoader.setAttribute('data-color',loader.color??'#639ef4')
+    magicLoader.setAttribute('data-color',loader.color??'#639ef4')
     
-    document.body.append(bridgeLoader)
+    document.body.append(magicLoader)
+
   }
 
 }
