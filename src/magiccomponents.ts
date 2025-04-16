@@ -7,7 +7,7 @@ import type { Config, Define, GetPath, GetProps, PropsType } from './magictypes'
 import { swapHead } from './allowHeadSwap.ts';
 
 //create custom element
-export const define:Define=async ({tagname,allowShadowDom=false,stylecontent},connected,disconnected=null)=> {
+export const define:Define=async ({tagname,allowShadowDom=false,stylecontent=''},connected,disconnected=null)=> {
 
   const customElementConstructor=getCustomElementConstructor(connected,disconnected,allowShadowDom,stylecontent)
 
@@ -17,9 +17,11 @@ export const define:Define=async ({tagname,allowShadowDom=false,stylecontent},co
 }
 
 //Generate request path
-export const getPath:GetPath=(queryparams:Record<string,string>,fragment:string):string=> {
+export const getPath:GetPath=(queryparams,fragment='')=> {
   
-  const requestOrigin=location.href
+  const requestOrigin=location.origin
+
+  const requestPath=location.pathname
 
   //get query params from current request
   const currentRequestQuery=Object.fromEntries(new URL(location.toString()).searchParams.entries())
@@ -27,13 +29,14 @@ export const getPath:GetPath=(queryparams:Record<string,string>,fragment:string)
   //merge queryp arams
   let requestQuery=`?${new URLSearchParams({...currentRequestQuery,...queryparams}).toString()}`
 
+  
   let requestFragment=location.hash
 
   if(fragment.length>0) {
     requestFragment=`#${fragment}`
   }
 
-  return `${requestOrigin}${requestQuery}${requestFragment}`
+  return `${requestOrigin}${requestPath}${requestQuery}${requestFragment}`
 
 }
 
@@ -51,7 +54,7 @@ export const getPath:GetPath=(queryparams:Record<string,string>,fragment:string)
 
 } */
 
-  //Extract props from tag
+//Extract props from tag
 export const getProps:GetProps=(element)=>{
 
     const data={...element.dataset}

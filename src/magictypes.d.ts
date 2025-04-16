@@ -24,7 +24,7 @@ export type GlobaleElementConstructor=(connected:Connected,disconnected:Disconne
 
 export type Define=({tagname,allowShadowDom,stylecontent}:{tagname:string,allowShadowDom?:boolean,stylecontent?:string}, connected: Connected, disconnected?: Disconnected) => Promise<void>;
 
-export type GetPath=(queryparams: Record<string, string>, fragment: string) => string;
+export type GetPath=(queryparams: Record<string, string>, fragment?: string) => string;
 
 export type Reload= ({tagname,key}:{tagname:string,key:string}, query?: Record<string, string>, fragment?: string) => Promise<void>;
 
