@@ -1,38 +1,58 @@
-export type Connected=({element,props}:{element:HTMLElement|ShadowRoot,props:PropsType})=>void;
+
+export type PropsType<T={ [k:string]:string}> = {
+  tagName: string
+  data: Record<string, any>
+}& T
+
+type RefreshType={
+  magicData:PropsType|object
+  refreshMagicData:(queryparams?: Record<string, string>, fragment?: string)=>Promise<void | {
+    [k: string]: string | undefined;
+  } | undefined> | undefined
+}
+
+export type ShadowRootType=(ShadowRoot&RefreshType)
+export type HTMLElementType=(HTMLElement&RefreshType)
+export type ElementType=ShadowRootType|HTMLElementType
 
 
-export type Disconnected=( ({element}:{element:HTMLElement})=>void )|null;
+export type Connected=({element}:{element:ElementType})=>void;
 
-export type GlobaleElementConstructor=(connected:Connected,disconnected:Disconnected,stylecontent?:string)=>CustomElementConstructor;
+export type Disconnected=( ({element}:{element:ElementType})=>void )|null;
 
-export type Define=({tagname,stylecontent}:{tagname:string,stylecontent?:string}, connected: Connected, disconnected?: Disconnected) => Promise<void>;
+export type GlobaleElementConstructor=(connected:Connected,disconnected:Disconnected,allowShadowDom?:boolean,stylecontent?:string)=>CustomElementConstructor;
+
+export type Define=({tagname,allowShadowDom,stylecontent}:{tagname:string,allowShadowDom?:boolean,stylecontent?:string}, connected: Connected, disconnected?: Disconnected) => Promise<void>;
+
+export type GetPath=(queryparams: Record<string, string>, fragment: string) => string;
+
+export type Reload= ({tagname,key}:{tagname:string,key:string}, query?: Record<string, string>, fragment?: string) => Promise<void>;
+
+export type GetProps=(element: HTMLElement) => PropsType
+
+export type Redirect=(url: string, headers?: object) => Promise<boolean>;
+
+export type Config=({ redirect, loader,allowHeadSwap }: {
+  redirect: boolean;
+  loader?: {
+      enable: boolean;
+      color?: string;
+  };
+  allowHeadSwap?: boolean;
+}) => Promise<void>;
 
  declare module '@mindemangou/magiccomponents' {
 
-    type PropsType<T={ [k:string]:string}> = {
-        tagName: string
-        data: Record<string, any>
-    }& T
-    
-    
     const define:Define;
 
-      const getPath: (query: Record<string, string>, fragment: string) => string;
+    const getPath: GetPath
 
-      const reload: ({tagname,key}:{tagname:string,key:string}, query?: Record<string, string>, fragment?: string) => Promise<void>;
+    const reload:Reload;
 
-      const getProps: (element: HTMLElement) => {
-        [k: string]: string;
-    };
+    const getProps:GetProps
 
-      const redirect: (url: string, headers?: object) => Promise<boolean>;
+    const redirect: Redirect
 
-      const config: ({ redirect, loader }: {
-        redirect: boolean;
-        loader?: {
-            enable: boolean;
-            color?: string;
-        };
-    }) => Promise<void>;
+    const config:Config;
 
 }

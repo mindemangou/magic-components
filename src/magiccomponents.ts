@@ -1,25 +1,31 @@
-import {ajax,process,config as htmxconfig, trigger} from 'htmx.org'
-import getCustomElementConstructor,{ keyMap } from './MagicComponentsConstructor.ts';
+import {process,config as htmxconfig, trigger} from 'htmx.org'
+
+import getCustomElementConstructor,{ keyList } from './MagicComponentsConstructor.ts';
 import { keyVerification, registerCustomElement } from './utiles.ts';
-import type { Define } from './magictypes';
+import type { Config, Define, GetPath, GetProps, PropsType } from './magictypes';
 
-export const define:Define=async ({tagname,stylecontent},connected,disconnected=null)=> {
+import { swapHead } from './allowHeadSwap.ts';
 
-  const customElementConstructor=getCustomElementConstructor(connected,disconnected,stylecontent)
+//create custom element
+export const define:Define=async ({tagname,allowShadowDom=false,stylecontent},connected,disconnected=null)=> {
+
+  const customElementConstructor=getCustomElementConstructor(connected,disconnected,allowShadowDom,stylecontent)
 
   registerCustomElement(tagname,customElementConstructor)
-
-  
-  keyVerification([...keyMap.values()])
+ 
+  keyVerification(keyList)
 }
 
-export const getPath=(query:Record<string,string>,fragment:string):string=> {
+//Generate request path
+export const getPath:GetPath=(queryparams:Record<string,string>,fragment:string):string=> {
   
   const requestOrigin=location.href
 
+  //get query params from current request
   const currentRequestQuery=Object.fromEntries(new URL(location.toString()).searchParams.entries())
 
-  let requestQuery=`?${new URLSearchParams({...currentRequestQuery,...query}).toString()}`
+  //merge queryp arams
+  let requestQuery=`?${new URLSearchParams({...currentRequestQuery,...queryparams}).toString()}`
 
   let requestFragment=location.hash
 
@@ -31,7 +37,7 @@ export const getPath=(query:Record<string,string>,fragment:string):string=> {
 
 }
 
-export const reload=({tagname,key}:{tagname:string,key?:string},query:Record<string,string>={},fragment:string='')=> {
+/* export const reload=({tagname,key}:{tagname:string,key?:string},query:Record<string,string>={},fragment:string='')=> {
  const path=getPath(query,fragment)
 
   const selector=key?`${tagname}[data-key='${key}']`:`${tagname}:nth-child(1 of ${tagname})`
@@ -43,17 +49,19 @@ export const reload=({tagname,key}:{tagname:string,key?:string},query:Record<str
 
   return ajax('GET',path,{target:selector,select:selector,swap:'outerHTML'})
 
-}
+} */
 
-export const getProps=(element:HTMLElement)=>{
+  //Extract props from tag
+export const getProps:GetProps=(element)=>{
 
     const data={...element.dataset}
 
     const dataToEntries=Object.entries(data)
 
     //convertir le json en objet si possible
-    const dataToEntriesValidation=dataToEntries.map<[string, string | undefined]>((el)=> {
-      const [key,value]=el
+    const dataToEntriesValidation=dataToEntries.map<[string, string]>((el)=> {
+
+      const [key,value]=el as [string,string]
         try {
           if(value) {
             return [key,JSON.parse(value)]
@@ -82,7 +90,7 @@ export const getProps=(element:HTMLElement)=>{
     
     map.set('tagName',element.tagName.toLowerCase())
 
-    const props=Object.fromEntries(map)  
+    const props=Object.fromEntries(map)  as PropsType
     
     return props
 }
@@ -121,9 +129,13 @@ export const redirect = async (url: string, headers?: object) => {
 };
 
 
-export const config=async (
-  { redirect,loader}:{redirect:boolean,loader?:{enable:boolean,color?:string}}
+export const config:Config=async (
+  { redirect,loader,allowHeadSwap}
 )=> {
+
+  if(allowHeadSwap) {
+      swapHead()
+  }
 
   if(redirect) {
     htmxconfig.refreshOnHistoryMiss=true

@@ -1,99 +1,141 @@
-var b = Object.defineProperty;
-var E = (e, t, n) => t in e ? b(e, t, { enumerable: !0, configurable: !0, writable: !0, value: n }) : e[t] = n;
-var h = (e, t, n) => E(e, typeof t != "symbol" ? t + "" : t, n);
-import { ajax as w, config as y, process as k, trigger as $ } from "htmx.org";
-const g = /* @__PURE__ */ new Map();
-let f = 0;
-const S = (e, t, n) => {
+var T = Object.defineProperty;
+var C = (t, e, n) => e in t ? T(t, e, { enumerable: !0, configurable: !0, writable: !0, value: n }) : t[e] = n;
+var h = (t, e, n) => C(t, typeof e != "symbol" ? e + "" : e, n);
+import { ajax as M, on as y, trigger as f, config as v, process as x } from "htmx.org";
+const H = [], L = (t, e, n, o) => {
   class s extends HTMLElement {
     constructor() {
       super();
       h(this, "shadow", null);
-      h(this, "stylecontent", null);
-      this.stylecontent = n;
+      h(this, "stylecontent", o);
+      h(this, "allowShadowDom", n);
+      h(this, "componentKey", null);
+      h(this, "data", {});
+      h(this, "magicData", { data: {}, tagName: this.tagName.toLocaleLowerCase() });
+      this.componentKey = this.getAttribute("data-key");
     }
     connectedCallback() {
-      var i;
-      const l = this.getAttribute("data-key");
-      if (l) {
-        const m = `key_${f}`;
-        f++, g.set(m, l);
-      }
-      if (((i = this.parentElement) == null ? void 0 : i.tagName) === "TEMPLATE")
-        return;
-      const c = x(this);
-      this.hasAttribute("data-shadow") ? (this.shadow = this.attachShadow({ mode: "open" }), e({ element: this.shadow, props: c }), this.addStyle(this.shadow)) : e({ element: this, props: c });
-    }
-    addStyle(l) {
-      if (this.stylecontent) {
-        const d = document.createElement("style");
-        d.innerHTML = this.stylecontent, l.appendChild(d);
-      }
+      var r;
+      this.componentKey && H.push(this.componentKey), ((r = this.parentElement) == null ? void 0 : r.tagName) !== "TEMPLATE" && (this.magicData = b(this), this.allowShadowDom ? (this.shadow = this.attachShadow({ mode: "open" }), t({ element: this.shadow }), this.addStyle(this.shadow)) : t({ element: this }));
     }
     disconnectedCallBack() {
-      t && t({ element: this });
+      e && e({ element: this });
+    }
+    //Refresh props data
+    refreshMagicData(l = {}, r = "") {
+      const i = this.tagName.toLocaleLowerCase();
+      if (this.componentKey === null) {
+        console.warn(`You must add the data-key attribute on each ${i}`);
+        return;
+      }
+      const d = document.createElement("template");
+      d.id = i, document.body.appendChild(d);
+      const a = O(l, r), u = `${i}[data-key='${this.componentKey}']`;
+      return M("GET", a, { target: `#${i}`, select: u, swap: "innerHTML" }).then(() => {
+        const p = d.firstElementChild;
+        return p && (this.data = b(p)), this.data;
+      }).then((p) => (d.remove(), p)).catch((p) => {
+        console.error(p);
+      });
+    }
+    //Add style in shadow dom
+    addStyle(l) {
+      if (this.stylecontent) {
+        const r = document.createElement("style");
+        r.innerHTML = this.stylecontent, l.appendChild(r);
+      }
     }
   }
   return s;
-}, T = (e, t) => {
-  customElements.get(e) || customElements.define(e, t);
-}, M = (e) => {
-  const t = e.reduce((s, r) => (s[r] = (s[r] || 0) + 1, s), {});
-  return Object.entries(t).filter(([s, r]) => r > 1);
-}, C = (e) => {
-  const t = M(e);
-  if (t.length > 0)
-    for (const n of t) {
-      const [s] = n;
-      throw new Error(`The key '${s}' already exists`);
+}, S = (t, e) => {
+  customElements.get(t) || customElements.define(t, e);
+}, k = (t) => {
+  const e = t.reduce((o, s) => (o[s] = (o[s] || 0) + 1, o), {});
+  return Object.entries(e).filter(([o, s]) => s > 1);
+}, N = (t) => {
+  const e = k(t);
+  if (e.length > 0)
+    for (const n of e) {
+      const [o] = n;
+      throw new Error(`The key '${o}' already exists`);
     }
-}, N = async ({ tagname: e, stylecontent: t }, n, s = null) => {
-  const r = S(n, s, t);
-  T(e, r), C([...g.values()]);
-}, O = (e, t) => {
-  const n = location.href, s = Object.fromEntries(new URL(location.toString()).searchParams.entries());
-  let r = `?${new URLSearchParams({ ...s, ...e }).toString()}`, o = location.hash;
-  return t.length > 0 && (o = `#${t}`), `${n}${r}${o}`;
-}, j = ({ tagname: e, key: t }, n = {}, s = "") => {
-  const r = O(n, s), o = t ? `${e}[data-key='${t}']` : `${e}:nth-child(1 of ${e})`;
-  return document.querySelector(o) === null ? Promise.reject("Target not found ") : w("GET", r, { target: o, select: o, swap: "outerHTML" });
-}, x = (e) => {
-  var d;
-  const t = { ...e.dataset }, s = Object.entries(t).map((c) => {
-    const [u, i] = c;
-    try {
-      return i ? [u, JSON.parse(i)] : [u, i];
-    } catch {
-      return [u, i];
+}, E = (t) => {
+  if (t && t.indexOf("<head") > -1) {
+    const e = document.createElement("html"), o = t.replace(/<svg(\s[^>]*>|>)([\s\S]*?)<\/svg>/gim, "").match(/(<head(\s[^>]*>|>)([\s\S]*?)<\/head>)/im);
+    if (o) {
+      const s = [], c = [], g = [], l = [];
+      e.innerHTML = o.join(" ");
+      const r = e.querySelector("head"), i = document.head, d = /* @__PURE__ */ new Map();
+      if (r == null)
+        return;
+      for (const a of r.children)
+        d.set(a.outerHTML, a);
+      for (const a of i.children)
+        d.has(a.outerHTML) ? (d.delete(a.outerHTML), g.push(a)) : (f(document.body, "htmx:removingHeadElement", { headElement: a }), c.push(a));
+      l.push(...d.values());
+      for (const a of l) {
+        let u = document.createRange().createContextualFragment(a.outerHTML);
+        f(document.body, "htmx:addingHeadElement", { headElement: u }), i.appendChild(u), s.push(u);
+      }
+      for (const a of c)
+        f(document.body, "htmx:removingHeadElement", { headElement: a }), i.removeChild(a);
+      f(document.body, "htmx:afterHeadMerge", { added: s, kept: g, removed: c });
     }
-  }), r = new Map(s), o = e.querySelector("template");
-  if (o) {
-    const c = (d = o == null ? void 0 : o.content.textContent) == null ? void 0 : d.trim(), u = c ? JSON.parse(c) : {};
-    r.set("data", u);
   }
-  return r.set("tagName", e.tagName.toLowerCase()), Object.fromEntries(r);
+}, $ = () => {
+  y("htmx:afterSwap", function(t) {
+    const n = t.detail.xhr.response;
+    E(n);
+  }), y("htmx:historyRestore", function(t) {
+    const e = t;
+    e.detail.cacheMiss ? E(e.detail.serverResponse) : E(e.detail.item.head);
+  }), y("htmx:historyItemCreated", function(t) {
+    const n = t.detail.item;
+    n.head = document.head.outerHTML;
+  });
+}, K = async ({ tagname: t, allowShadowDom: e = !1, stylecontent: n }, o, s = null) => {
+  const c = L(o, s, e, n);
+  S(t, c), N(H);
+}, O = (t, e) => {
+  const n = location.href, o = Object.fromEntries(new URL(location.toString()).searchParams.entries());
+  let s = `?${new URLSearchParams({ ...o, ...t }).toString()}`, c = location.hash;
+  return e.length > 0 && (c = `#${e}`), `${n}${s}${c}`;
+}, b = (t) => {
+  var l;
+  const e = { ...t.dataset }, o = Object.entries(e).map((r) => {
+    const [i, d] = r;
+    try {
+      return d ? [i, JSON.parse(d)] : [i, d];
+    } catch {
+      return [i, d];
+    }
+  }), s = new Map(o), c = t.querySelector("template");
+  if (c) {
+    const r = (l = c == null ? void 0 : c.content.textContent) == null ? void 0 : l.trim(), i = r ? JSON.parse(r) : {};
+    s.set("data", i);
+  }
+  return s.set("tagName", t.tagName.toLowerCase()), Object.fromEntries(s);
 };
-let p = 0, a = null;
-const A = async (e, t) => {
-  var s;
-  if (y.refreshOnHistoryMiss === !1)
+let w = 0, m = null;
+const q = async (t, e) => {
+  var o;
+  if (v.refreshOnHistoryMiss === !1)
     return console.warn("Redirect is not enabled"), !1;
   const n = document.body;
-  a && ($(a, "htmx:abort", {}), (s = a.parentElement) == null || s.remove(), a = null), n.innerHTML += `<span hx-disinherit="*" class='link-parent'> 
-    <a class='bridge-redirect-link' href='${e}' hx-headers='${JSON.stringify(t)}' hx-boost='true' id='bridge-redirect-link-${p}'></a> 
-  </span>`, k(document.body), a = n.querySelector(`.link-parent>#bridge-redirect-link-${p}`), a == null || a.click(), p++;
-}, H = async ({ redirect: e, loader: t }) => {
-  if (e && (y.refreshOnHistoryMiss = !0), t != null && t.enable) {
+  m && (f(m, "htmx:abort", {}), (o = m.parentElement) == null || o.remove(), m = null), n.innerHTML += `<span hx-disinherit="*" class='link-parent'> 
+    <a class='bridge-redirect-link' href='${t}' hx-headers='${JSON.stringify(e)}' hx-boost='true' id='bridge-redirect-link-${w}'></a> 
+  </span>`, x(document.body), m = n.querySelector(`.link-parent>#bridge-redirect-link-${w}`), m == null || m.click(), w++;
+}, j = async ({ redirect: t, loader: e, allowHeadSwap: n }) => {
+  if (n && $(), t && (v.refreshOnHistoryMiss = !0), e != null && e.enable) {
     await import("./magicloader-BIhLYwnH.js");
-    const n = document.createElement("magic-loader");
-    n.setAttribute("data-color", t.color ?? "#639ef4"), document.body.append(n);
+    const o = document.createElement("magic-loader");
+    o.setAttribute("data-color", e.color ?? "#639ef4"), document.body.append(o);
   }
 };
 export {
-  H as config,
-  N as define,
+  j as config,
+  K as define,
   O as getPath,
-  x as getProps,
-  A as redirect,
-  j as reload
+  b as getProps,
+  q as redirect
 };

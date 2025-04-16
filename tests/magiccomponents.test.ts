@@ -1,7 +1,7 @@
 import {test,expect, vi, Mock} from 'vitest'
 
 import { define } from '../src/magiccomponents';
-import { keyMap } from '../src/MagicComponentsConstructor';
+import { keyList } from '../src/MagicComponentsConstructor';
 import { keyVerification, registerCustomElement } from '../src/utiles';
 import getCustomElementConstructor from '../src/MagicComponentsConstructor'
  
@@ -31,7 +31,7 @@ import getCustomElementConstructor from '../src/MagicComponentsConstructor'
 
     const tagName = 'custom-tag';
 
-    await define(tagName,mockConnected, mockDisconnected);
+   await define(tagName,mockConnected, mockDisconnected);
     // Ensure getCustomElementConstructor is called with the correct arguments
    expect(getCustomElementConstructor).toHaveBeenCalledWith(mockConnected, mockDisconnected);
 

@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      debug.js:
+        specifier: link:htmx.org/dist/ext/debug.js
+        version: link:htmx.org/dist/ext/debug.js
       htmx.org:
         specifier: ^1.9.12
         version: 1.9.12
