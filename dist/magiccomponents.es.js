@@ -1,17 +1,17 @@
 var T = Object.defineProperty;
 var C = (t, e, n) => e in t ? T(t, e, { enumerable: !0, configurable: !0, writable: !0, value: n }) : t[e] = n;
-var h = (t, e, n) => C(t, typeof e != "symbol" ? e + "" : e, n);
-import { ajax as M, on as y, trigger as f, config as v, process as x } from "htmx.org";
+var u = (t, e, n) => C(t, typeof e != "symbol" ? e + "" : e, n);
+import { ajax as M, on as y, trigger as g, config as v, process as x } from "htmx.org";
 const H = [], L = (t, e, n, o) => {
   class s extends HTMLElement {
     constructor() {
       super();
-      h(this, "shadow", null);
-      h(this, "stylecontent", o);
-      h(this, "allowShadowDom", n);
-      h(this, "componentKey", null);
-      h(this, "data", {});
-      h(this, "magicData", { data: {}, tagName: this.tagName.toLocaleLowerCase() });
+      u(this, "shadow", null);
+      u(this, "stylecontent", o);
+      u(this, "allowShadowDom", n);
+      u(this, "componentKey", null);
+      u(this, "data", {});
+      u(this, "magicData", { data: {}, tagName: this.tagName.toLocaleLowerCase() });
       this.componentKey = this.getAttribute("data-key");
     }
     connectedCallback() {
@@ -23,19 +23,19 @@ const H = [], L = (t, e, n, o) => {
     }
     //Refresh props data
     refreshMagicData(l = {}, r = "") {
-      const i = this.tagName.toLocaleLowerCase();
+      const c = this.tagName.toLocaleLowerCase();
       if (this.componentKey === null) {
-        console.warn(`You must add the data-key attribute on each ${i}`);
+        console.warn(`You must add the data-key attribute on each ${c}`);
         return;
       }
-      const d = document.createElement("template");
-      d.id = i, document.body.appendChild(d);
-      const a = O(l, r), u = `${i}[data-key='${this.componentKey}']`;
-      return M("GET", a, { target: `#${i}`, select: u, swap: "innerHTML" }).then(() => {
-        const p = d.firstElementChild;
-        return p && (this.data = b(p)), this.data;
-      }).then((p) => (d.remove(), p)).catch((p) => {
-        console.error(p);
+      const i = document.createElement("template");
+      i.id = c, document.body.appendChild(i);
+      const a = O(l, r), p = `${c}[data-key='${this.componentKey}']`;
+      return M("GET", a, { target: `#${c}`, select: p, swap: "innerHTML" }).then(() => {
+        const f = i.firstElementChild;
+        return f && (this.data = b(f)), this.data;
+      }).then((f) => (i.remove(), f)).catch((f) => {
+        console.error(f);
       });
     }
     //Add style in shadow dom
@@ -63,23 +63,23 @@ const H = [], L = (t, e, n, o) => {
   if (t && t.indexOf("<head") > -1) {
     const e = document.createElement("html"), o = t.replace(/<svg(\s[^>]*>|>)([\s\S]*?)<\/svg>/gim, "").match(/(<head(\s[^>]*>|>)([\s\S]*?)<\/head>)/im);
     if (o) {
-      const s = [], c = [], g = [], l = [];
+      const s = [], d = [], h = [], l = [];
       e.innerHTML = o.join(" ");
-      const r = e.querySelector("head"), i = document.head, d = /* @__PURE__ */ new Map();
+      const r = e.querySelector("head"), c = document.head, i = /* @__PURE__ */ new Map();
       if (r == null)
         return;
       for (const a of r.children)
-        d.set(a.outerHTML, a);
-      for (const a of i.children)
-        d.has(a.outerHTML) ? (d.delete(a.outerHTML), g.push(a)) : (f(document.body, "htmx:removingHeadElement", { headElement: a }), c.push(a));
-      l.push(...d.values());
+        i.set(a.outerHTML, a);
+      for (const a of c.children)
+        i.has(a.outerHTML) ? (i.delete(a.outerHTML), h.push(a)) : (g(document.body, "htmx:removingHeadElement", { headElement: a }), d.push(a));
+      l.push(...i.values());
       for (const a of l) {
-        let u = document.createRange().createContextualFragment(a.outerHTML);
-        f(document.body, "htmx:addingHeadElement", { headElement: u }), i.appendChild(u), s.push(u);
+        let p = document.createRange().createContextualFragment(a.outerHTML);
+        g(document.body, "htmx:addingHeadElement", { headElement: p }), c.appendChild(p), s.push(p);
       }
-      for (const a of c)
-        f(document.body, "htmx:removingHeadElement", { headElement: a }), i.removeChild(a);
-      f(document.body, "htmx:afterHeadMerge", { added: s, kept: g, removed: c });
+      for (const a of d)
+        g(document.body, "htmx:removingHeadElement", { headElement: a }), c.removeChild(a);
+      g(document.body, "htmx:afterHeadMerge", { added: s, kept: h, removed: d });
     }
   }
 }, $ = () => {
@@ -93,36 +93,36 @@ const H = [], L = (t, e, n, o) => {
     const n = t.detail.item;
     n.head = document.head.outerHTML;
   });
-}, K = async ({ tagname: t, allowShadowDom: e = !1, stylecontent: n }, o, s = null) => {
-  const c = L(o, s, e, n);
-  S(t, c), N(H);
-}, O = (t, e) => {
-  const n = location.href, o = Object.fromEntries(new URL(location.toString()).searchParams.entries());
-  let s = `?${new URLSearchParams({ ...o, ...t }).toString()}`, c = location.hash;
-  return e.length > 0 && (c = `#${e}`), `${n}${s}${c}`;
+}, D = async ({ tagname: t, allowShadowDom: e = !1, stylecontent: n = "" }, o, s = null) => {
+  const d = L(o, s, e, n);
+  S(t, d), N(H);
+}, O = (t, e = "") => {
+  const n = location.origin, o = location.pathname, s = Object.fromEntries(new URL(location.toString()).searchParams.entries());
+  let d = `?${new URLSearchParams({ ...s, ...t }).toString()}`, h = location.hash;
+  return e.length > 0 && (h = `#${e}`), `${n}${o}${d}${h}`;
 }, b = (t) => {
   var l;
   const e = { ...t.dataset }, o = Object.entries(e).map((r) => {
-    const [i, d] = r;
+    const [c, i] = r;
     try {
-      return d ? [i, JSON.parse(d)] : [i, d];
+      return i ? [c, JSON.parse(i)] : [c, i];
     } catch {
-      return [i, d];
+      return [c, i];
     }
-  }), s = new Map(o), c = t.querySelector("template");
-  if (c) {
-    const r = (l = c == null ? void 0 : c.content.textContent) == null ? void 0 : l.trim(), i = r ? JSON.parse(r) : {};
-    s.set("data", i);
+  }), s = new Map(o), d = t.querySelector("template");
+  if (d) {
+    const r = (l = d == null ? void 0 : d.content.textContent) == null ? void 0 : l.trim(), c = r ? JSON.parse(r) : {};
+    s.set("data", c);
   }
   return s.set("tagName", t.tagName.toLowerCase()), Object.fromEntries(s);
 };
 let w = 0, m = null;
-const q = async (t, e) => {
+const K = async (t, e) => {
   var o;
   if (v.refreshOnHistoryMiss === !1)
     return console.warn("Redirect is not enabled"), !1;
   const n = document.body;
-  m && (f(m, "htmx:abort", {}), (o = m.parentElement) == null || o.remove(), m = null), n.innerHTML += `<span hx-disinherit="*" class='link-parent'> 
+  m && (g(m, "htmx:abort", {}), (o = m.parentElement) == null || o.remove(), m = null), n.innerHTML += `<span hx-disinherit="*" class='link-parent'> 
     <a class='bridge-redirect-link' href='${t}' hx-headers='${JSON.stringify(e)}' hx-boost='true' id='bridge-redirect-link-${w}'></a> 
   </span>`, x(document.body), m = n.querySelector(`.link-parent>#bridge-redirect-link-${w}`), m == null || m.click(), w++;
 }, j = async ({ redirect: t, loader: e, allowHeadSwap: n }) => {
@@ -134,8 +134,8 @@ const q = async (t, e) => {
 };
 export {
   j as config,
-  K as define,
+  D as define,
   O as getPath,
   b as getProps,
-  q as redirect
+  K as redirect
 };
