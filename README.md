@@ -6,8 +6,6 @@ MagicComponents is a JavaScript library that allows you to easily create custom 
 
 - **Reusable Components**: Create modular and reusable UI components.
 - **Lightweight**: Minimal dependencies for fast performance.
-- **Customizable**: Easily extend and customize components to fit your needs.
-- **Easy Integration**: Works seamlessly with modern JavaScript frameworks or vanilla JavaScript.
 
 ## Installation
 
@@ -42,7 +40,10 @@ Each data-* attribute you add to the component becomes a property accessible via
 
 ```html
 
-    <salut-salut data-name="doe" data-key='sghwy625' data-json='{"country":"benin"}'>
+    <salut-salut 
+    data-name="doe" 
+    data-key='sghwy625' 
+    data-json='{"country":"benin"}'>
       
     </salut-salut>
 

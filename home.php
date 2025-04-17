@@ -11,6 +11,9 @@
  
   </head>
   <body hx-ext="">
+
+ 
+
     
     <pre>
       <?= var_dump(headers_list()) ?>
@@ -34,8 +37,9 @@
 
     <button hx-get="/test" >okok</button>
 
-    <salut-salut  >
-      <p>Salut 1742490746666 init value</p>
+    <salut-salut>
+      <slot name="attributes">Slot</slot>
+      <p slot="essai" >Salut 1742490746666 init value</p>
     </salut-salut>
 
     <salut-salut data-key="second">
