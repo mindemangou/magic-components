@@ -5,7 +5,7 @@ import  type {GlobaleElementConstructor, PropsType, ShadowRootType} from './magi
 
 export const keyList:string[]=[]
 
-const getMagicComponentsConstructor:GlobaleElementConstructor=(connected,disconnected,allowShadowDom,stylecontent)=> {
+const getMagicComponentsConstructor:GlobaleElementConstructor=(connected,disconnected,allowShadowDom,stylecontent,whenVisible)=> {
 
     class MagicConstructor extends HTMLElement{
         
@@ -21,16 +21,20 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=(connected,disconn
 
         public magicData:PropsType|object={data:{},tagName:this.tagName.toLocaleLowerCase()}
 
+        private whenVisibleAllowed=whenVisible
+
         constructor() {
 
             super();
 
             this.componentKey=this.getAttribute('data-key')
-            
+           
+
         }
 
         connectedCallback() {
-           
+            
+
             if(this.componentKey) {
                 keyList.push(this.componentKey)
             }
@@ -49,13 +53,13 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=(connected,disconn
 
                 this.shadow=this.attachShadow({mode:'open'})  as ShadowRootType
 
-                connected({element:this.shadow})
+                this.render(connected,{element:this.shadow})
 
                 this.addStyle(this.shadow)
                 
             }else {
 
-                connected({element:this})
+                this.render(connected,{element:this})
 
             }
 
@@ -69,6 +73,27 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=(connected,disconn
                 disconnected({element:this})
             }
             
+        }
+
+        private render(callback:Function,params:unknown) {
+
+            if(this.whenVisibleAllowed) {
+                
+                const observer=new IntersectionObserver((element,intersectionObserverInit)=> {
+                    
+                    if(element[0].isIntersecting) {
+                        callback(params)
+                        intersectionObserverInit.unobserve(this)
+                    }
+                    
+                })
+
+                observer.observe(this)
+                
+            }else {
+                
+                callback(params)
+            }
         }
 
         //Refresh props data

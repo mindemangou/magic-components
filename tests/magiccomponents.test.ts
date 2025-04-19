@@ -1,16 +1,29 @@
-import {test,expect, vi} from 'vitest'
+import {test,expect, vi, describe, afterEach,beforeEach, beforeAll} from 'vitest'
 
 import { define, getPath } from '../src/magiccomponents';
 import { keyList } from '../src/MagicComponentsConstructor';
 import { keyVerification, registerCustomElement } from '../src/utiles';
 import getCustomElementConstructor from '../src/MagicComponentsConstructor'
- 
+import { Browser, Window } from 'happy-dom';
 
-test('define should register a custom element and verify keys', async () => {
+describe('magiccomponents test suite',async ()=> {
 
+  beforeAll(()=> {
+     
     vi.mock('../src/utiles',{spy:true});
   
     vi.mock('../src/MagicComponentsConstructor',{spy:true});
+
+    vi.mock('../src/magiccomponents.ts',{spy:true}); 
+  })
+  
+  afterEach(()=> {
+    vi.unstubAllGlobals()
+    vi.resetAllMocks()
+  })
+ 
+  test('define should register a custom element and verify keys', async () => {
+
     
     const mockConnected = vi.fn();
     const mockDisconnected = vi.fn();
@@ -26,7 +39,7 @@ test('define should register a custom element and verify keys', async () => {
 
    await define({tagname:'demo-demo'},mockConnected, mockDisconnected);
     // Ensure getCustomElementConstructor is called with the correct arguments
-   expect(getCustomElementConstructor).toHaveBeenCalledWith(mockConnected, mockDisconnected,false,'');
+   expect(getCustomElementConstructor).toHaveBeenCalledWith(mockConnected, mockDisconnected,false,'',false);
 
     // Ensure registerCustomElement is called with the correct arguments
     expect(registerCustomElement).toHaveBeenCalledWith(tagName, mockCustomElementConstructor);
@@ -35,24 +48,81 @@ test('define should register a custom element and verify keys', async () => {
     expect(keyList).toEqual(['value1', 'value2']);
 
     expect(keyVerification).toBeCalledWith(['value1', 'value2']);
-})
+  })
+
+    test('whenVisible option test', async () => {
+      
+      const browser = new Browser();
+      const page = browser.newPage();
+    
+      const mywindow = page.mainFrame.window;
+      const mydocument = page.mainFrame.window.document;
+
+      vi.stubGlobal('customElements', mywindow.customElements);
+     
+      const mockObserve = vi.fn();
+      const mockUnobserve = vi.fn();
+
+      const IntersectionObserver = vi.fn((callback: IntersectionObserverCallback) => {
+      // Simulate the callback being triggered immediately with an entry
+        const mockEntry = [{ isIntersecting: true,boundingClientRect:{},intersectionRatio:0,intersectionRect:{},rootBounds:{},target:{},time:{} }] as unknown as IntersectionObserverEntry[]  ;
+        callback(mockEntry, { unobserve:mockUnobserve});
+
+        return {
+          observe:mockObserve,
+          unobserve:mockUnobserve
+        };
+        
+      });
+
+      vi.stubGlobal('IntersectionObserver', IntersectionObserver);
+
+      page.content = /*html*/`
+      <html>
+      <body>
+        <div></div>
+        <test-test></test-test>
+      </body>
+      </html>
+    `;
+      // Define the custom element
+      await define(
+        { tagname: 'test-test', whenVisible: true },
+        ({ element }) => {
+          element.innerHTML = /*html*/`
+          <h1>Name: John doe</h1>
+          `;
+        },
+        () => {}
+      );
+
+      const myElement = mydocument.querySelector('test-test') as unknown as HTMLElement;
+
+      expect(myElement.textContent?.trim()).toBe('Name: John doe');
+
+      await browser.close();
+    });
 
 
-test.each([
-  {urlhref:'https://localhost:8000/home.php',urlhash:'#home',testhash:'',resultat:'https://localhost:8000/home.php?p=3&category=football#home'},
-  {urlhref:'https://localhost:8000/about.php',urlhash:'#about',testhash:'aboutme',resultat:'https://localhost:8000/about.php?p=3&category=football#aboutme'}
-])('getPath function test', async ({urlhref,urlhash,testhash,resultat}) => {
 
-  vi.mock('../src/magiccomponents.ts',{spy:true});
+  test.each([
+    {urlhref:'https://localhost:8000/home.php',urlhash:'#home',testhash:'',resultat:'https://localhost:8000/home.php?p=3&category=football#home'},
+    {urlhref:'https://localhost:8000/about.php',urlhash:'#about',testhash:'aboutme',resultat:'https://localhost:8000/about.php?p=3&category=football#aboutme'}
+  ])('getPath function test', async ({urlhref,urlhash,testhash,resultat}) => {
 
- 
-  location.href=urlhref
-  location.hash=urlhash
- 
-  const queryparams={p:'3',category:'football'};
+  
+    location.href=urlhref
+    location.hash=urlhash
+  
+    const queryparams={p:'3',category:'football'};
 
-  const path=getPath(queryparams,testhash)
+    const path=getPath(queryparams,testhash)
 
-  expect(path).toBe(resultat)
-})
+    expect(path).toBe(resultat)
+  })
+
+
+  
+
+});
 

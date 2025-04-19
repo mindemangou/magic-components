@@ -20,9 +20,9 @@ export type Connected=({element}:{element:ElementType})=>void;
 
 export type Disconnected=( ({element}:{element:ElementType})=>void )|null;
 
-export type GlobaleElementConstructor=(connected:Connected,disconnected:Disconnected,allowShadowDom?:boolean,stylecontent?:string)=>CustomElementConstructor;
+export type GlobaleElementConstructor=(connected:Connected,disconnected:Disconnected,allowShadowDom?:boolean,stylecontent?:string,whenVisible?:boolean)=>CustomElementConstructor;
 
-export type Define=({tagname,allowShadowDom,stylecontent}:{tagname:string,allowShadowDom?:boolean,stylecontent?:string}, connected: Connected, disconnected?: Disconnected) => Promise<void>;
+export type Define=({tagname,allowShadowDom,stylecontent,whenVisible}:{tagname:string,allowShadowDom?:boolean,stylecontent?:string,whenVisible?:boolean}, connected: Connected, disconnected?: Disconnected) => Promise<void>;
 
 export type GetPath=(queryparams: Record<string, string>, fragment?: string) => string;
 

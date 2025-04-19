@@ -11,9 +11,6 @@
  
   </head>
   <body hx-ext="">
-
- 
-
     
     <pre>
       <?= var_dump(headers_list()) ?>
@@ -46,12 +43,13 @@
       <p>Salut 1742490746666 init value</p>
     </salut-salut>
 
-    <salut-salut data-key="second4" >
+    <salut-salut data-key="second4" style="height: 500px;display: block;" >
       <p>Salut 1742490746666 init value</p>
     </salut-salut>
 
 
-    <footer-footer data-key="jjj" data-time="<?= date('s') ?>"></footer-footer>
+    <footer-footer data-key="jjj" data-time="<?= date('s') ?>" style="height: 500px;display: block">Loading....</footer-footer>
+    <footer-footer  data-time="<?= date('s') ?>" style="height: 500px;display: block">Loading....</footer-footer>
  
     <script type="module">
   import RefreshRuntime from 'http://localhost:5173/@react-refresh'

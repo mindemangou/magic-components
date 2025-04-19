@@ -7,9 +7,8 @@ import type { Config, Define, GetPath, GetProps, PropsType } from './magictypes'
 import { swapHead } from './allowHeadSwap.ts';
 
 //create custom element
-export const define:Define=async ({tagname,allowShadowDom=false,stylecontent=''},connected,disconnected=null)=> {
-
-  const customElementConstructor=getCustomElementConstructor(connected,disconnected,allowShadowDom,stylecontent)
+export const define:Define=async ({tagname,allowShadowDom=false,stylecontent='',whenVisible=false},connected,disconnected=null)=> {
+  const customElementConstructor=getCustomElementConstructor(connected,disconnected,allowShadowDom,stylecontent,whenVisible)
 
   registerCustomElement(tagname,customElementConstructor)
  
@@ -26,7 +25,7 @@ export const getPath:GetPath=(queryparams,fragment='')=> {
   //get query params from current request
   const currentRequestQuery=Object.fromEntries(new URL(location.toString()).searchParams.entries())
 
-  //merge queryp arams
+  //merge query params
   let requestQuery=`?${new URLSearchParams({...currentRequestQuery,...queryparams}).toString()}`
 
   
