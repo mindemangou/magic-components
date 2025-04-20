@@ -1,10 +1,10 @@
-import {test,expect, vi, describe, afterEach,beforeEach, beforeAll} from 'vitest'
+import {test,expect, vi, describe, afterEach, beforeAll} from 'vitest'
 
 import { define, getPath } from '../src/magiccomponents';
 import { keyList } from '../src/MagicComponentsConstructor';
 import { keyVerification, registerCustomElement } from '../src/utiles';
 import getCustomElementConstructor from '../src/MagicComponentsConstructor'
-import { Browser, Window } from 'happy-dom';
+import { Browser } from 'happy-dom';
 
 describe('magiccomponents test suite',async ()=> {
 
