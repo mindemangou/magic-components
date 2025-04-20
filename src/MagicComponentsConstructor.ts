@@ -33,7 +33,7 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=(connected,disconn
         }
 
         connectedCallback() {
-            
+
 
             if(this.componentKey) {
                 keyList.push(this.componentKey)

@@ -48,7 +48,14 @@
     </salut-salut>
 
 
-    <footer-footer data-key="jjj" data-time="<?= date('s') ?>" style="height: 500px;display: block">Loading....</footer-footer>
+    <footer-footer data-key="jjj" data-time="<?= date('s') ?>" style="height: 500px;display: block">
+<!--       <template>
+       
+        <slot name="my-text" ></slot>
+      </template> -->
+     <!-- <template slot="my-text"  ><p >0o0o</p></template> -->
+    
+    </footer-footer>
     <footer-footer  data-time="<?= date('s') ?>" style="height: 500px;display: block">Loading....</footer-footer>
  
     <script type="module">

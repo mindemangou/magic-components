@@ -60,17 +60,26 @@ describe('magiccomponents test suite',async ()=> {
 
       vi.stubGlobal('customElements', mywindow.customElements);
      
-      const mockObserve = vi.fn();
-      const mockUnobserve = vi.fn();
+
+      const mockCallBack=vi.fn()
 
       const IntersectionObserver = vi.fn((callback: IntersectionObserverCallback) => {
       // Simulate the callback being triggered immediately with an entry
         const mockEntry = [{ isIntersecting: true,boundingClientRect:{},intersectionRatio:0,intersectionRect:{},rootBounds:{},target:{},time:{} }] as unknown as IntersectionObserverEntry[]  ;
-        callback(mockEntry, { unobserve:mockUnobserve});
+
+        callback(mockEntry, {
+          unobserve: mockCallBack,
+          root: null,
+          rootMargin: '',
+          thresholds: [],
+          disconnect: mockCallBack,
+          observe: mockCallBack,
+          takeRecords: mockCallBack
+        });
 
         return {
-          observe:mockObserve,
-          unobserve:mockUnobserve
+          observe:mockCallBack,
+          unobserve:mockCallBack
         };
         
       });
@@ -83,7 +92,7 @@ describe('magiccomponents test suite',async ()=> {
         <div></div>
         <test-test></test-test>
       </body>
-      </html>
+      </html> 
     `;
       // Define the custom element
       await define(
