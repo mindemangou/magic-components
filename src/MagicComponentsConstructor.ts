@@ -76,7 +76,7 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=(connected,disconn
         }
 
         private render(callback:Function,params:unknown) {
-
+           
             if(this.whenVisibleAllowed) {
                 
                 const observer=new IntersectionObserver((element,intersectionObserverInit)=> {
