@@ -1,10 +1,24 @@
 import {process,config as htmxconfig, trigger} from 'htmx.org'
-
 import getCustomElementConstructor,{ keyList } from './MagicComponentsConstructor.ts';
 import { keyVerification, registerCustomElement } from './utiles.ts';
 import type { Config, Define, GetPath, GetProps, PropsType } from './magictypes';
-
 import { swapHead } from './allowHeadSwap.ts';
+
+
+const observer=new IntersectionObserver((elements,intersectionObserverInit)=> {
+
+  for (const element of elements) {
+
+    if(element.isIntersecting) {
+
+      element.target.setAttribute('data-render','true')
+      intersectionObserverInit.unobserve(element.target)
+  
+    }
+    
+  }
+
+})
 
 //create custom element
 export const define:Define=async ({tagname,allowShadowDom=false,stylecontent='',whenVisible=false},connected,disconnected=null)=> {
@@ -13,6 +27,17 @@ export const define:Define=async ({tagname,allowShadowDom=false,stylecontent='',
   registerCustomElement(tagname,customElementConstructor)
  
   keyVerification(keyList)
+
+  if(whenVisible) {
+    const elements=document.querySelectorAll(tagname)
+
+    for (const element of elements) {
+      observer.observe(element)
+    }
+
+  }
+  
+  
 }
 
 //Generate request path
