@@ -8,6 +8,8 @@ export const keyList:string[]=[]
 const getMagicComponentsConstructor:GlobaleElementConstructor=(connected,disconnected,allowShadowDom,stylecontent,whenVisible)=> {
 
     class MagicConstructor extends HTMLElement{
+
+        static observedAttributes = ["data-render"];
         
         private shadow:ShadowRootType|null=null
 
@@ -28,7 +30,6 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=(connected,disconn
             super();
 
             this.componentKey=this.getAttribute('data-key')
-           
 
         }
 
@@ -45,28 +46,18 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=(connected,disconn
             if(parentTagName==='TEMPLATE') {
                 return;
             }
-            
-            this.magicData=getProps(this)
 
-            
-            if(this.allowShadowDom) {
-
-                this.shadow=this.attachShadow({mode:'open'})  as ShadowRootType
-
-                this.render(connected,{element:this.shadow})
-
-                this.addStyle(this.shadow)
-                
-            }else {
-
-                this.render(connected,{element:this})
-
+          
+            if(this.whenVisibleAllowed) {
+                return;
             }
+            
+
+           this.render()
 
             
         }
 
-        
         disconnectedCallBack() {
 
             if(disconnected) {
@@ -75,24 +66,32 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=(connected,disconn
             
         }
 
-        private render(callback:Function,params:unknown) {
-           
-            if(this.whenVisibleAllowed) {
-                
-                const observer=new IntersectionObserver((element,intersectionObserverInit)=> {
-                    
-                    if(element[0].isIntersecting) {
-                        callback(params)
-                        intersectionObserverInit.unobserve(this)
-                    }
-                    
-                })
+        attributeChangedCallback(name:string, _:string, newValue:string) {
 
-                observer.observe(this)
+            if(newValue!=='true') {
+                    return name;
+            }
+
+            this.render()
+
+        }
+
+        private render() {
+           
+            this.magicData=getProps(this)
+
+            if(this.allowShadowDom) {
+
+                this.shadow=this.attachShadow({mode:'open'})  as ShadowRootType
+
+                connected({element:this.shadow})
+
+                this.addStyle(this.shadow)
                 
             }else {
-                
-                callback(params)
+
+                connected({element:this})
+
             }
         }
 
