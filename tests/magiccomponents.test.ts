@@ -86,6 +86,8 @@ describe('magiccomponents test suite',async ()=> {
 
       vi.stubGlobal('IntersectionObserver', IntersectionObserver);
 
+      vi.stubGlobal('document', mydocument);
+
       page.content = /*html*/`
       <html>
       <body>
