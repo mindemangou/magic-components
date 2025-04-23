@@ -1,4 +1,4 @@
-import { ajax } from "htmx.org";
+import htmx from "htmx.org";
 import { getPath, getProps } from "./magiccomponents";
 import  type {GlobaleElementConstructor, PropsType, ShadowRootType} from './magictypes'
 
@@ -116,7 +116,7 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=(connected,disconn
             const selector=`${tagName}[data-key='${this.componentKey}']`
 
             
-          return  ajax('GET',path,{target:`#${tagName}`,select:selector,swap:'innerHTML'}).then(()=> {
+          return  htmx.ajax('get',path,{target:`#${tagName}`,select:selector,swap:'innerHTML'}).then(()=> {
                 
                 const element=template.firstElementChild as HTMLElement
                 

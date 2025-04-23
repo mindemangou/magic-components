@@ -1,4 +1,4 @@
-import { on } from "htmx.org"
+import htmx from "htmx.org"
 
 
 export class MagicLoader extends HTMLElement {
@@ -23,7 +23,7 @@ export class MagicLoader extends HTMLElement {
         this.style.display='none'
 
 
-         on('htmx:beforeRequest',(event: Event)=> {
+        htmx.on('htmx:beforeRequest',(event: Event)=> {
             
              const e = event as CustomEvent<{ boosted: boolean }>;
 

@@ -24,7 +24,6 @@ describe('magiccomponents test suite',async ()=> {
  
   test('define should register a custom element and verify keys', async () => {
 
-    
     const mockConnected = vi.fn();
     const mockDisconnected = vi.fn();
     const mockCustomElementConstructor = vi.fn();
@@ -58,6 +57,7 @@ describe('magiccomponents test suite',async ()=> {
       const mywindow = page.mainFrame.window;
       const mydocument = page.mainFrame.window.document;
 
+      vi.stubGlobal('document', mydocument);
       vi.stubGlobal('customElements', mywindow.customElements);
      
 
@@ -65,10 +65,10 @@ describe('magiccomponents test suite',async ()=> {
 
       const IntersectionObserver = vi.fn((callback: IntersectionObserverCallback) => {
       // Simulate the callback being triggered immediately with an entry
-        const mockEntry = [{ isIntersecting: true,boundingClientRect:{},intersectionRatio:0,intersectionRect:{},rootBounds:{},target:{},time:{} }] as unknown as IntersectionObserverEntry[]  ;
-
+        const mockEntry = [{ isIntersecting: true,boundingClientRect:{},intersectionRatio:0,intersectionRect:{},rootBounds:{},target:{setAttribute:vi.fn()},time:{} }] as unknown as IntersectionObserverEntry[]  ;
+        
         callback(mockEntry, {
-          unobserve: mockCallBack,
+          unobserve: vi.fn(),
           root: null,
           rootMargin: '',
           thresholds: [],
@@ -78,28 +78,30 @@ describe('magiccomponents test suite',async ()=> {
         });
 
         return {
-          observe:mockCallBack,
-          unobserve:mockCallBack
+          observe:vi.fn(),
+          unobserve:vi.fn()
         };
         
-      });
+       });
 
       vi.stubGlobal('IntersectionObserver', IntersectionObserver);
 
-      vi.stubGlobal('document', mydocument);
+
+
 
       page.content = /*html*/`
       <html>
       <body>
         <div></div>
-        <test-test></test-test>
+        <test-test ></test-test>
       </body>
       </html> 
     `;
       // Define the custom element
-      await define(
+      await define( 
         { tagname: 'test-test', whenVisible: true },
         ({ element }) => {
+         
           element.innerHTML = /*html*/`
           <h1>Name: John doe</h1>
           `;
@@ -108,7 +110,7 @@ describe('magiccomponents test suite',async ()=> {
       );
 
       const myElement = mydocument.querySelector('test-test') as unknown as HTMLElement;
-
+      
       expect(myElement.textContent?.trim()).toBe('Name: John doe');
 
       await browser.close();
