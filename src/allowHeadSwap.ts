@@ -1,4 +1,4 @@
-import { on, trigger } from "htmx.org";
+import htmx from "htmx.org";
 
  const mergeHead=(newContent:string)=>{
         
@@ -48,7 +48,7 @@ import { on, trigger } from "htmx.org";
                         srcToNewHeadNodes.delete(currentHeadElt.outerHTML);
                         preserved.push(currentHeadElt);
                     } else {
-                        trigger(document.body, "htmx:removingHeadElement", {headElement: currentHeadElt})
+                        htmx.trigger(document.body, "htmx:removingHeadElement", {headElement: currentHeadElt})
                             removed.push(currentHeadElt);
                     }
                 }
@@ -61,7 +61,7 @@ import { on, trigger } from "htmx.org";
 
                     let newElt = document.createRange().createContextualFragment(newNode.outerHTML);
 
-                    trigger(document.body, "htmx:addingHeadElement", {headElement: newElt})
+                    htmx.trigger(document.body, "htmx:addingHeadElement", {headElement: newElt})
                     currentHead.appendChild(newElt);
                     added.push(newElt);
                     
@@ -70,12 +70,12 @@ import { on, trigger } from "htmx.org";
                 // remove all removed elements, after we have appended the new elements to avoid
                 // additional network requests for things like style sheets
                 for (const removedElement of removed) {
-                    trigger(document.body, "htmx:removingHeadElement", {headElement: removedElement}) 
+                    htmx.trigger(document.body, "htmx:removingHeadElement", {headElement: removedElement}) 
                         currentHead.removeChild(removedElement);
                     
                 }
 
-                trigger(document.body, "htmx:afterHeadMerge", {added: added, kept: preserved, removed: removed});
+                htmx.trigger(document.body, "htmx:afterHeadMerge", {added: added, kept: preserved, removed: removed});
             }
         }
     }
@@ -84,7 +84,7 @@ import { on, trigger } from "htmx.org";
 //Swap the head in htmx response
 export const swapHead=()=> {
 
-    on('htmx:afterSwap', function(event){
+    htmx.on('htmx:afterSwap', function(event){
      
         const evt=event as CustomEvent<{xhr:{response:any},boosted:boolean }>
            
@@ -96,7 +96,7 @@ export const swapHead=()=> {
         
     })
     
-    on('htmx:historyRestore', function(event){
+    htmx.on('htmx:historyRestore', function(event){
     
         const evt=event as CustomEvent<{xhr:{response:unknown},cacheMiss:unknown,serverResponse:string,item:{head:string} }>
     
@@ -110,7 +110,7 @@ export const swapHead=()=> {
         
     })
     
-    on('htmx:historyItemCreated', function(event){
+    htmx.on('htmx:historyItemCreated', function(event){
     
         const evt=event as CustomEvent<{item:{head:unknown} }>
     
