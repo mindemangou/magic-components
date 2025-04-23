@@ -6,6 +6,7 @@ import { keyVerification, registerCustomElement } from '../src/utiles';
 import getCustomElementConstructor from '../src/MagicComponentsConstructor'
 import { Browser } from 'happy-dom';
 
+
 describe('magiccomponents test suite',async ()=> {
 
   beforeAll(()=> {
@@ -14,16 +15,20 @@ describe('magiccomponents test suite',async ()=> {
   
     vi.mock('../src/MagicComponentsConstructor',{spy:true});
 
-    vi.mock('../src/magiccomponents.ts',{spy:true}); 
+    vi.mock('../src/magiccomponents.ts',{spy:true});   
+    
   })
   
   afterEach(()=> {
+
     vi.unstubAllGlobals()
     vi.resetAllMocks()
+
   })
  
   test('define should register a custom element and verify keys', async () => {
 
+    
     const mockConnected = vi.fn();
     const mockDisconnected = vi.fn();
     const mockCustomElementConstructor = vi.fn();
@@ -31,6 +36,7 @@ describe('magiccomponents test suite',async ()=> {
     // Mock getCustomElementConstructor to return a fake constructor
     vi.mocked(getCustomElementConstructor).mockReturnValue(mockCustomElementConstructor);
     
+   
     // Add mock keys to keyMap
     keyList.push('value1', 'value2');
 
