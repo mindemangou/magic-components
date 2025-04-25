@@ -1,7 +1,7 @@
-import htmx from "htmx.org";
 
- const mergeHead=(newContent:string)=>{
-        
+ const mergeHead=async (newContent:string,trigger:Function)=>{
+
+
         if (newContent && newContent.indexOf('<head') > -1) {
 
             const htmlDoc = document.createElement("html");
@@ -48,7 +48,7 @@ import htmx from "htmx.org";
                         srcToNewHeadNodes.delete(currentHeadElt.outerHTML);
                         preserved.push(currentHeadElt);
                     } else {
-                        htmx.trigger(document.body, "htmx:removingHeadElement", {headElement: currentHeadElt})
+                        trigger(document.body, "htmx:removingHeadElement", {headElement: currentHeadElt})
                             removed.push(currentHeadElt);
                     }
                 }
@@ -61,7 +61,7 @@ import htmx from "htmx.org";
 
                     let newElt = document.createRange().createContextualFragment(newNode.outerHTML);
 
-                    htmx.trigger(document.body, "htmx:addingHeadElement", {headElement: newElt})
+                    trigger(document.body, "htmx:addingHeadElement", {headElement: newElt})
                     currentHead.appendChild(newElt);
                     added.push(newElt);
                     
@@ -70,47 +70,45 @@ import htmx from "htmx.org";
                 // remove all removed elements, after we have appended the new elements to avoid
                 // additional network requests for things like style sheets
                 for (const removedElement of removed) {
-                    htmx.trigger(document.body, "htmx:removingHeadElement", {headElement: removedElement}) 
+                    trigger(document.body, "htmx:removingHeadElement", {headElement: removedElement}) 
                         currentHead.removeChild(removedElement);
                     
                 }
 
-                htmx.trigger(document.body, "htmx:afterHeadMerge", {added: added, kept: preserved, removed: removed});
+                trigger(document.body, "htmx:afterHeadMerge", {added: added, kept: preserved, removed: removed});
             }
         }
     }
 
     
 //Swap the head in htmx response
-export const swapHead=()=> {
+export const swapHead=async ({on,trigger}:{on:Function,trigger:Function})=> {
 
-    htmx.on('htmx:afterSwap', function(event){
+    on('htmx:afterSwap', function(event:unknown){
      
         const evt=event as CustomEvent<{xhr:{response:any},boosted:boolean }>
            
         const serverResponse = evt.detail.xhr.response;
     
-        //trigger(document.body, "htmx:beforeHeadMerge", evt.detail)
-    
-        mergeHead(serverResponse);
+        mergeHead(serverResponse,trigger);
         
     })
     
-    htmx.on('htmx:historyRestore', function(event){
+    on('htmx:historyRestore', function(event:unknown){
     
         const evt=event as CustomEvent<{xhr:{response:unknown},cacheMiss:unknown,serverResponse:string,item:{head:string} }>
     
         //trigger(document.body, "htmx:beforeHeadMerge", evt.detail)
     
         if (evt.detail.cacheMiss) {
-            mergeHead(evt.detail.serverResponse);
+            mergeHead(evt.detail.serverResponse,trigger);
         } else {
-            mergeHead(evt.detail.item.head);
+            mergeHead(evt.detail.item.head,trigger);
         }
         
     })
     
-    htmx.on('htmx:historyItemCreated', function(event){
+    on('htmx:historyItemCreated', function(event:unknown){
     
         const evt=event as CustomEvent<{item:{head:unknown} }>
     

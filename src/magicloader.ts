@@ -1,4 +1,3 @@
-import htmx from "htmx.org"
 
 
 export class MagicLoader extends HTMLElement {
@@ -7,9 +6,11 @@ export class MagicLoader extends HTMLElement {
     animationTwo:Animation|undefined;
     constructor() {
         super()
-        
+         
     }
-    connectedCallback() {
+    async connectedCallback() {
+
+        const {on}=(await import('htmx.org')).default
 
         const color=this.getAttribute('data-color')??'#639ef4'
 
@@ -23,7 +24,7 @@ export class MagicLoader extends HTMLElement {
         this.style.display='none'
 
 
-        htmx.on('htmx:beforeRequest',(event: Event)=> {
+        on('htmx:beforeRequest',(event: Event)=> {
             
              const e = event as CustomEvent<{ boosted: boolean }>;
 
