@@ -1,4 +1,4 @@
-import {test,expect, vi, describe, afterEach, beforeAll} from 'vitest'
+import {test,expect, vi, describe, afterEach, beforeEach} from 'vitest'
 
 import { define, getPath } from '../src/magiccomponents';
 import { keyList } from '../src/MagicComponentsConstructor';
@@ -6,29 +6,28 @@ import { keyVerification, registerCustomElement } from '../src/utiles';
 import getCustomElementConstructor from '../src/MagicComponentsConstructor'
 import { Browser } from 'happy-dom';
 
-
 describe('magiccomponents test suite',async ()=> {
+  
 
-  beforeAll(()=> {
-     
+  beforeEach(()=> {
+ 
     vi.mock('../src/utiles',{spy:true});
   
     vi.mock('../src/MagicComponentsConstructor',{spy:true});
 
-    vi.mock('../src/magiccomponents.ts',{spy:true});   
-    
+    vi.mock('../src/magiccomponents.ts',{spy:true}); 
+
   })
   
   afterEach(()=> {
 
     vi.unstubAllGlobals()
     vi.resetAllMocks()
-
+ 
   })
  
   test('define should register a custom element and verify keys', async () => {
 
-    
     const mockConnected = vi.fn();
     const mockDisconnected = vi.fn();
     const mockCustomElementConstructor = vi.fn();
@@ -40,61 +39,34 @@ describe('magiccomponents test suite',async ()=> {
     // Add mock keys to keyMap
     keyList.push('value1', 'value2');
 
-    const tagName = 'demo-demo';
-
+    const tagName = 'demo-demo'; 
    await define({tagname:'demo-demo'},mockConnected, mockDisconnected);
+
     // Ensure getCustomElementConstructor is called with the correct arguments
-   expect(getCustomElementConstructor).toHaveBeenCalledWith(mockConnected, mockDisconnected,false,'',false);
+   expect(getCustomElementConstructor).toHaveBeenCalledWith({connected:mockConnected, disconnected:mockDisconnected},{allowShadowDom:false,stylecontent:'',whenVisible:false});
 
     // Ensure registerCustomElement is called with the correct arguments
     expect(registerCustomElement).toHaveBeenCalledWith(tagName, mockCustomElementConstructor);
 
     // Ensure keyVerification is called with the correct keys
     expect(keyList).toEqual(['value1', 'value2']);
-
+   
     expect(keyVerification).toBeCalledWith(['value1', 'value2']);
   })
 
-    test('whenVisible option test', async () => {
+    test('whenVisible option test',{only:true}, async () => {
       
-      const browser = new Browser();
-      const page = browser.newPage();
-    
+      const browser=new Browser()
+
+      const page= browser.newPage();
+ 
       const mywindow = page.mainFrame.window;
       const mydocument = page.mainFrame.window.document;
 
-      vi.stubGlobal('document', mydocument);
       vi.stubGlobal('customElements', mywindow.customElements);
-     
-
-      const mockCallBack=vi.fn()
-
-      const IntersectionObserver = vi.fn((callback: IntersectionObserverCallback) => {
-      // Simulate the callback being triggered immediately with an entry
-        const mockEntry = [{ isIntersecting: true,boundingClientRect:{},intersectionRatio:0,intersectionRect:{},rootBounds:{},target:{setAttribute:vi.fn()},time:{} }] as unknown as IntersectionObserverEntry[]  ;
-        
-        callback(mockEntry, {
-          unobserve: vi.fn(),
-          root: null,
-          rootMargin: '',
-          thresholds: [],
-          disconnect: mockCallBack,
-          observe: mockCallBack,
-          takeRecords: mockCallBack
-        });
-
-        return {
-          observe:vi.fn(),
-          unobserve:vi.fn()
-        };
-        
-       });
-
-      vi.stubGlobal('IntersectionObserver', IntersectionObserver);
-
-
-
-
+      vi.stubGlobal('document', mydocument);
+          
+       
       page.content = /*html*/`
       <html>
       <body>
@@ -103,6 +75,7 @@ describe('magiccomponents test suite',async ()=> {
       </body>
       </html> 
     `;
+
       // Define the custom element
       await define( 
         { tagname: 'test-test', whenVisible: true },
@@ -115,9 +88,13 @@ describe('magiccomponents test suite',async ()=> {
         () => {}
       );
 
+
       const myElement = mydocument.querySelector('test-test') as unknown as HTMLElement;
-      
+
+      myElement.setAttribute('data-render','true')
+
       expect(myElement.textContent?.trim()).toBe('Name: John doe');
+      expect(myElement.hasAttribute('data-render')).toBeTruthy();
 
       await browser.close();
     });

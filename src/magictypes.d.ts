@@ -20,7 +20,13 @@ export type Connected=({element}:{element:ElementType})=>void;
 
 export type Disconnected=( ({element}:{element:ElementType})=>void )|null;
 
-export type GlobaleElementConstructor=(connected:Connected,disconnected:Disconnected,allowShadowDom?:boolean,stylecontent?:string,whenVisible?:boolean)=>CustomElementConstructor;
+type CallbacksType={connected:Connected,disconnected:Disconnected}
+type ComponantConfigType={allowShadowDom?:boolean,stylecontent?:string,whenVisible?:boolean}
+
+export type GlobaleElementConstructor=(
+  {connected,disconnected}:CallbacksType,
+  {allowShadowDom,stylecontent,whenVisible}:ComponantConfigType
+)=>CustomElementConstructor;
 
 export type Define=({tagname,allowShadowDom,stylecontent,whenVisible}:{tagname:string,allowShadowDom?:boolean,stylecontent?:string,whenVisible?:boolean}, connected: Connected, disconnected?: Disconnected) => Promise<void>;
 

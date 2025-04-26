@@ -1,11 +1,10 @@
-import htmx from "htmx.org";
 import { getPath, getProps } from "./magiccomponents";
 import  type {GlobaleElementConstructor, PropsType, ShadowRootType} from './magictypes'
 
 
 export const keyList:string[]=[]
 
-const getMagicComponentsConstructor:GlobaleElementConstructor=(connected,disconnected,allowShadowDom,stylecontent,whenVisible)=> {
+const getMagicComponentsConstructor:GlobaleElementConstructor=({connected,disconnected},{allowShadowDom,stylecontent,whenVisible})=> {
 
     class MagicConstructor extends HTMLElement{
 
@@ -49,7 +48,7 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=(connected,disconn
 
           
             if(this.whenVisibleAllowed) {
-                return;
+                return ;
             }
             
 
@@ -96,8 +95,10 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=(connected,disconn
         }
 
         //Refresh props data
-        refreshMagicData(queryparams:Record<string,string>={},fragment:string='') {
-        
+        async refreshMagicData(queryparams:Record<string,string>={},fragment:string='') {
+            
+            const {ajax}=(await import('htmx.org')).default
+
             const tagName=this.tagName.toLocaleLowerCase()
     
             if(this.componentKey===null) {
@@ -116,7 +117,7 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=(connected,disconn
             const selector=`${tagName}[data-key='${this.componentKey}']`
 
             
-          return  htmx.ajax('get',path,{target:`#${tagName}`,select:selector,swap:'innerHTML'}).then(()=> {
+          return  ajax('get',path,{target:`#${tagName}`,select:selector,swap:'innerHTML'}).then(()=> {
                 
                 const element=template.firstElementChild as HTMLElement
                 

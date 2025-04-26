@@ -1,12 +1,11 @@
-import htmx from 'htmx.org'
 import getCustomElementConstructor,{ keyList } from './MagicComponentsConstructor.ts';
 import { keyVerification, registerCustomElement } from './utiles.ts';
 import type { Config, Define, GetPath, GetProps, PropsType } from './magictypes';
 import { swapHead } from './allowHeadSwap.ts';
 
+
 const observer=new IntersectionObserver((elements,intersectionObserverInit)=> {
- console.log('first')
-  for (const element of elements) {
+   for (const element of elements) {
    
     if(element.isIntersecting) {
      
@@ -15,28 +14,29 @@ const observer=new IntersectionObserver((elements,intersectionObserverInit)=> {
   
     }
     
-  }
+  } 
 
 })
+
 
 //create custom element
 export const define:Define=async ({tagname,allowShadowDom=false,stylecontent='',whenVisible=false},connected,disconnected=null)=> {
 
-  const customElementConstructor=getCustomElementConstructor(connected,disconnected,allowShadowDom,stylecontent,whenVisible)
+  const customElementConstructor=getCustomElementConstructor({connected,disconnected},{allowShadowDom,stylecontent,whenVisible})
 
   registerCustomElement(tagname,customElementConstructor)
  
   keyVerification(keyList)
-
+ 
   if(whenVisible) {
+    
     const elements=document.querySelectorAll(tagname)
     
     for (const element of elements) {
-      
       observer.observe(element)
     }
 
-  }
+  } 
   
   
 }
@@ -129,7 +129,10 @@ let currentLink: HTMLLinkElement | null = null;
 
 export const redirect = async (url: string, headers?: object) => {
 
-  if (htmx.config.refreshOnHistoryMiss === false) {
+  const {config,trigger,process}=(await import('htmx.org')).default
+
+
+  if (config.refreshOnHistoryMiss === false) {
     console.warn('Redirect is not enabled');
     return false;
   }
@@ -138,7 +141,7 @@ export const redirect = async (url: string, headers?: object) => {
 
   // Abort the previous request if a new redirect is triggered
   if (currentLink) {
-    htmx.trigger(currentLink, 'htmx:abort', {});
+    trigger(currentLink, 'htmx:abort', {});
     currentLink.parentElement?.remove();
     currentLink = null;
   }
@@ -147,7 +150,7 @@ export const redirect = async (url: string, headers?: object) => {
     <a class='bridge-redirect-link' href='${url}' hx-headers='${JSON.stringify(headers)}' hx-boost='true' id='bridge-redirect-link-${linkID}'></a> 
   </span>`;
 
-  htmx.process(document.body);
+  process(document.body);
 
   currentLink = body.querySelector<HTMLLinkElement>(`.link-parent>#bridge-redirect-link-${linkID}`);
 
@@ -161,12 +164,14 @@ export const config:Config=async (
   { redirect,loader,allowHeadSwap}
 )=> {
 
+  const {on,trigger,config}=(await import('htmx.org')).default
+
   if(allowHeadSwap) {
-      swapHead()
+      swapHead({on,trigger})
   }
 
   if(redirect) {
-    htmx.config.refreshOnHistoryMiss=true
+    config.refreshOnHistoryMiss=true
   }
 
   if(loader?.enable) {
