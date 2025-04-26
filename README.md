@@ -61,6 +61,26 @@ define({tagname:'app-app'},async ({element})=> {
 
 ```
 
+## Shadow Dom
+
+To enable component isolation using the Shadow DOM, set the allowShadowDom property to true.
+
+**⚠️ Important**: Once rendered inside the Shadow DOM, the component is no longer influenced by global CSS styles.
+To inject external styles into the component, use the stylecontent property
+
+```javascript
+import { define} from "@mindemangou/magiccomponents"
+import stylecontent from './css/style.css?raw'
+
+define({tagname:'app-app',allowShadowDom:true,stylecontent},async ({element})=> {
+    
+    element.innerHTML="<h1 class='name' >John Doe</h1>"
+    
+})
+
+
+```
+
 ## Documentation
 
 For detailed documentation and examples, visit the [official documentation](https://example.com/magiccomponents-docs).

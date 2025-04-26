@@ -5,8 +5,7 @@ import { swapHead } from './allowHeadSwap.ts';
 
 
 const observer=new IntersectionObserver((elements,intersectionObserverInit)=> {
-  
-  for (const element of elements) {
+   for (const element of elements) {
    
     if(element.isIntersecting) {
      
@@ -15,9 +14,10 @@ const observer=new IntersectionObserver((elements,intersectionObserverInit)=> {
   
     }
     
-  }
+  } 
 
 })
+
 
 //create custom element
 export const define:Define=async ({tagname,allowShadowDom=false,stylecontent='',whenVisible=false},connected,disconnected=null)=> {

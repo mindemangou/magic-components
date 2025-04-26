@@ -1,13 +1,10 @@
-import {test,expect, vi, describe, afterEach, beforeAll, beforeEach} from 'vitest'
+import {test,expect, vi, describe, afterEach, beforeEach} from 'vitest'
 
 import { define, getPath } from '../src/magiccomponents';
 import { keyList } from '../src/MagicComponentsConstructor';
 import { keyVerification, registerCustomElement } from '../src/utiles';
 import getCustomElementConstructor from '../src/MagicComponentsConstructor'
 import { Browser } from 'happy-dom';
-
-
-
 
 describe('magiccomponents test suite',async ()=> {
   
@@ -68,36 +65,8 @@ describe('magiccomponents test suite',async ()=> {
 
       vi.stubGlobal('customElements', mywindow.customElements);
       vi.stubGlobal('document', mydocument);
-     
-
-      const mockCallBack=vi.fn()
-
-      const IntersectionObserver = vi.fn((callback: IntersectionObserverCallback) => {
-      // Simulate the callback being triggered immediately with an entry
-        const mockEntry = [{ isIntersecting: true,boundingClientRect:{},intersectionRatio:0,intersectionRect:{},rootBounds:{},target:{setAttribute:vi.fn()},time:{} }] as unknown as IntersectionObserverEntry[]  ;
-        
-
-
-        return {
-          observe: vi.fn(()=>{
-            console.log('firstokok')
-          }),
-          unobserve:vi.fn()
-        };
-        
-       });
-
-      vi.stubGlobal('IntersectionObserver', IntersectionObserver);
-
-       /*         callback(mockEntry, {
-          unobserve: vi.fn(),
-          root: null,
-          rootMargin: '',
-          thresholds: [],
-          disconnect: mockCallBack,
-          observe: mockCallBack,
-          takeRecords: mockCallBack
-        }); */
+          
+       
       page.content = /*html*/`
       <html>
       <body>
@@ -119,9 +88,13 @@ describe('magiccomponents test suite',async ()=> {
         () => {}
       );
 
+
       const myElement = mydocument.querySelector('test-test') as unknown as HTMLElement;
 
+      myElement.setAttribute('data-render','true')
+
       expect(myElement.textContent?.trim()).toBe('Name: John doe');
+      expect(myElement.hasAttribute('data-render')).toBeTruthy();
 
       await browser.close();
     });

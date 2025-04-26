@@ -1,10 +1,17 @@
 {
   "name": "@mindemangou/magiccomponents",
-  "version": "4.0.3",
+  "version": "4.2.0",
   "type": "module",
   "description": "MagicComponents is a JavaScript library that allows you to easily create custom elements",
-  "author": "Mindemangou FADONOUGBO <mindemangou@gmail.com>",
+  "author": "Mindemangou FADONOUGBO",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mindemangou/magic-components"
+  },
+  "bugs":{
+    "url": "https://github.com/mindemangou/magic-components/issues"
+  },
   "files": [
     "dist"
   ],
