@@ -36,16 +36,17 @@ define({tagname:'app-app'},async ({element})=> {
 
 ```
 ## Data attribut
-Each data-* attribute you add to the component becomes a property accessible via element.magicData
+Each `data-*` attribute you add to the component becomes a property accessible via element.magicData.
+Use the `refreshMagicData` method to refresh data attributes retrieved from the server
 
 ```html
 
-    <salut-salut 
+    <app-app 
     data-name="doe" 
-    data-key='sghwy625' 
+    data-isAdmin='false' 
     data-json='{"country":"benin"}'>
       
-    </salut-salut>
+    </app-app>
 
 ```
 
@@ -54,10 +55,20 @@ import { define} from "@mindemangou/magiccomponents"
 
 define({tagname:'app-app'},async ({element})=> {
     
-    console.log(element.magicData)
-    
+    console.log(element.magicData) //{ tagName:'app-app',isAdmin:'false',json:{country:"benin"} }
+    element.refreshMagicData()
 })
 
+```
+
+**⚠️ Important**:If you mount a component in multiple places within your application, the refreshMagicData method will not work unless you add a data-key attribute to each instance of the component.
+
+```html
+    <app-app 
+    data-key='key1'></app-app>
+
+    <app-app 
+    data-key='key2'></app-app>
 
 ```
 
@@ -83,11 +94,8 @@ define({tagname:'app-app',allowShadowDom:true,stylecontent},async ({element})=> 
 
 ## Documentation
 
-For detailed documentation and examples, visit the [official documentation](https://example.com/magiccomponents-docs).
+For detailed documentation and examples, visit the [official documentation](https://github.com/mindemangou/magic-components).
 
-## Contributing
-
-Contributions are welcome! Please read our [contributing guidelines](CONTRIBUTING.md) before submitting a pull request.
 
 ## License
 
