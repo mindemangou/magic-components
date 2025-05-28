@@ -1,5 +1,5 @@
 import { getPath, getProps } from "./magiccomponents";
-import  type {GlobaleElementConstructor, PropsType, ShadowRootType} from './magictypes'
+import  type {GlobaleElementConstructor, PropsType} from './magictypes'
 
 
 export const keyList:string[]=[]
@@ -10,7 +10,7 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=({connected,discon
 
         static observedAttributes = ["data-render"];
         
-        private shadow:ShadowRootType|null=null
+        private shadow:ShadowRoot|null=null
 
         private stylecontent:string|undefined|null=stylecontent;
 
@@ -18,9 +18,7 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=({connected,discon
 
         private componentKey:string|null|undefined=null
 
-        public data:{[k: string]: string | undefined;}={}
-
-        public magicData:PropsType|object={data:{},tagName:this.tagName.toLocaleLowerCase()}
+        public data:{[k: string]: string | undefined}={}
 
         private whenVisibleAllowed=whenVisible
 
@@ -29,6 +27,8 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=({connected,discon
             super();
 
             this.componentKey=this.getAttribute('data-key')
+
+            this.refreshProps=this.refreshProps.bind(this)
 
         }
 
@@ -77,47 +77,48 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=({connected,discon
 
         private render() {
            
-            this.magicData=getProps(this)
+            const props=getProps(this)
 
             if(this.allowShadowDom) {
 
-                this.shadow=this.attachShadow({mode:'open'})  as ShadowRootType
+                this.shadow=this.attachShadow({mode:'open'})
 
-                connected({element:this.shadow})
+                connected({element:this.shadow,props,refreshProps:this.refreshProps})
 
                 this.addStyle(this.shadow)
                 
             }else {
 
-                connected({element:this})
+                connected({element:this,props,refreshProps:this.refreshProps})
 
             }
         }
 
         //Refresh props data
-        async refreshMagicData(queryparams:Record<string,string>={},fragment:string='') {
+        async refreshProps(queryparams:Record<string,string>={},fragment:string='') {
             
             const {ajax}=(await import('htmx.org')).default
 
-            const tagName=this.tagName.toLocaleLowerCase()
     
             if(this.componentKey===null) {
-                console.warn(`You must add the data-key attribute on each ${tagName}`)
+                console.warn(`You must add the data-key attribute on each element`)
                 return ;
             }
-    
-            const template=document.createElement('template')
-    
-            template.id=tagName
             
-            document.body.appendChild(template)
+            //Create template in Dom
+            const templateCreated=document.createElement('template')
     
+            templateCreated.id=this.componentKey as string
+            
+            const template=document.body.appendChild(templateCreated)
+            
+            //Get request Path
             const path=getPath(queryparams,fragment)
-    
-            const selector=`${tagName}[data-key='${this.componentKey}']`
+            
+            const selector=`[data-key='${this.componentKey}']`
 
             
-          return  ajax('get',path,{target:`#${tagName}`,select:selector,swap:'innerHTML'}).then(()=> {
+          return  ajax('get',path,{target:`#${template.id}`,select:selector,swap:'innerHTML'}).then(()=> {
                 
                 const element=template.firstElementChild as HTMLElement
                 
@@ -128,8 +129,10 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=({connected,discon
                 return this.data
         
             }).then((data)=>{
-                template.remove()
+
+                template?.remove()
                 return data
+
             }).catch((err)=> {
                 console.error(err)
             })  

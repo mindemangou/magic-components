@@ -35,9 +35,10 @@ define({tagname:'app-app'},async ({element})=> {
 
 
 ```
+
 ## Data attribut
-Each `data-*` attribute you add to the component becomes a property accessible via element.magicData.
-Use the `refreshMagicData` method to refresh data attributes retrieved from the server
+Each `data-*` attribute you add to the component becomes a property accessible via `props`
+Use the `refreshProps` function to refresh data attributes retrieved from the server
 
 ```html
 
@@ -53,10 +54,10 @@ Use the `refreshMagicData` method to refresh data attributes retrieved from the 
 ```javascript
 import { define} from "@mindemangou/magiccomponents"
 
-define({tagname:'app-app'},async ({element})=> {
+define({tagname:'app-app'},async ({element,props,refreshProps})=> {
     
-    console.log(element.magicData) //{ tagName:'app-app',isAdmin:'false',json:{country:"benin"} }
-    element.refreshMagicData()
+    console.log(props) //{ tagName:'app-app',isAdmin:'false',json:{country:"benin"} }
+    refreshProps()
 })
 
 ```

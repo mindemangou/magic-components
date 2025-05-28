@@ -1,7 +1,7 @@
 import getCustomElementConstructor,{ keyList } from './MagicComponentsConstructor.ts';
 import { keyVerification, registerCustomElement } from './utiles.ts';
 import type { Config, Define, GetPath, GetProps, PropsType } from './magictypes';
-import { swapHead } from './allowHeadSwap.ts';
+// import { swapHead } from './allowHeadSwap.ts';
 
 
 const observer=new IntersectionObserver((elements,intersectionObserverInit)=> {
@@ -33,7 +33,8 @@ export const define:Define=async ({tagname,allowShadowDom=false,stylecontent='',
     const elements=document.querySelectorAll(tagname)
     
     for (const element of elements) {
-      observer.observe(element)
+
+          observer.observe(element)
     }
 
   } 
@@ -104,17 +105,17 @@ export const getProps:GetProps=(element)=>{
     
     const map=new Map(dataToEntriesValidation)
 
-    const template=element.querySelector('template')
+    //const template=element.querySelector('template')
 
-    if(template) {
-      //Get template content
-      const content=template?.content.textContent?.trim()
+    // if(template) {
+    //   //Get template content
+    //   const content=template?.content.textContent?.trim()
 
-      //Parse json
-      const parseContent=content?JSON.parse(content):{}
+    //   //Parse json
+    //   const parseContent=content?JSON.parse(content):{}
 
-      map.set('data',parseContent)
-    }
+    //   map.set('data',parseContent)
+    // }
     
     map.set('tagName',element.tagName.toLowerCase())
 
@@ -124,55 +125,55 @@ export const getProps:GetProps=(element)=>{
 }
 
 
-let linkID = 0;
-let currentLink: HTMLLinkElement | null = null;
+// let linkID = 0;
+// let currentLink: HTMLLinkElement | null = null;
 
-export const redirect = async (url: string, headers?: object) => {
+// export const redirect = async (url: string, headers?: object) => {
 
-  const {config,trigger,process}=(await import('htmx.org')).default
+//   const {config,trigger,process}=(await import('htmx.org')).default
 
 
-  if (config.refreshOnHistoryMiss === false) {
-    console.warn('Redirect is not enabled');
-    return false;
-  }
+//   if (config.refreshOnHistoryMiss === false) {
+//     console.warn('Redirect is not enabled');
+//     return false;
+//   }
 
-  const body = document.body;
+//   const body = document.body;
 
-  // Abort the previous request if a new redirect is triggered
-  if (currentLink) {
-    trigger(currentLink, 'htmx:abort', {});
-    currentLink.parentElement?.remove();
-    currentLink = null;
-  }
+//   // Abort the previous request if a new redirect is triggered
+//   if (currentLink) {
+//     trigger(currentLink, 'htmx:abort', {});
+//     currentLink.parentElement?.remove();
+//     currentLink = null;
+//   }
 
-  body.innerHTML += `<span hx-disinherit="*" class='link-parent'> 
-    <a class='bridge-redirect-link' href='${url}' hx-headers='${JSON.stringify(headers)}' hx-boost='true' id='bridge-redirect-link-${linkID}'></a> 
-  </span>`;
+//   body.innerHTML += `<span hx-disinherit="*" class='link-parent'> 
+//     <a class='bridge-redirect-link' href='${url}' hx-headers='${JSON.stringify(headers)}' hx-boost='true' id='bridge-redirect-link-${linkID}'></a> 
+//   </span>`;
 
-  process(document.body);
+//   process(document.body);
 
-  currentLink = body.querySelector<HTMLLinkElement>(`.link-parent>#bridge-redirect-link-${linkID}`);
+//   currentLink = body.querySelector<HTMLLinkElement>(`.link-parent>#bridge-redirect-link-${linkID}`);
 
-  currentLink?.click();
+//   currentLink?.click();
 
-  linkID++;
-};
+//   linkID++;
+// };
 
 
 export const config:Config=async (
-  { redirect,loader,allowHeadSwap}
+  {loader}
 )=> {
 
-  const {on,trigger,config}=(await import('htmx.org')).default
+  //const {on,trigger}=(await import('htmx.org')).default
 
-  if(allowHeadSwap) {
-      swapHead({on,trigger})
-  }
+  // if(allowHeadSwap) {
+  //     swapHead({on,trigger})
+  // }
 
-  if(redirect) {
-    config.refreshOnHistoryMiss=true
-  }
+  // if(redirect) {
+  //   config.refreshOnHistoryMiss=true
+  // }
 
   if(loader?.enable) {
     //import lodader
