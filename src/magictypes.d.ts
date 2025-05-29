@@ -1,28 +1,39 @@
 
 export type PropsType<T={ [k:string]:string}> = {
-  tagName: string
+  tagname: string
 }& T
 
 
-type refreshPropsType=(queryparams?: Record<string, string>, fragment?: string)=>Promise<void | {
-  [k: string]: string | undefined;
-} | undefined> | undefined
+export type refreshPropsType=(queryparams?: Record<string, string>, fragment?: string)=> Promise<void | {
+    [k: string]: string | undefined;
+}>
 
+export type SendDataType=(tagname:string,data:any)=>void
+
+
+export type ConnectedParams<T>={
+  element:ElementType,
+  props:{tagname: string}&T,
+  refreshProps:refreshPropsType,
+  send:SendDataType,
+  key?:string
+}
 
 export type ElementType=ShadowRoot|HTMLElement
 
 
-export type Connected=({element}:{element:ElementType,props:PropsType,refreshProps:refreshPropsType})=>void;
+export type Connected=({element,props,refreshProps,send,key}:ConnectedParams)=>void;
+
 
 export type Disconnected=( ({element}:{element:ElementType})=>void )|null;
 
 type CallbacksType={connected:Connected,disconnected:Disconnected}
 
-type ConponantConfigType={allowShadowDom?:boolean,stylecontent?:string,whenVisible?:boolean}
+type ConponantConfigType={allowShadowDom?:boolean,stylecontent?:string,whenVisible?:boolean,tagname:string}
 
 export type GlobaleElementConstructor=(
   {connected,disconnected}:CallbacksType,
-  {allowShadowDom,stylecontent,whenVisible}:ConponantConfigType
+  {allowShadowDom,stylecontent,whenVisible,tagname}:ConponantConfigType
 )=>CustomElementConstructor;
 
 export type Define=({tagname,allowShadowDom,stylecontent,whenVisible}:{tagname:string,allowShadowDom?:boolean,stylecontent?:string,whenVisible?:boolean}, connected: Connected, disconnected?: Disconnected) => Promise<void>;

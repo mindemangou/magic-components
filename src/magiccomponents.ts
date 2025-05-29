@@ -1,7 +1,6 @@
 import getCustomElementConstructor,{ keyList } from './MagicComponentsConstructor.ts';
 import { keyVerification, registerCustomElement } from './utiles.ts';
 import type { Config, Define, GetPath, GetProps, PropsType } from './magictypes';
-// import { swapHead } from './allowHeadSwap.ts';
 
 
 const observer=new IntersectionObserver((elements,intersectionObserverInit)=> {
@@ -18,11 +17,16 @@ const observer=new IntersectionObserver((elements,intersectionObserverInit)=> {
 
 })
 
+// type P<T={}>={tagname:string,props:T}
+
+// type essai=({tagname,props}:P<{x:string}>)=>void
+
+
 
 //create custom element
 export const define:Define=async ({tagname,allowShadowDom=false,stylecontent='',whenVisible=false},connected,disconnected=null)=> {
 
-  const customElementConstructor=getCustomElementConstructor({connected,disconnected},{allowShadowDom,stylecontent,whenVisible})
+  const customElementConstructor=getCustomElementConstructor({connected,disconnected},{allowShadowDom,stylecontent,whenVisible,tagname})
 
   registerCustomElement(tagname,customElementConstructor)
  
@@ -117,7 +121,7 @@ export const getProps:GetProps=(element)=>{
     //   map.set('data',parseContent)
     // }
     
-    map.set('tagName',element.tagName.toLowerCase())
+    map.set('tagname',element.tagName.toLowerCase())
 
     const props=Object.fromEntries(map)  as PropsType
     

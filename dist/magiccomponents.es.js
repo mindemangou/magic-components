@@ -1,159 +1,123 @@
-var H = Object.defineProperty;
-var T = (t, e, o) => e in t ? H(t, e, { enumerable: !0, configurable: !0, writable: !0, value: o }) : t[e] = o;
-var m = (t, e, o) => T(t, typeof e != "symbol" ? e + "" : e, o);
-const E = [], C = ({ connected: t, disconnected: e }, { allowShadowDom: o, stylecontent: n, whenVisible: s }) => {
-  class r extends HTMLElement {
+var w = Object.defineProperty;
+var E = (e, t, o) => t in e ? w(e, t, { enumerable: !0, configurable: !0, writable: !0, value: o }) : e[t] = o;
+var i = (e, t, o) => E(e, typeof t != "symbol" ? t + "" : t, o);
+const y = [], C = ({ connected: e, disconnected: t }, { allowShadowDom: o, stylecontent: n, whenVisible: r }) => {
+  class c extends HTMLElement {
+    //private randomKey:string|null=null;
     constructor() {
       super();
-      m(this, "shadow", null);
-      m(this, "stylecontent", n);
-      m(this, "allowShadowDom", o);
-      m(this, "componentKey", null);
-      m(this, "data", {});
-      m(this, "magicData", { data: {}, tagName: this.tagName.toLocaleLowerCase() });
-      m(this, "whenVisibleAllowed", s);
-      this.componentKey = this.getAttribute("data-key");
+      i(this, "shadow", null);
+      i(this, "stylecontent", n);
+      i(this, "allowShadowDom", o);
+      i(this, "componentKey", null);
+      i(this, "data", {});
+      i(this, "whenVisibleAllowed", r);
+      this.componentKey = this.getAttribute("data-key"), this.refreshProps = this.refreshProps.bind(this), this.sendData = this.sendData.bind(this);
     }
     connectedCallback() {
-      var c;
-      this.componentKey && E.push(this.componentKey), ((c = this.parentElement) == null ? void 0 : c.tagName) !== "TEMPLATE" && (this.whenVisibleAllowed || this.render());
+      var a;
+      this.componentKey && y.push(this.componentKey), ((a = this.parentElement) == null ? void 0 : a.tagName) !== "TEMPLATE" && (this.whenVisibleAllowed || this.render());
     }
     disconnectedCallBack() {
-      e && e({ element: this });
+      t && t({ element: this });
     }
-    attributeChangedCallback(d, c, l) {
-      if (l !== "true")
-        return d;
+    // private getRandomKey(){
+    //     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    //     let  key = Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+    //     return key;
+    // }
+    attributeChangedCallback(s, a, h) {
+      if (h !== "true")
+        return s;
       this.render();
     }
     render() {
-      this.magicData = b(this), this.allowShadowDom ? (this.shadow = this.attachShadow({ mode: "open" }), t({ element: this.shadow }), this.addStyle(this.shadow)) : t({ element: this });
+      const s = f(this);
+      this.allowShadowDom ? (this.shadow = this.attachShadow({ mode: "open" }), e({ element: this.shadow, props: s, refreshProps: this.refreshProps, send: this.sendData, key: this.componentKey }), this.addStyle(this.shadow)) : e({ element: this, props: s, refreshProps: this.refreshProps, send: this.sendData, key: this.componentKey });
     }
     //Refresh props data
-    async refreshMagicData(d = {}, c = "") {
-      const { ajax: l } = (await import("htmx.org")).default, h = this.tagName.toLocaleLowerCase();
+    async refreshProps(s = {}, a = "") {
+      const { ajax: h } = (await import("htmx.org")).default;
       if (this.componentKey === null) {
-        console.warn(`You must add the data-key attribute on each ${h}`);
+        console.warn("You must add the data-key attribute on each element");
         return;
       }
-      const a = document.createElement("template");
-      a.id = h, document.body.appendChild(a);
-      const p = N(d, c), v = `${h}[data-key='${this.componentKey}']`;
-      return l("get", p, { target: `#${h}`, select: v, swap: "innerHTML" }).then(() => {
-        const y = a.firstElementChild;
-        return y && (this.data = b(y)), this.data;
-      }).then((y) => (a.remove(), y)).catch((y) => {
-        console.error(y);
+      const p = document.createElement("template");
+      p.id = this.componentKey;
+      const m = document.body.appendChild(p), g = S(s, a), b = `[data-key='${this.componentKey}']`;
+      return h("get", g, { target: `#${m.id}`, select: b, swap: "innerHTML" }).then(() => {
+        const u = m.firstElementChild;
+        return u && (this.data = f(u)), this.data;
+      }).then((u) => (m == null || m.remove(), u)).catch((u) => {
+        console.error(u);
       });
     }
+    async sendData(s, a) {
+      if (!customElements.get(s)) {
+        console.error(`The ${s} custom element has not been defined yet`);
+        return;
+      }
+      const h = document.querySelector(s), p = new CustomEvent("incoming_data", {
+        detail: { bag: a }
+      });
+      h == null || h.dispatchEvent(p);
+    }
     //Add style in shadow dom
-    addStyle(d) {
+    addStyle(s) {
       if (this.stylecontent) {
-        const c = document.createElement("style");
-        c.innerHTML = this.stylecontent, d.appendChild(c);
+        const a = document.createElement("style");
+        a.innerHTML = this.stylecontent, s.appendChild(a);
       }
     }
   }
-  return m(r, "observedAttributes", ["data-render"]), r;
-}, S = (t, e) => {
-  customElements.get(t) || customElements.define(t, e);
-}, x = (t) => {
-  const e = t.reduce((n, s) => (n[s] = (n[s] || 0) + 1, n), {});
-  return Object.entries(e).filter(([n, s]) => s > 1);
-}, L = (t) => {
-  const e = x(t);
-  if (e.length > 0)
-    for (const o of e) {
+  return i(c, "observedAttributes", ["data-render"]), c;
+}, k = (e, t) => {
+  customElements.get(e) || customElements.define(e, t);
+}, P = (e) => {
+  const t = e.reduce((n, r) => (n[r] = (n[r] || 0) + 1, n), {});
+  return Object.entries(t).filter(([n, r]) => r > 1);
+}, T = (e) => {
+  const t = P(e);
+  if (t.length > 0)
+    for (const o of t) {
       const [n] = o;
       throw new Error(`The key '${n}' already exists`);
     }
-}, g = async (t, e) => {
-  if (t && t.indexOf("<head") > -1) {
-    const o = document.createElement("html"), s = t.replace(/<svg(\s[^>]*>|>)([\s\S]*?)<\/svg>/gim, "").match(/(<head(\s[^>]*>|>)([\s\S]*?)<\/head>)/im);
-    if (s) {
-      const r = [], i = [], u = [], d = [];
-      o.innerHTML = s.join(" ");
-      const c = o.querySelector("head"), l = document.head, h = /* @__PURE__ */ new Map();
-      if (c == null)
-        return;
-      for (const a of c.children)
-        h.set(a.outerHTML, a);
-      for (const a of l.children)
-        h.has(a.outerHTML) ? (h.delete(a.outerHTML), u.push(a)) : (e(document.body, "htmx:removingHeadElement", { headElement: a }), i.push(a));
-      d.push(...h.values());
-      for (const a of d) {
-        let p = document.createRange().createContextualFragment(a.outerHTML);
-        e(document.body, "htmx:addingHeadElement", { headElement: p }), l.appendChild(p), r.push(p);
-      }
-      for (const a of i)
-        e(document.body, "htmx:removingHeadElement", { headElement: a }), l.removeChild(a);
-      e(document.body, "htmx:afterHeadMerge", { added: r, kept: u, removed: i });
-    }
-  }
-}, M = async ({ on: t, trigger: e }) => {
-  t("htmx:afterSwap", function(o) {
-    const s = o.detail.xhr.response;
-    g(s, e);
-  }), t("htmx:historyRestore", function(o) {
-    const n = o;
-    n.detail.cacheMiss ? g(n.detail.serverResponse, e) : g(n.detail.item.head, e);
-  }), t("htmx:historyItemCreated", function(o) {
-    const s = o.detail.item;
-    s.head = document.head.outerHTML;
-  });
-}, k = new IntersectionObserver((t, e) => {
+}, K = new IntersectionObserver((e, t) => {
   var o;
-  for (const n of t)
-    n.isIntersecting && ((o = n == null ? void 0 : n.target) == null || o.setAttribute("data-render", "true"), e.unobserve(n.target));
-}), O = async ({ tagname: t, allowShadowDom: e = !1, stylecontent: o = "", whenVisible: n = !1 }, s, r = null) => {
-  const i = C({ connected: s, disconnected: r }, { allowShadowDom: e, stylecontent: o, whenVisible: n });
-  if (S(t, i), L(E), n) {
-    const u = document.querySelectorAll(t);
-    for (const d of u)
-      k.observe(d);
+  for (const n of e)
+    n.isIntersecting && ((o = n == null ? void 0 : n.target) == null || o.setAttribute("data-render", "true"), t.unobserve(n.target));
+}), $ = async ({ tagname: e, allowShadowDom: t = !1, stylecontent: o = "", whenVisible: n = !1 }, r, c = null) => {
+  const l = C({ connected: r, disconnected: c }, { allowShadowDom: t, stylecontent: o, whenVisible: n });
+  if (k(e, l), T(y), n) {
+    const d = document.querySelectorAll(e);
+    for (const s of d)
+      K.observe(s);
   }
-}, N = (t, e = "") => {
-  const o = location.origin, n = location.pathname, s = Object.fromEntries(new URL(location.toString()).searchParams.entries());
-  let r = `?${new URLSearchParams({ ...s, ...t }).toString()}`, i = location.hash;
-  return e.length > 0 && (i = `#${e}`), `${o}${n}${r}${i}`;
-}, b = (t) => {
-  var u;
-  const e = { ...t.dataset }, n = Object.entries(e).map((d) => {
-    const [c, l] = d;
+}, S = (e, t = "") => {
+  const o = location.origin, n = location.pathname, r = Object.fromEntries(new URL(location.toString()).searchParams.entries());
+  let c = `?${new URLSearchParams({ ...r, ...e }).toString()}`, l = location.hash;
+  return t.length > 0 && (l = `#${t}`), `${o}${n}${c}${l}`;
+}, f = (e) => {
+  const t = { ...e.dataset }, n = Object.entries(t).map((l) => {
+    const [d, s] = l;
     try {
-      return l ? [c, JSON.parse(l)] : [c, l];
+      return s ? [d, JSON.parse(s)] : [d, s];
     } catch {
-      return [c, l];
+      return [d, s];
     }
-  }), s = new Map(n), r = t.querySelector("template");
-  if (r) {
-    const d = (u = r == null ? void 0 : r.content.textContent) == null ? void 0 : u.trim(), c = d ? JSON.parse(d) : {};
-    s.set("data", c);
-  }
-  return s.set("tagName", t.tagName.toLowerCase()), Object.fromEntries(s);
-};
-let w = 0, f = null;
-const R = async (t, e) => {
-  var i;
-  const { config: o, trigger: n, process: s } = (await import("htmx.org")).default;
-  if (o.refreshOnHistoryMiss === !1)
-    return console.warn("Redirect is not enabled"), !1;
-  const r = document.body;
-  f && (n(f, "htmx:abort", {}), (i = f.parentElement) == null || i.remove(), f = null), r.innerHTML += `<span hx-disinherit="*" class='link-parent'> 
-    <a class='bridge-redirect-link' href='${t}' hx-headers='${JSON.stringify(e)}' hx-boost='true' id='bridge-redirect-link-${w}'></a> 
-  </span>`, s(document.body), f = r.querySelector(`.link-parent>#bridge-redirect-link-${w}`), f == null || f.click(), w++;
-}, q = async ({ redirect: t, loader: e, allowHeadSwap: o }) => {
-  const { on: n, trigger: s, config: r } = (await import("htmx.org")).default;
-  if (o && M({ on: n, trigger: s }), t && (r.refreshOnHistoryMiss = !0), e != null && e.enable) {
+  }), r = new Map(n);
+  return r.set("tagname", e.tagName.toLowerCase()), Object.fromEntries(r);
+}, L = async ({ loader: e }) => {
+  if (e != null && e.enable) {
     await import("./magicloader-Dzr0wQWE.js");
-    const i = document.createElement("magic-loader");
-    i.setAttribute("data-color", e.color ?? "#639ef4"), document.body.append(i);
+    const t = document.createElement("magic-loader");
+    t.setAttribute("data-color", e.color ?? "#639ef4"), document.body.append(t);
   }
 };
 export {
-  q as config,
-  O as define,
-  N as getPath,
-  b as getProps,
-  R as redirect
+  L as config,
+  $ as define,
+  S as getPath,
+  f as getProps
 };
