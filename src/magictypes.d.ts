@@ -16,7 +16,7 @@ export type ConnectedParams<T>={
   props:{tagname: string}&T,
   refreshProps:refreshPropsType,
   sendData:SendDataType,
-  key?:string
+  key?:string|null
 }
 
 

@@ -93,13 +93,13 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=({connected,discon
 
                 this.shadow=this.attachShadow({mode:'open'})
 
-                connected({element:this.shadow,props,refreshProps:this.refreshProps,send:this.sendData,key:this.componentKey})
+                connected({element:this.shadow,props,refreshProps:this.refreshProps,sendData:this.sendData,key:this.componentKey})
 
                 this.addStyle(this.shadow)
                 
             }else {
 
-                connected({element:this,props,refreshProps:this.refreshProps,send:this.sendData,key:this.componentKey})
+                connected({element:this,props,refreshProps:this.refreshProps,sendData:this.sendData,key:this.componentKey})
 
             }
         }

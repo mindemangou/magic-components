@@ -15,15 +15,14 @@ export type ConnectedParams<T>={
   element:ElementType,
   props:{tagname: string}&T,
   refreshProps:refreshPropsType,
-  send:SendDataType,
-  key?:string
+  sendData:SendDataType,
+  key?:string|null
 }
 
+
+export type Connected=({element,props,refreshProps,sendData,key}:ConnectedParams<T>)=>void;
+
 export type ElementType=ShadowRoot|HTMLElement
-
-
-export type Connected=({element,props,refreshProps,send,key}:ConnectedParams)=>void;
-
 
 export type Disconnected=( ({element}:{element:ElementType})=>void )|null;
 

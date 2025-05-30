@@ -1,7 +1,7 @@
 var w = Object.defineProperty;
-var E = (e, t, o) => t in e ? w(e, t, { enumerable: !0, configurable: !0, writable: !0, value: o }) : e[t] = o;
-var i = (e, t, o) => E(e, typeof t != "symbol" ? t + "" : t, o);
-const y = [], C = ({ connected: e, disconnected: t }, { allowShadowDom: o, stylecontent: n, whenVisible: r }) => {
+var E = (t, e, o) => e in t ? w(t, e, { enumerable: !0, configurable: !0, writable: !0, value: o }) : t[e] = o;
+var i = (t, e, o) => E(t, typeof e != "symbol" ? e + "" : e, o);
+const y = [], C = ({ connected: t, disconnected: e }, { allowShadowDom: o, stylecontent: n, whenVisible: r }) => {
   class c extends HTMLElement {
     //private randomKey:string|null=null;
     constructor() {
@@ -19,7 +19,7 @@ const y = [], C = ({ connected: e, disconnected: t }, { allowShadowDom: o, style
       this.componentKey && y.push(this.componentKey), ((a = this.parentElement) == null ? void 0 : a.tagName) !== "TEMPLATE" && (this.whenVisibleAllowed || this.render());
     }
     disconnectedCallBack() {
-      t && t({ element: this });
+      e && e({ element: this });
     }
     // private getRandomKey(){
     //     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -33,7 +33,7 @@ const y = [], C = ({ connected: e, disconnected: t }, { allowShadowDom: o, style
     }
     render() {
       const s = f(this);
-      this.allowShadowDom ? (this.shadow = this.attachShadow({ mode: "open" }), e({ element: this.shadow, props: s, refreshProps: this.refreshProps, send: this.sendData, key: this.componentKey }), this.addStyle(this.shadow)) : e({ element: this, props: s, refreshProps: this.refreshProps, send: this.sendData, key: this.componentKey });
+      this.allowShadowDom ? (this.shadow = this.attachShadow({ mode: "open" }), t({ element: this.shadow, props: s, refreshProps: this.refreshProps, sendData: this.sendData, key: this.componentKey }), this.addStyle(this.shadow)) : t({ element: this, props: s, refreshProps: this.refreshProps, sendData: this.sendData, key: this.componentKey });
     }
     //Refresh props data
     async refreshProps(s = {}, a = "") {
@@ -71,35 +71,35 @@ const y = [], C = ({ connected: e, disconnected: t }, { allowShadowDom: o, style
     }
   }
   return i(c, "observedAttributes", ["data-render"]), c;
-}, k = (e, t) => {
-  customElements.get(e) || customElements.define(e, t);
-}, P = (e) => {
-  const t = e.reduce((n, r) => (n[r] = (n[r] || 0) + 1, n), {});
-  return Object.entries(t).filter(([n, r]) => r > 1);
-}, T = (e) => {
-  const t = P(e);
-  if (t.length > 0)
-    for (const o of t) {
+}, k = (t, e) => {
+  customElements.get(t) || customElements.define(t, e);
+}, P = (t) => {
+  const e = t.reduce((n, r) => (n[r] = (n[r] || 0) + 1, n), {});
+  return Object.entries(e).filter(([n, r]) => r > 1);
+}, T = (t) => {
+  const e = P(t);
+  if (e.length > 0)
+    for (const o of e) {
       const [n] = o;
       throw new Error(`The key '${n}' already exists`);
     }
-}, K = new IntersectionObserver((e, t) => {
+}, K = new IntersectionObserver((t, e) => {
   var o;
-  for (const n of e)
-    n.isIntersecting && ((o = n == null ? void 0 : n.target) == null || o.setAttribute("data-render", "true"), t.unobserve(n.target));
-}), $ = async ({ tagname: e, allowShadowDom: t = !1, stylecontent: o = "", whenVisible: n = !1 }, r, c = null) => {
-  const l = C({ connected: r, disconnected: c }, { allowShadowDom: t, stylecontent: o, whenVisible: n });
-  if (k(e, l), T(y), n) {
-    const d = document.querySelectorAll(e);
+  for (const n of t)
+    n.isIntersecting && ((o = n == null ? void 0 : n.target) == null || o.setAttribute("data-render", "true"), e.unobserve(n.target));
+}), D = async ({ tagname: t, allowShadowDom: e = !1, stylecontent: o = "", whenVisible: n = !1 }, r, c = null) => {
+  const l = C({ connected: r, disconnected: c }, { allowShadowDom: e, stylecontent: o, whenVisible: n });
+  if (k(t, l), T(y), n) {
+    const d = document.querySelectorAll(t);
     for (const s of d)
       K.observe(s);
   }
-}, S = (e, t = "") => {
+}, S = (t, e = "") => {
   const o = location.origin, n = location.pathname, r = Object.fromEntries(new URL(location.toString()).searchParams.entries());
-  let c = `?${new URLSearchParams({ ...r, ...e }).toString()}`, l = location.hash;
-  return t.length > 0 && (l = `#${t}`), `${o}${n}${c}${l}`;
-}, f = (e) => {
-  const t = { ...e.dataset }, n = Object.entries(t).map((l) => {
+  let c = `?${new URLSearchParams({ ...r, ...t }).toString()}`, l = location.hash;
+  return e.length > 0 && (l = `#${e}`), `${o}${n}${c}${l}`;
+}, f = (t) => {
+  const e = { ...t.dataset }, n = Object.entries(e).map((l) => {
     const [d, s] = l;
     try {
       return s ? [d, JSON.parse(s)] : [d, s];
@@ -107,17 +107,17 @@ const y = [], C = ({ connected: e, disconnected: t }, { allowShadowDom: o, style
       return [d, s];
     }
   }), r = new Map(n);
-  return r.set("tagname", e.tagName.toLowerCase()), Object.fromEntries(r);
-}, L = async ({ loader: e }) => {
-  if (e != null && e.enable) {
+  return r.set("tagname", t.tagName.toLowerCase()), Object.fromEntries(r);
+}, $ = async ({ loader: t }) => {
+  if (t != null && t.enable) {
     await import("./magicloader-Dzr0wQWE.js");
-    const t = document.createElement("magic-loader");
-    t.setAttribute("data-color", e.color ?? "#639ef4"), document.body.append(t);
+    const e = document.createElement("magic-loader");
+    e.setAttribute("data-color", t.color ?? "#639ef4"), document.body.append(e);
   }
 };
 export {
-  L as config,
-  $ as define,
+  $ as config,
+  D as define,
   S as getPath,
   f as getProps
 };
