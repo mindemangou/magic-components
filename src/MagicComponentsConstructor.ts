@@ -1,4 +1,4 @@
-import { getPath, getProps } from "./magiccomponents";
+import { getProps } from "./magiccomponents";
 import  type {GlobaleElementConstructor} from './magictypes'
 
 export const keyList:string[]=[]
@@ -30,15 +30,10 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=({connected,discon
 
             this.componentKey=this.getAttribute('data-key')
 
-            this.refreshProps=this.refreshProps.bind(this)
-            this.sendData=this.sendData.bind(this)
-
         }
 
         connectedCallback() {
 
-            // this.randomKey=this.getRandomKey()
-            // this.setAttribute('data-random-key',this.randomKey)
 
             if(this.componentKey) {
                 keyList.push(this.componentKey)
@@ -69,16 +64,10 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=({connected,discon
             
         }
 
-        // private getRandomKey(){
-        //     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        //     let  key = Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
-        //     return key;
-        // }
-
         attributeChangedCallback(name:string, _:string, newValue:string) {
 
             if(newValue!=='true') {
-                    return name;
+                return name;
             }
 
             this.render()
@@ -93,83 +82,17 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=({connected,discon
 
                 this.shadow=this.attachShadow({mode:'open'})
 
-                connected({element:this.shadow,props,refreshProps:this.refreshProps,sendData:this.sendData,key:this.componentKey})
+                connected({element:this.shadow,props})
 
                 this.addStyle(this.shadow)
                 
             }else {
 
-                connected({element:this,props,refreshProps:this.refreshProps,sendData:this.sendData,key:this.componentKey})
+                connected({element:this,props})
 
             }
         }
 
-        //Refresh props data
-        async refreshProps(queryparams:Record<string,string>={},fragment:string='') {
-            
-            const {ajax}=(await import('htmx.org')).default
-
-    
-            if(this.componentKey===null) {
-                console.warn(`You must add the data-key attribute on each element`)
-                return ;
-            }
-            
-            //Create template in Dom
-            const templateCreated=document.createElement('template')
-    
-            templateCreated.id=this.componentKey as string
-            
-            const template=document.body.appendChild(templateCreated)
-            
-            //Get request Path
-            const path=getPath(queryparams,fragment)
-            
-            const selector=`[data-key='${this.componentKey}']`
-
-            
-          return  ajax('get',path,{target:`#${template.id}`,select:selector,swap:'innerHTML'}).then(()=> {
-                
-                const element=template.firstElementChild as HTMLElement
-                
-                if(element) {
-                    this.data=getProps(element)
-                }
-
-                return this.data
-        
-            }).then((data)=>{
-
-                template?.remove()
-                return data
-
-            }).catch((err)=> {
-                console.error(err)
-            })  
-              
-        }
-
-        private async sendData(tagname:string,data:any){
-
-            if(!customElements.get(tagname)){
-               
-                console.error(`The ${tagname} custom element has not been defined yet`)  
-
-                return;
-            }
-
-            const element=document.querySelector(tagname)
-
-            const customEvent=new CustomEvent('incoming_data',{
-            detail:{bag:data},
-
-            })
-
-            element?.dispatchEvent(customEvent)
-            
-        }
-
-        //Add style in shadow dom
         private addStyle(shadow:ShadowRoot) {
 
             if(this.stylecontent) {
@@ -180,6 +103,74 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=({connected,discon
                shadow.appendChild(style)
             }
         }
+
+        // //Refresh props data
+        // async refreshProps(queryparams:Record<string,string>={},fragment:string='') {
+            
+        //     const {ajax}=(await import('htmx.org')).default
+
+    
+        //     if(this.componentKey===null) {
+        //         console.warn(`You must add the data-key attribute on each element`)
+        //         return ;
+        //     }
+            
+        //     //Create template in Dom
+        //     const templateCreated=document.createElement('template')
+    
+        //     templateCreated.id=this.componentKey as string
+            
+        //     const template=document.body.appendChild(templateCreated)
+            
+        //     //Get request Path
+        //     const path=getPath(queryparams,fragment)
+            
+        //     const selector=`[data-key='${this.componentKey}']`
+
+            
+        //   return  ajax('get',path,{target:`#${template.id}`,select:selector,swap:'innerHTML'}).then(()=> {
+                
+        //         const element=template.firstElementChild as HTMLElement
+                
+        //         if(element) {
+        //             this.data=getProps(element)
+        //         }
+
+        //         return this.data
+        
+        //     }).then((data)=>{
+
+        //         template?.remove()
+        //         return data
+
+        //     }).catch((err)=> {
+        //         console.error(err)
+        //     })  
+              
+        // }
+
+        // private async sendData(tagname:string,data:any){
+
+        //     if(!customElements.get(tagname)){
+               
+        //         console.error(`The ${tagname} custom element has not been defined yet`)  
+
+        //         return;
+        //     }
+
+        //     const element=document.querySelector(tagname)
+
+        //     const customEvent=new CustomEvent('incoming_data',{
+        //     detail:{bag:data},
+
+        //     })
+
+        //     element?.dispatchEvent(customEvent)
+            
+        // }
+
+        //Add style in shadow dom
+        
 
     
     }
