@@ -1,6 +1,6 @@
-import getCustomElementConstructor,{ keyList } from './MagicComponentsConstructor.ts';
-import { keyVerification, registerCustomElement } from './utiles.ts';
-import type { Config, Define, GetPath, GetProps, PropsType } from './magictypes';
+import getCustomElementConstructor from './MagicComponentsConstructor.ts';
+import { registerCustomElement } from './utiles.ts';
+import type { Define, GetProps, PropsType } from './magictypes';
 
 
 const observer=new IntersectionObserver((elements,intersectionObserverInit)=> {
@@ -25,7 +25,7 @@ export const define:Define=async ({tagname,allowShadowDom=false,stylecontent='',
 
   registerCustomElement(tagname,customElementConstructor)
  
-  keyVerification(keyList)
+  //keyVerification(keyList)
  
   if(whenVisible) {
     
@@ -42,28 +42,28 @@ export const define:Define=async ({tagname,allowShadowDom=false,stylecontent='',
 }
 
 //Generate request path
-export const getPath:GetPath=(queryparams,fragment='')=> {
+// export const getPath:GetPath=(queryparams,fragment='')=> {
   
-  const requestOrigin=location.origin
+//   const requestOrigin=location.origin
 
-  const requestPath=location.pathname
+//   const requestPath=location.pathname
 
-  //get query params from current request
-  const currentRequestQuery=Object.fromEntries(new URL(location.toString()).searchParams.entries())
+//   //get query params from current request
+//   const currentRequestQuery=Object.fromEntries(new URL(location.toString()).searchParams.entries())
 
-  //merge query params
-  let requestQuery=`?${new URLSearchParams({...currentRequestQuery,...queryparams}).toString()}`
+//   //merge query params
+//   let requestQuery=`?${new URLSearchParams({...currentRequestQuery,...queryparams}).toString()}`
 
   
-  let requestFragment=location.hash
+//   let requestFragment=location.hash
 
-  if(fragment.length>0) {
-    requestFragment=`#${fragment}`
-  }
+//   if(fragment.length>0) {
+//     requestFragment=`#${fragment}`
+//   }
 
-  return `${requestOrigin}${requestPath}${requestQuery}${requestFragment}`
+//   return `${requestOrigin}${requestPath}${requestQuery}${requestFragment}`
 
-}
+// }
 
 
 //Extract props from tag
@@ -108,15 +108,6 @@ export const getProps:GetProps=(element)=>{
     const props=Object.fromEntries(map)  as PropsType
     
     return props
-}
-
-
-
-export const config:Config=async (
-  {loader}
-)=> {
-
-
 }
 
 

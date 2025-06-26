@@ -1,7 +1,6 @@
 import { getProps } from "./magiccomponents";
 import  type {GlobaleElementConstructor} from './magictypes'
 
-export const keyList:string[]=[]
 
 const getMagicComponentsConstructor:GlobaleElementConstructor=({connected,disconnected},{allowShadowDom,stylecontent,whenVisible})=> {
 
@@ -9,42 +8,30 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=({connected,discon
 
         static observedAttributes = ["data-render"];
         
-        private shadow:ShadowRoot|null=null
-
         private stylecontent:string|undefined|null=stylecontent;
 
         private allowShadowDom:boolean|undefined=allowShadowDom;
 
-        private componentKey:string|null|undefined=null
+        // private componentKey:string|null|undefined=null
 
         public data:{[k: string]: string | undefined}={}
 
         private whenVisibleAllowed=whenVisible
 
-
-        //private randomKey:string|null=null;
-
         constructor() {
 
             super();
 
-            this.componentKey=this.getAttribute('data-key')
+            // this.componentKey=this.getAttribute('data-key')
 
         }
 
         connectedCallback() {
 
 
-            if(this.componentKey) {
-                keyList.push(this.componentKey)
-            }
-           
-            const parentTagName=this.parentElement?.tagName
-
-            //Evite une duplication lors du refresh
-            if(parentTagName==='TEMPLATE') {
-                return;
-            }
+            // if(this.componentKey) {
+            //     keyList.push(this.componentKey)
+            // }
 
           
             if(this.whenVisibleAllowed) {
@@ -56,7 +43,7 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=({connected,discon
             
         }
 
-        disconnectedCallBack() {
+        disconnectedCallback() {
 
             if(disconnected) {
                 disconnected({element:this})
@@ -80,17 +67,33 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=({connected,discon
 
             if(this.allowShadowDom) {
 
-                this.shadow=this.attachShadow({mode:'open'})
+                const shadow=this.attachShadow({mode:'open'})
 
-                connected({element:this.shadow,props})
+                connected({element:shadow,props})
 
-                this.addStyle(this.shadow)
+                this.addSlotsTemplate()
+                
+                this.addStyle(shadow)
                 
             }else {
 
                 connected({element:this,props})
 
             }
+        }
+
+        private addSlotsTemplate(){
+            const splitComponentName=this.tagName.toLowerCase().split('-');
+
+                const attributName=`data-${splitComponentName[0]}`
+
+                const template=this.querySelector(`template[${attributName}]`) as HTMLTemplateElement
+
+                if(template){
+                    const content=template.content
+                    
+                    this.appendChild(content.cloneNode(true))
+                }
         }
 
         private addStyle(shadow:ShadowRoot) {
