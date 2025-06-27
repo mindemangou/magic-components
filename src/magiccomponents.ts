@@ -3,7 +3,8 @@ import { registerCustomElement } from './utiles.ts';
 import type { Define, GetProps, PropsType } from './magictypes';
 
 
-const observer=new IntersectionObserver((elements,intersectionObserverInit)=> {
+export const observer = new IntersectionObserver((elements, intersectionObserverInit) => {
+  
    for (const element of elements) {
    
     if(element.isIntersecting) {
@@ -17,11 +18,39 @@ const observer=new IntersectionObserver((elements,intersectionObserverInit)=> {
 
 })
 
+// Helper: safely parse JSON, fallback to original value if parsing fails
+function safeParse(value: string): unknown {
+  try {
+     const parsed = value ? JSON.parse(value) : value;
+    // If the parsed value is a string, encode it to prevent XSS when injecting into the DOM
+    if (typeof parsed === 'string') {
+      const div = document.createElement('div');
+      div.textContent = parsed;
+      return div.innerHTML;
+    }
+    return parsed;
+    
+  } catch {
+    return value;
+  }
+}
+
+// Helper: extract dataset as entries with parsed values
+function extractDatasetProps(element: HTMLElement): [string, unknown][] {
+  return Object.entries({ ...element.dataset }).map(
+    ([key, value]: [string, string | undefined]) => [key, safeParse(value ?? "")]
+  );
+}
 
 //create custom element
-export const define:Define=async ({tagname,allowShadowDom=false,stylecontent='',whenVisible=false},connected,disconnected=null)=> {
+export const define:Define=async ({tagname,allowShadowDom=false,stylecontent='',whenVisible=false},connected)=> {
 
-  const customElementConstructor=getCustomElementConstructor({connected,disconnected},{allowShadowDom,stylecontent,whenVisible,tagname})
+  // Error handling for tagname
+  if (!tagname || typeof tagname !== 'string' || !/^[a-z][.0-9_a-z-]*-[.0-9_a-z-]+$/.test(tagname)) {
+    throw new Error(`Invalid or missing tagname: "${tagname}". A valid custom element name must contain a hyphen.`);
+  }
+
+  const customElementConstructor=getCustomElementConstructor({connected},{allowShadowDom,stylecontent,whenVisible,tagname})
 
   registerCustomElement(tagname,customElementConstructor)
  
@@ -67,48 +96,15 @@ export const define:Define=async ({tagname,allowShadowDom=false,stylecontent='',
 
 
 //Extract props from tag
-export const getProps:GetProps=(element)=>{
+export const getProps:GetProps = (element) => {
+  const dataEntries = extractDatasetProps(element);
 
-    const data={...element.dataset}
+  const map = new Map(dataEntries);
+  map.set('tagname', element.tagName.toLowerCase());
 
-    const dataToEntries=Object.entries(data)
-
-    //convertir le json en objet si possible
-    const dataToEntriesValidation=dataToEntries.map<[string, string]>((el)=> {
-
-      const [key,value]=el as [string,string]
-        try {
-          if(value) {
-            return [key,JSON.parse(value)]
-          }
-          return [key, value]
-        }catch(e){
-          return [key, value]
-        }
-  
-    })
-
-    
-    const map=new Map(dataToEntriesValidation)
-
-    //const template=element.querySelector('template')
-
-    // if(template) {
-    //   //Get template content
-    //   const content=template?.content.textContent?.trim()
-
-    //   //Parse json
-    //   const parseContent=content?JSON.parse(content):{}
-
-    //   map.set('data',parseContent)
-    // }
-    
-    map.set('tagname',element.tagName.toLowerCase())
-
-    const props=Object.fromEntries(map)  as PropsType
-    
-    return props
+  const props = Object.fromEntries(map) as PropsType;
+  return props
 }
 
 
-  
+

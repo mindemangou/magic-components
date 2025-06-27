@@ -17,10 +17,10 @@ export default defineConfig({
       name: 'magiccomponents',
     },
     rollupOptions: {
-      external: ['htmx.org'],
+      external: ['dompurify'],
       output: {
         globals: {
-          'htmx.org': 'htmx',
+          'dompurify': 'Dompurify',
         },
       },
     }

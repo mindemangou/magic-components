@@ -1,8 +1,9 @@
-import { getProps } from "./magiccomponents";
-import  type {GlobaleElementConstructor} from './magictypes'
+import { getProps, observer } from "./magiccomponents";
+import  type {GlobalElementConstructor} from './magictypes'
+import Dompurify from 'dompurify'
 
 
-const getMagicComponentsConstructor:GlobaleElementConstructor=({connected,disconnected},{allowShadowDom,stylecontent,whenVisible})=> {
+const getMagicComponentsConstructor:GlobalElementConstructor=({connected},{allowShadowDom=false,stylecontent,whenVisible=false})=> {
 
     class MagicConstructor extends HTMLElement{
 
@@ -10,30 +11,20 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=({connected,discon
         
         private stylecontent:string|undefined|null=stylecontent;
 
-        private allowShadowDom:boolean|undefined=allowShadowDom;
+        private allowShadowDom:boolean=allowShadowDom;
 
-        // private componentKey:string|null|undefined=null
+        private disconnected:()=>void|void = ()=>{}
 
-        public data:{[k: string]: string | undefined}={}
-
-        private whenVisibleAllowed=whenVisible
+        private whenVisibleAllowed:boolean=whenVisible
 
         constructor() {
 
             super();
 
-            // this.componentKey=this.getAttribute('data-key')
-
         }
 
         connectedCallback() {
 
-
-            // if(this.componentKey) {
-            //     keyList.push(this.componentKey)
-            // }
-
-          
             if(this.whenVisibleAllowed) {
                 return ;
             }
@@ -45,19 +36,20 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=({connected,discon
 
         disconnectedCallback() {
 
-            if(disconnected) {
-                disconnected({element:this})
+            //Remove observer
+            if(this.whenVisibleAllowed){
+                observer.unobserve(this)
             }
-            
+
+            this.disconnected()
+
         }
 
         attributeChangedCallback(name:string, _:string, newValue:string) {
 
-            if(newValue!=='true') {
-                return name;
+           if (name === "data-render" && newValue === "true") {
+                this.render();
             }
-
-            this.render()
 
         }
 
@@ -67,17 +59,18 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=({connected,discon
 
             if(this.allowShadowDom) {
 
-                const shadow=this.attachShadow({mode:'open'})
-
-                connected({element:shadow,props})
-
-                this.addSlotsTemplate()
-                
-                this.addStyle(shadow)
+                if (!this.shadowRoot) {
+                    const shadow = this.attachShadow({ mode: "open" });
+                    
+                    this.disconnected=connected({ element: shadow, props });
+                    
+                    this.addSlotsTemplate();
+                    this.addStyle(shadow);
+                }
                 
             }else {
 
-                connected({element:this,props})
+                this.disconnected=connected({element:this,props})
 
             }
         }
@@ -90,9 +83,18 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=({connected,discon
                 const template=this.querySelector(`template[${attributName}]`) as HTMLTemplateElement
 
                 if(template){
-                    const content=template.content
+
+                    const tagWithSlot=template.content.querySelectorAll('[slot]')
+
+                    const fragment=new DocumentFragment()
+
+                    for (const tag of tagWithSlot) {
+                        fragment.append(tag)
+                    }
                     
-                    this.appendChild(content.cloneNode(true))
+                    const content=Dompurify.sanitize(fragment,{RETURN_DOM_FRAGMENT:true})
+                   
+                    this.appendChild(content)
                 }
         }
 
@@ -101,7 +103,7 @@ const getMagicComponentsConstructor:GlobaleElementConstructor=({connected,discon
             if(this.stylecontent) {
                 const style=document.createElement('style')
 
-                style.innerHTML=this.stylecontent
+                style.textContent=this.stylecontent
                 
                shadow.appendChild(style)
             }

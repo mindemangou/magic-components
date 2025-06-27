@@ -11,22 +11,19 @@ export type ConnectedParams<T>={
 }
 
 
-export type Connected=({element,props}:ConnectedParams<T>)=>void;
+export type Connected=({element,props}:ConnectedParams<T>)=>(()=>void);
 
 
+type CallbacksType={connected:Connected}
 
-export type Disconnected=( ({element}:{element:ElementType})=>void )|null;
+type ConponentConfigType={allowShadowDom?:boolean,stylecontent?:string,whenVisible?:boolean,tagname:string}
 
-type CallbacksType={connected:Connected,disconnected:Disconnected}
-
-type ConponantConfigType={allowShadowDom?:boolean,stylecontent?:string,whenVisible?:boolean,tagname:string}
-
-export type GlobaleElementConstructor=(
-  {connected,disconnected}:CallbacksType,
-  {allowShadowDom,stylecontent,whenVisible,tagname}:ConponantConfigType
+export type GlobalElementConstructor=(
+  {connected}:CallbacksType,
+  {allowShadowDom,stylecontent,whenVisible,tagname}:ConponentConfigType
 )=>CustomElementConstructor;
 
-export type Define=({tagname,allowShadowDom,stylecontent,whenVisible}:{tagname:string,allowShadowDom?:boolean,stylecontent?:string,whenVisible?:boolean}, connected: Connected, disconnected?: Disconnected) => Promise<void>;
+export type Define=({tagname,allowShadowDom,stylecontent,whenVisible}:{tagname:string,allowShadowDom?:boolean,stylecontent?:string,whenVisible?:boolean}, connected: Connected) => Promise<void>;
 
 
 export type GetProps=(element: HTMLElement) => PropsType
