@@ -1,6 +1,5 @@
 import { getProps, observer } from "./magiccomponents";
 import  type {GlobalElementConstructor} from './magictypes'
-import Dompurify from 'dompurify'
 
 
 const getMagicComponentsConstructor:GlobalElementConstructor=({connected},{allowShadowDom=false,stylecontent,whenVisible=false})=> {
@@ -80,7 +79,7 @@ const getMagicComponentsConstructor:GlobalElementConstructor=({connected},{allow
 
         }
 
-        private addTemplateSlot(){
+        private async addTemplateSlot(){
 
                 const tagname=this.tagName.toLowerCase();
 
@@ -96,6 +95,8 @@ const getMagicComponentsConstructor:GlobalElementConstructor=({connected},{allow
                     for (const tag of tagWithSlot) {
                         fragment.append(tag)
                     }
+
+                    const Dompurify=(await import('dompurify')).default
                     
                     const content=Dompurify.sanitize(fragment,{RETURN_DOM_FRAGMENT:true})
                    
