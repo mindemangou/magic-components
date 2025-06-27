@@ -48,5 +48,5 @@ index.php
 home.php
 ./src/bag.ts
 
-./faq.php
-./src/ts
+faq.php
+src/ts
