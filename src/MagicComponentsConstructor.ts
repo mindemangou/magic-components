@@ -31,7 +31,6 @@ const getMagicComponentsConstructor:GlobalElementConstructor=({connected},{allow
             
            this.render()
 
-            
         }
 
         disconnectedCallback() {
@@ -60,11 +59,13 @@ const getMagicComponentsConstructor:GlobalElementConstructor=({connected},{allow
             if(this.allowShadowDom) {
 
                 if (!this.shadowRoot) {
+                    
                     const shadow = this.attachShadow({ mode: "open" });
                     
                     this.disconnected=connected({ element: shadow, props });
                     
-                    this.addSlotsTemplate();
+                    this.addTemplateSlot();
+
                     this.addStyle(shadow);
                 }
                 
@@ -73,14 +74,15 @@ const getMagicComponentsConstructor:GlobalElementConstructor=({connected},{allow
                 this.disconnected=connected({element:this,props})
 
             }
+
         }
 
-        private addSlotsTemplate(){
-            const splitComponentName=this.tagName.toLowerCase().split('-');
+        private addTemplateSlot(){
 
-                const attributName=`data-${splitComponentName[0]}`
+                const tagname=this.tagName.toLowerCase();
 
-                const template=this.querySelector(`template[${attributName}]`) as HTMLTemplateElement
+
+                const template=this.querySelector(`[data-for='${tagname}']`) as HTMLTemplateElement
 
                 if(template){
 
