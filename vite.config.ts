@@ -16,14 +16,7 @@ export default defineConfig({
       fileName: (format, entryName) => `${entryName}.${format}.js`,
       name: 'magiccomponents',
     },
-    rollupOptions: {
-      external: ['dompurify'],
-      output: {
-        globals: {
-          'dompurify': 'Dompurify',
-        },
-      },
-    }
+    
    
   }
 })

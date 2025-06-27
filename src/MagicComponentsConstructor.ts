@@ -13,7 +13,7 @@ const getMagicComponentsConstructor:GlobalElementConstructor=({connected},{allow
 
         private allowShadowDom:boolean=allowShadowDom;
 
-        private disconnected:()=>void|void = ()=>{}
+        private disconnected = ()=>{}
 
         private whenVisibleAllowed:boolean=whenVisible
 
@@ -62,7 +62,8 @@ const getMagicComponentsConstructor:GlobalElementConstructor=({connected},{allow
                     
                     const shadow = this.attachShadow({ mode: "open" });
                     
-                    this.disconnected=connected({ element: shadow, props });
+                    const result = connected({ element: shadow, props });
+                    this.disconnected = typeof result === "function" ? result : () => {};
                     
                     this.addTemplateSlot();
 
@@ -71,7 +72,9 @@ const getMagicComponentsConstructor:GlobalElementConstructor=({connected},{allow
                 
             }else {
 
-                this.disconnected=connected({element:this,props})
+                const result=connected({element:this,props})
+
+                this.disconnected = typeof result === "function" ? result : () => {};
 
             }
 

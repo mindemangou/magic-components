@@ -11,7 +11,7 @@ export type ConnectedParams<T>={
 }
 
 
-export type Connected=({element,props}:ConnectedParams<T>)=>(()=>void);
+export type Connected<T = any> = ({ element, props }: ConnectedParams<T>) => (() => void) | void;
 
 
 type CallbacksType={connected:Connected}
