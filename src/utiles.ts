@@ -6,6 +6,17 @@
        customElements.define(tagName, ClassRef);
      }
  }
+
+ export const safeStringParse=<T>(value:T):T|string=>{
+
+    if (typeof value === 'string') {
+      const div = document.createElement('div');
+      div.textContent = value;
+
+      return div.innerHTML;
+    }
+    return value;
+ }
  
 //  const getDuplicateKey=(keyList:string[])=> {
   

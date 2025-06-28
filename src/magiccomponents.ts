@@ -1,5 +1,5 @@
 import getCustomElementConstructor from './MagicComponentsConstructor.ts';
-import { registerCustomElement } from './utiles.ts';
+import { registerCustomElement, safeStringParse } from './utiles.ts';
 import type { Define, GetProps, PropsType } from './magictypes';
 
 
@@ -20,18 +20,17 @@ export const observer = new IntersectionObserver((elements, intersectionObserver
 
 // Helper: safely parse JSON, fallback to original value if parsing fails
 function safeParse(value: string): unknown {
+  
   try {
      const parsed = value ? JSON.parse(value) : value;
+     
     // If the parsed value is a string, encode it to prevent XSS when injecting into the DOM
-    if (typeof parsed === 'string') {
-      const div = document.createElement('div');
-      div.textContent = parsed;
-      return div.innerHTML;
-    }
-    return parsed;
+    return safeStringParse(parsed)
     
   } catch {
-    return value;
+   
+    // If the parsed value is a string, encode it to prevent XSS when injecting into the DOM
+    return safeStringParse(value)
   }
 }
 
