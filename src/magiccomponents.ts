@@ -42,14 +42,14 @@ function extractDatasetProps(element: HTMLElement): [string, unknown][] {
 }
 
 //create custom element
-export const define:Define=async ({tagname,allowShadowDom=false,stylecontent='',whenVisible=false},connected)=> {
+export const define:Define=async ({tagname,allowShadowDom=false,stylecontent='',whenVisible=false,adaptater},connected)=> {
 
   // Error handling for tagname
   if (!tagname || typeof tagname !== 'string' || !/^[a-z][.0-9_a-z-]*-[.0-9_a-z-]+$/.test(tagname)) {
     throw new Error(`Invalid or missing tagname: "${tagname}". A valid custom element name must contain a hyphen.`);
   }
 
-  const customElementConstructor=getCustomElementConstructor({connected},{allowShadowDom,stylecontent,whenVisible,tagname})
+  const customElementConstructor=getCustomElementConstructor({connected},{allowShadowDom,stylecontent,whenVisible,tagname,adaptater})
 
   registerCustomElement(tagname,customElementConstructor)
  

@@ -1,3 +1,4 @@
+import {SlotsType} from '@mindemangou/magiccomponents-react'
 
 export type PropsType<T={ [k:string]:string}> = {
   tagname: string
@@ -5,25 +6,28 @@ export type PropsType<T={ [k:string]:string}> = {
 
 export type ElementType=ShadowRoot|HTMLElement
 
-export type ConnectedParams<T>={
+export type ConnectedParams<T = any,S=any>={
   element:ElementType,
-  props:{tagname: string}&T
+  props:{tagname: string}&T,
+  slots:SlotsType<S>
+
 }
 
-
-export type Connected<T = any> = ({ element, props }: ConnectedParams<T>) =>( (() => void) | void );
+export type Connected = ({ element, props,slots }: ConnectedParams<T,S>) =>( (() => void)| Promise<void>|Promise<()=>void> | void );
 
 
 type CallbacksType={connected:Connected}
 
-type ConponentConfigType={allowShadowDom?:boolean,stylecontent?:string,whenVisible?:boolean,tagname:string}
+export type Adaptaters="react"
+
+type ConponentConfigType={allowShadowDom?:boolean,stylecontent?:string,whenVisible?:boolean,tagname:string,adaptater?:Adaptaters}
 
 export type GlobalElementConstructor=(
   {connected}:CallbacksType,
   {allowShadowDom,stylecontent,whenVisible,tagname}:ConponentConfigType
 )=>CustomElementConstructor;
 
-export type Define=({tagname,allowShadowDom,stylecontent,whenVisible}:{tagname:string,allowShadowDom?:boolean,stylecontent?:string,whenVisible?:boolean}, connected: Connected) => Promise<void>;
+export type Define=({tagname,allowShadowDom,stylecontent,whenVisible}:ConponentConfigType, connected: Connected) => Promise<void>;
 
 
 export type GetProps=(element: HTMLElement) => PropsType

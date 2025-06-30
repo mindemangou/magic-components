@@ -1,6 +1,6 @@
 {
   "name": "@mindemangou/magiccomponents",
-  "version": "6.0.2",
+  "version": "7.0.0",
   "type": "module",
   "description": "MagicComponents is a JavaScript library that allows you to easily create custom elements",
   "author": "Mindemangou FADONOUGBO",
@@ -57,6 +57,7 @@
     "vitest": "^3.1.4"
   },
   "dependencies": {
+    "@mindemangou/magiccomponents-react": "^4.0.5",
     "html-react-parser": "^5.2.5"
   }
 }

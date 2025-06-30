@@ -10,13 +10,20 @@ export default defineConfig({
    },
   
   build: {
-    
     lib: {
       entry: ['src/magiccomponents.ts'],
       fileName: (format, entryName) => `${entryName}.${format}.js`,
       name: 'magiccomponents',
     },
-    
-   
+    rollupOptions: {
+      external: [
+        '@mindemangou/magiccomponents-react'
+      ],
+      output: {
+        globals: {
+          '@mindemangou/magiccomponents-react': 'MagiccomponentsReact'
+        },
+      },
+    }
   }
 })

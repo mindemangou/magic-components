@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@mindemangou/magiccomponents-react':
+        specifier: ^4.0.5
+        version: 4.0.5(@types/react@19.1.6)
       html-react-parser:
         specifier: ^5.2.5
         version: 5.2.5(@types/react@19.1.6)(react@19.1.0)
@@ -427,6 +430,12 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
+
+  '@mindemangou/magiccomponents-react@4.0.5':
+    resolution: {integrity: sha512-Or5xcmR2EbF79s2HkTKsBpvPiVqqSlaNFbFnfvIr/MiLpfOS6NRlpxBQnnu+8r7ry91mS+xa2/ZshwMkxhkOWg==}
+
+  '@mindemangou/magiccomponents@5.0.1':
+    resolution: {integrity: sha512-p5BMpjjWBzYBy0IBvCJ9TdK7NwpzCl4+ODbPn0nFDmW8eXvCvRyzfbQ1RE6Cok/D1/Rtj79O+PokBkhEuQ+CDQ==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -1853,6 +1862,21 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
+
+  '@mindemangou/magiccomponents-react@4.0.5(@types/react@19.1.6)':
+    dependencies:
+      '@mindemangou/magiccomponents': 5.0.1
+      dompurify: 3.2.6
+      html-react-parser: 5.2.5(@types/react@19.1.6)(react@19.1.0)
+      htmx.org: 2.0.4
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+    transitivePeerDependencies:
+      - '@types/react'
+
+  '@mindemangou/magiccomponents@5.0.1':
+    dependencies:
+      htmx.org: 2.0.4
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
