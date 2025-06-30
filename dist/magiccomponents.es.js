@@ -30,7 +30,7 @@ Fe || (Fe = function(n, a, s) {
 He || (He = function(n, a) {
   return new n(...a);
 });
-const de = O(Array.prototype.forEach), Jt = O(Array.prototype.lastIndexOf), pt = O(Array.prototype.pop), Q = O(Array.prototype.push), Qt = O(Array.prototype.splice), he = O(String.prototype.toLowerCase), xe = O(String.prototype.toString), dt = O(String.prototype.match), ee = O(String.prototype.replace), en = O(String.prototype.indexOf), tn = O(String.prototype.trim), w = O(Object.prototype.hasOwnProperty), y = O(RegExp.prototype.test), te = nn(TypeError);
+const de = O(Array.prototype.forEach), Jt = O(Array.prototype.lastIndexOf), pt = O(Array.prototype.pop), Q = O(Array.prototype.push), Qt = O(Array.prototype.splice), he = O(String.prototype.toLowerCase), xe = O(String.prototype.toString), dt = O(String.prototype.match), ee = O(String.prototype.replace), en = O(String.prototype.indexOf), tn = O(String.prototype.trim), N = O(Object.prototype.hasOwnProperty), y = O(RegExp.prototype.test), te = nn(TypeError);
 function O(o) {
   return function(n) {
     n instanceof RegExp && (n.lastIndex = 0);
@@ -62,13 +62,13 @@ function l(o, n) {
 }
 function on(o) {
   for (let n = 0; n < o.length; n++)
-    w(o, n) || (o[n] = null);
+    N(o, n) || (o[n] = null);
   return o;
 }
 function P(o) {
   const n = Rt(null);
   for (const [a, s] of yt(o))
-    w(o, a) && (Array.isArray(s) ? n[a] = on(s) : s && typeof s == "object" && s.constructor === Object ? n[a] = P(s) : n[a] = s);
+    N(o, a) && (Array.isArray(s) ? n[a] = on(s) : s && typeof s == "object" && s.constructor === Object ? n[a] = P(s) : n[a] = s);
   return n;
 }
 function ne(o, n) {
@@ -161,12 +161,12 @@ function Lt() {
     HTMLTemplateElement: C,
     Node: F,
     Element: p,
-    NodeFilter: h,
+    NodeFilter: g,
     NamedNodeMap: H = o.NamedNodeMap || o.MozNamedAttrMap,
     HTMLFormElement: v,
     DOMParser: ie,
     trustedTypes: re
-  } = o, V = p.prototype, Dt = ne(V, "cloneNode"), wt = ne(V, "remove"), Nt = ne(V, "nextSibling"), Ct = ne(V, "childNodes"), ae = ne(V, "parentNode");
+  } = o, V = p.prototype, Dt = ne(V, "cloneNode"), Nt = ne(V, "remove"), wt = ne(V, "nextSibling"), Ct = ne(V, "childNodes"), ae = ne(V, "parentNode");
   if (typeof C == "function") {
     const r = a.createElement("template");
     r.content && r.content.ownerDocument && (a = r.content.ownerDocument);
@@ -196,7 +196,7 @@ function Lt() {
     IS_ALLOWED_URI: Ge
   } = gt, d = null;
   const We = l({}, [...Tt, ...Pe, ...ve, ...ke, ...ht]);
-  let E = null;
+  let h = null;
   const Be = l({}, [...Et, ...Ue, ..._t, ...Te]);
   let f = Object.seal(Rt(null, {
     tagNameCheck: {
@@ -225,7 +225,7 @@ function Lt() {
   const Ze = l({}, ["audio", "video", "img", "source", "image", "track"]);
   let De = null;
   const Je = l({}, ["alt", "class", "for", "id", "label", "name", "pattern", "placeholder", "role", "summary", "title", "value", "style", "xmlns"]), fe = "http://www.w3.org/1998/Math/MathML", ue = "http://www.w3.org/2000/svg", I = "http://www.w3.org/1999/xhtml";
-  let Y = I, we = !1, Ne = null;
+  let Y = I, Ne = !1, we = null;
   const zt = l({}, [fe, ue, I], xe);
   let me = l({}, ["mi", "mo", "mn", "ms", "mtext"]), pe = l({}, ["annotation-xml"]);
   const Gt = l({}, ["title", "style", "font", "a", "script"]);
@@ -238,7 +238,7 @@ function Lt() {
     let e = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
     if (!(X && X === e)) {
       if ((!e || typeof e != "object") && (e = {}), e = P(e), Z = // eslint-disable-next-line unicorn/prefer-includes
-      Wt.indexOf(e.PARSER_MEDIA_TYPE) === -1 ? Bt : e.PARSER_MEDIA_TYPE, T = Z === "application/xhtml+xml" ? xe : he, d = w(e, "ALLOWED_TAGS") ? l({}, e.ALLOWED_TAGS, T) : We, E = w(e, "ALLOWED_ATTR") ? l({}, e.ALLOWED_ATTR, T) : Be, Ne = w(e, "ALLOWED_NAMESPACES") ? l({}, e.ALLOWED_NAMESPACES, xe) : zt, De = w(e, "ADD_URI_SAFE_ATTR") ? l(P(Je), e.ADD_URI_SAFE_ATTR, T) : Je, Ke = w(e, "ADD_DATA_URI_TAGS") ? l(P(Ze), e.ADD_DATA_URI_TAGS, T) : Ze, B = w(e, "FORBID_CONTENTS") ? l({}, e.FORBID_CONTENTS, T) : qe, q = w(e, "FORBID_TAGS") ? l({}, e.FORBID_TAGS, T) : P({}), ye = w(e, "FORBID_ATTR") ? l({}, e.FORBID_ATTR, T) : P({}), W = w(e, "USE_PROFILES") ? e.USE_PROFILES : !1, Ye = e.ALLOW_ARIA_ATTR !== !1, Re = e.ALLOW_DATA_ATTR !== !1, Xe = e.ALLOW_UNKNOWN_PROTOCOLS || !1, je = e.ALLOW_SELF_CLOSE_IN_ATTR !== !1, z = e.SAFE_FOR_TEMPLATES || !1, se = e.SAFE_FOR_XML !== !1, k = e.WHOLE_DOCUMENT || !1, G = e.RETURN_DOM || !1, le = e.RETURN_DOM_FRAGMENT || !1, ce = e.RETURN_TRUSTED_TYPE || !1, be = e.FORCE_BODY || !1, Ve = e.SANITIZE_DOM !== !1, $e = e.SANITIZE_NAMED_PROPS || !1, Le = e.KEEP_CONTENT !== !1, K = e.IN_PLACE || !1, Ge = e.ALLOWED_URI_REGEXP || Ot, Y = e.NAMESPACE || I, me = e.MATHML_TEXT_INTEGRATION_POINTS || me, pe = e.HTML_INTEGRATION_POINTS || pe, f = e.CUSTOM_ELEMENT_HANDLING || {}, e.CUSTOM_ELEMENT_HANDLING && Qe(e.CUSTOM_ELEMENT_HANDLING.tagNameCheck) && (f.tagNameCheck = e.CUSTOM_ELEMENT_HANDLING.tagNameCheck), e.CUSTOM_ELEMENT_HANDLING && Qe(e.CUSTOM_ELEMENT_HANDLING.attributeNameCheck) && (f.attributeNameCheck = e.CUSTOM_ELEMENT_HANDLING.attributeNameCheck), e.CUSTOM_ELEMENT_HANDLING && typeof e.CUSTOM_ELEMENT_HANDLING.allowCustomizedBuiltInElements == "boolean" && (f.allowCustomizedBuiltInElements = e.CUSTOM_ELEMENT_HANDLING.allowCustomizedBuiltInElements), z && (Re = !1), le && (G = !0), W && (d = l({}, ht), E = [], W.html === !0 && (l(d, Tt), l(E, Et)), W.svg === !0 && (l(d, Pe), l(E, Ue), l(E, Te)), W.svgFilters === !0 && (l(d, ve), l(E, Ue), l(E, Te)), W.mathMl === !0 && (l(d, ke), l(E, _t), l(E, Te))), e.ADD_TAGS && (d === We && (d = P(d)), l(d, e.ADD_TAGS, T)), e.ADD_ATTR && (E === Be && (E = P(E)), l(E, e.ADD_ATTR, T)), e.ADD_URI_SAFE_ATTR && l(De, e.ADD_URI_SAFE_ATTR, T), e.FORBID_CONTENTS && (B === qe && (B = P(B)), l(B, e.FORBID_CONTENTS, T)), Le && (d["#text"] = !0), k && l(d, ["html", "head", "body"]), d.table && (l(d, ["tbody"]), delete q.tbody), e.TRUSTED_TYPES_POLICY) {
+      Wt.indexOf(e.PARSER_MEDIA_TYPE) === -1 ? Bt : e.PARSER_MEDIA_TYPE, T = Z === "application/xhtml+xml" ? xe : he, d = N(e, "ALLOWED_TAGS") ? l({}, e.ALLOWED_TAGS, T) : We, h = N(e, "ALLOWED_ATTR") ? l({}, e.ALLOWED_ATTR, T) : Be, we = N(e, "ALLOWED_NAMESPACES") ? l({}, e.ALLOWED_NAMESPACES, xe) : zt, De = N(e, "ADD_URI_SAFE_ATTR") ? l(P(Je), e.ADD_URI_SAFE_ATTR, T) : Je, Ke = N(e, "ADD_DATA_URI_TAGS") ? l(P(Ze), e.ADD_DATA_URI_TAGS, T) : Ze, B = N(e, "FORBID_CONTENTS") ? l({}, e.FORBID_CONTENTS, T) : qe, q = N(e, "FORBID_TAGS") ? l({}, e.FORBID_TAGS, T) : P({}), ye = N(e, "FORBID_ATTR") ? l({}, e.FORBID_ATTR, T) : P({}), W = N(e, "USE_PROFILES") ? e.USE_PROFILES : !1, Ye = e.ALLOW_ARIA_ATTR !== !1, Re = e.ALLOW_DATA_ATTR !== !1, Xe = e.ALLOW_UNKNOWN_PROTOCOLS || !1, je = e.ALLOW_SELF_CLOSE_IN_ATTR !== !1, z = e.SAFE_FOR_TEMPLATES || !1, se = e.SAFE_FOR_XML !== !1, k = e.WHOLE_DOCUMENT || !1, G = e.RETURN_DOM || !1, le = e.RETURN_DOM_FRAGMENT || !1, ce = e.RETURN_TRUSTED_TYPE || !1, be = e.FORCE_BODY || !1, Ve = e.SANITIZE_DOM !== !1, $e = e.SANITIZE_NAMED_PROPS || !1, Le = e.KEEP_CONTENT !== !1, K = e.IN_PLACE || !1, Ge = e.ALLOWED_URI_REGEXP || Ot, Y = e.NAMESPACE || I, me = e.MATHML_TEXT_INTEGRATION_POINTS || me, pe = e.HTML_INTEGRATION_POINTS || pe, f = e.CUSTOM_ELEMENT_HANDLING || {}, e.CUSTOM_ELEMENT_HANDLING && Qe(e.CUSTOM_ELEMENT_HANDLING.tagNameCheck) && (f.tagNameCheck = e.CUSTOM_ELEMENT_HANDLING.tagNameCheck), e.CUSTOM_ELEMENT_HANDLING && Qe(e.CUSTOM_ELEMENT_HANDLING.attributeNameCheck) && (f.attributeNameCheck = e.CUSTOM_ELEMENT_HANDLING.attributeNameCheck), e.CUSTOM_ELEMENT_HANDLING && typeof e.CUSTOM_ELEMENT_HANDLING.allowCustomizedBuiltInElements == "boolean" && (f.allowCustomizedBuiltInElements = e.CUSTOM_ELEMENT_HANDLING.allowCustomizedBuiltInElements), z && (Re = !1), le && (G = !0), W && (d = l({}, ht), h = [], W.html === !0 && (l(d, Tt), l(h, Et)), W.svg === !0 && (l(d, Pe), l(h, Ue), l(h, Te)), W.svgFilters === !0 && (l(d, ve), l(h, Ue), l(h, Te)), W.mathMl === !0 && (l(d, ke), l(h, _t), l(h, Te))), e.ADD_TAGS && (d === We && (d = P(d)), l(d, e.ADD_TAGS, T)), e.ADD_ATTR && (h === Be && (h = P(h)), l(h, e.ADD_ATTR, T)), e.ADD_URI_SAFE_ATTR && l(De, e.ADD_URI_SAFE_ATTR, T), e.FORBID_CONTENTS && (B === qe && (B = P(B)), l(B, e.FORBID_CONTENTS, T)), Le && (d["#text"] = !0), k && l(d, ["html", "head", "body"]), d.table && (l(d, ["tbody"]), delete q.tbody), e.TRUSTED_TYPES_POLICY) {
         if (typeof e.TRUSTED_TYPES_POLICY.createHTML != "function")
           throw te('TRUSTED_TYPES_POLICY configuration option must provide a "createHTML" hook.');
         if (typeof e.TRUSTED_TYPES_POLICY.createScriptURL != "function")
@@ -255,15 +255,15 @@ function Lt() {
       tagName: "template"
     });
     const i = he(e.tagName), c = he(t.tagName);
-    return Ne[e.namespaceURI] ? e.namespaceURI === ue ? t.namespaceURI === I ? i === "svg" : t.namespaceURI === fe ? i === "svg" && (c === "annotation-xml" || me[c]) : !!et[i] : e.namespaceURI === fe ? t.namespaceURI === I ? i === "math" : t.namespaceURI === ue ? i === "math" && pe[c] : !!tt[i] : e.namespaceURI === I ? t.namespaceURI === ue && !pe[c] || t.namespaceURI === fe && !me[c] ? !1 : !tt[i] && (Gt[i] || !et[i]) : !!(Z === "application/xhtml+xml" && Ne[e.namespaceURI]) : !1;
-  }, N = function(e) {
+    return we[e.namespaceURI] ? e.namespaceURI === ue ? t.namespaceURI === I ? i === "svg" : t.namespaceURI === fe ? i === "svg" && (c === "annotation-xml" || me[c]) : !!et[i] : e.namespaceURI === fe ? t.namespaceURI === I ? i === "math" : t.namespaceURI === ue ? i === "math" && pe[c] : !!tt[i] : e.namespaceURI === I ? t.namespaceURI === ue && !pe[c] || t.namespaceURI === fe && !me[c] ? !1 : !tt[i] && (Gt[i] || !et[i]) : !!(Z === "application/xhtml+xml" && we[e.namespaceURI]) : !1;
+  }, w = function(e) {
     Q(n.removed, {
       element: e
     });
     try {
       ae(e).removeChild(e);
     } catch {
-      wt(e);
+      Nt(e);
     }
   }, j = function(e, t) {
     try {
@@ -280,7 +280,7 @@ function Lt() {
     if (t.removeAttribute(e), e === "is")
       if (G || le)
         try {
-          N(t);
+          w(t);
         } catch {
         }
       else
@@ -306,18 +306,18 @@ function Lt() {
     if (!t || !t.documentElement) {
       t = _e.createDocument(Y, "template", null);
       try {
-        t.documentElement.innerHTML = we ? $ : c;
+        t.documentElement.innerHTML = Ne ? $ : c;
       } catch {
       }
     }
-    const _ = t.body || t.documentElement;
-    return e && i && _.insertBefore(a.createTextNode(i), _.childNodes[0] || null), Y === I ? xt.call(t, k ? "html" : "body")[0] : k ? t.documentElement : _;
+    const E = t.body || t.documentElement;
+    return e && i && E.insertBefore(a.createTextNode(i), E.childNodes[0] || null), Y === I ? xt.call(t, k ? "html" : "body")[0] : k ? t.documentElement : E;
   }, ot = function(e) {
     return It.call(
       e.ownerDocument || e,
       e,
       // eslint-disable-next-line no-bitwise
-      h.SHOW_ELEMENT | h.SHOW_COMMENT | h.SHOW_TEXT | h.SHOW_PROCESSING_INSTRUCTION | h.SHOW_CDATA_SECTION,
+      g.SHOW_ELEMENT | g.SHOW_COMMENT | g.SHOW_TEXT | g.SHOW_PROCESSING_INSTRUCTION | g.SHOW_CDATA_SECTION,
       null
     );
   }, Ie = function(e) {
@@ -333,29 +333,29 @@ function Lt() {
   const rt = function(e) {
     let t = null;
     if (M(S.beforeSanitizeElements, e, null), Ie(e))
-      return N(e), !0;
+      return w(e), !0;
     const i = T(e.nodeName);
     if (M(S.uponSanitizeElement, e, {
       tagName: i,
       allowedTags: d
     }), se && e.hasChildNodes() && !it(e.firstElementChild) && y(/<[/\w!]/g, e.innerHTML) && y(/<[/\w!]/g, e.textContent) || e.nodeType === oe.progressingInstruction || se && e.nodeType === oe.comment && y(/<[/\w]/g, e.data))
-      return N(e), !0;
+      return w(e), !0;
     if (!d[i] || q[i]) {
       if (!q[i] && st(i) && (f.tagNameCheck instanceof RegExp && y(f.tagNameCheck, i) || f.tagNameCheck instanceof Function && f.tagNameCheck(i)))
         return !1;
       if (Le && !B[i]) {
-        const c = ae(e) || e.parentNode, _ = Ct(e) || e.childNodes;
-        if (_ && c) {
-          const m = _.length;
+        const c = ae(e) || e.parentNode, E = Ct(e) || e.childNodes;
+        if (E && c) {
+          const m = E.length;
           for (let L = m - 1; L >= 0; --L) {
-            const x = Dt(_[L], !0);
-            x.__removalCount = (e.__removalCount || 0) + 1, c.insertBefore(x, Nt(e));
+            const x = Dt(E[L], !0);
+            x.__removalCount = (e.__removalCount || 0) + 1, c.insertBefore(x, wt(e));
           }
         }
       }
-      return N(e), !0;
+      return w(e), !0;
     }
-    return e instanceof p && !Xt(e) || (i === "noscript" || i === "noembed" || i === "noframes") && y(/<\/no(script|embed|frames)/i, e.innerHTML) ? (N(e), !0) : (z && e.nodeType === oe.text && (t = e.textContent, de([ge, Ae, Se], (c) => {
+    return e instanceof p && !Xt(e) || (i === "noscript" || i === "noembed" || i === "noframes") && y(/<\/no(script|embed|frames)/i, e.innerHTML) ? (w(e), !0) : (z && e.nodeType === oe.text && (t = e.textContent, de([ge, Ae, Se], (c) => {
       t = ee(t, c, " ");
     }), e.textContent !== t && (Q(n.removed, {
       element: e.cloneNode()
@@ -365,7 +365,7 @@ function Lt() {
       return !1;
     if (!(Re && !ye[t] && y(vt, t))) {
       if (!(Ye && y(kt, t))) {
-        if (!E[t] || ye[t]) {
+        if (!h[t] || ye[t]) {
           if (
             // First condition does a very basic check if a) it's basically a valid custom element tagname AND
             // b) if the tagName passes whatever the user has configured for CUSTOM_ELEMENT_HANDLING.tagNameCheck
@@ -400,18 +400,18 @@ function Lt() {
       attrName: "",
       attrValue: "",
       keepAttr: !0,
-      allowedAttributes: E,
+      allowedAttributes: h,
       forceKeepAttr: void 0
     };
     let c = t.length;
     for (; c--; ) {
-      const _ = t[c], {
+      const E = t[c], {
         name: m,
         namespaceURI: L,
         value: x
-      } = _, J = T(m), Me = x;
-      let g = m === "value" ? Me : tn(Me);
-      if (i.attrName = J, i.attrValue = g, i.keepAttr = !0, i.forceKeepAttr = void 0, M(S.uponSanitizeAttribute, e, i), g = i.attrValue, $e && (J === "id" || J === "name") && (j(m, e), g = Ht + g), se && y(/((--!?|])>)|<\/(style|title)/i, g)) {
+      } = E, J = T(m), Me = x;
+      let _ = m === "value" ? Me : tn(Me);
+      if (i.attrName = J, i.attrValue = _, i.keepAttr = !0, i.forceKeepAttr = void 0, M(S.uponSanitizeAttribute, e, i), _ = i.attrValue, $e && (J === "id" || J === "name") && (j(m, e), _ = Ht + _), se && y(/((--!?|])>)|<\/(style|title)/i, _)) {
         j(m, e);
         continue;
       }
@@ -421,32 +421,32 @@ function Lt() {
         j(m, e);
         continue;
       }
-      if (!je && y(/\/>/i, g)) {
+      if (!je && y(/\/>/i, _)) {
         j(m, e);
         continue;
       }
       z && de([ge, Ae, Se], (ft) => {
-        g = ee(g, ft, " ");
+        _ = ee(_, ft, " ");
       });
       const ct = T(e.nodeName);
-      if (!at(ct, J, g)) {
+      if (!at(ct, J, _)) {
         j(m, e);
         continue;
       }
       if (A && typeof re == "object" && typeof re.getAttributeType == "function" && !L)
         switch (re.getAttributeType(ct, J)) {
           case "TrustedHTML": {
-            g = A.createHTML(g);
+            _ = A.createHTML(_);
             break;
           }
           case "TrustedScriptURL": {
-            g = A.createScriptURL(g);
+            _ = A.createScriptURL(_);
             break;
           }
         }
-      if (g !== Me)
+      if (_ !== Me)
         try {
-          L ? e.setAttributeNS(L, m, g) : e.setAttribute(m, g), Ie(e) ? N(e) : pt(n.removed);
+          L ? e.setAttributeNS(L, m, _) : e.setAttribute(m, _), Ie(e) ? w(e) : pt(n.removed);
         } catch {
           j(m, e);
         }
@@ -460,8 +460,8 @@ function Lt() {
     M(S.afterSanitizeShadowDOM, e, null);
   };
   return n.sanitize = function(r) {
-    let e = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {}, t = null, i = null, c = null, _ = null;
-    if (we = !r, we && (r = "<!-->"), typeof r != "string" && !it(r))
+    let e = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {}, t = null, i = null, c = null, E = null;
+    if (Ne = !r, Ne && (r = "<!-->"), typeof r != "string" && !it(r))
       if (typeof r.toString == "function") {
         if (r = r.toString(), typeof r != "string")
           throw te("dirty is not a string, aborting");
@@ -484,7 +484,7 @@ function Lt() {
       if (t = nt(r), !t)
         return G ? null : ce ? $ : "";
     }
-    t && be && N(t.firstChild);
+    t && be && w(t.firstChild);
     const m = ot(K ? r : t);
     for (; c = m.nextNode(); )
       rt(c), lt(c), c.content instanceof b && jt(c.content);
@@ -492,11 +492,11 @@ function Lt() {
       return r;
     if (G) {
       if (le)
-        for (_ = Mt.call(t.ownerDocument); t.firstChild; )
-          _.appendChild(t.firstChild);
+        for (E = Mt.call(t.ownerDocument); t.firstChild; )
+          E.appendChild(t.firstChild);
       else
-        _ = t;
-      return (E.shadowroot || E.shadowrootmode) && (_ = Pt.call(s, _, !0)), _;
+        E = t;
+      return (h.shadowroot || h.shadowrootmode) && (E = Pt.call(s, E, !0)), E;
     }
     let L = k ? t.outerHTML : t.innerHTML;
     return k && d["!doctype"] && t.ownerDocument && t.ownerDocument.doctype && t.ownerDocument.doctype.name && y(bt, t.ownerDocument.doctype.name) && (L = "<!DOCTYPE " + t.ownerDocument.doctype.name + `>
@@ -544,15 +544,15 @@ const _n = ({ connected: o }, { allowShadowDom: n = !1, stylecontent: a, whenVis
     disconnectedCallback() {
       this.whenVisibleAllowed && typeof window < "u" && Ee && Ee.unobserve(this), this.disconnected();
     }
-    attributeChangedCallback(p, h, H) {
+    attributeChangedCallback(p, g, H) {
       p === "data-render" && H === "true" && this.render();
     }
     render() {
-      const p = yn(this), h = this.getTemplate(), H = this.getSlots(h);
+      const p = yn(this), g = this.getTemplate(), H = this.getSlots(g);
       if (this.allowShadowDom) {
         if (!this.shadowRoot) {
           const v = this.attachShadow({ mode: "open" });
-          this.addTemplateSlot(h);
+          this.addTemplateSlot(g);
           const ie = o({ element: v, props: p, slots: H });
           this.disconnected = typeof ie == "function" ? ie : () => {
           }, this.addStyle(v);
@@ -565,19 +565,16 @@ const _n = ({ connected: o }, { allowShadowDom: n = !1, stylecontent: a, whenVis
     }
     async addTemplateSlot(p) {
       if (p) {
-        const h = En.sanitize(p.content, { RETURN_DOM_FRAGMENT: !0 });
-        this.appendChild(h);
+        const g = En.sanitize(p.content, { RETURN_DOM_FRAGMENT: !0 });
+        this.appendChild(g);
       }
     }
     getSlots(p) {
-      if (this.adaptater === "react")
-        try {
-          if (typeof ut == "function")
-            return ut(p);
-          console.error("'getSlotsForReact' is not available. Make sure '@mindemangou/magiccomponents-react' is installed and externalized.");
-        } catch (h) {
-          console.error("Error while calling getSlotsForReact:", h);
-        }
+      if (this.adaptater === "react") {
+        if (typeof ut == "function")
+          return ut(p);
+        console.error("'getSlotsForReact' is not available. Make sure '@mindemangou/magiccomponents-react' is installed and externalized.");
+      }
       return { allSlots: "" };
     }
     getTemplate() {
@@ -586,8 +583,8 @@ const _n = ({ connected: o }, { allowShadowDom: n = !1, stylecontent: a, whenVis
     }
     addStyle(p) {
       if (this.stylecontent) {
-        const h = document.createElement("style");
-        h.textContent = this.stylecontent, p.appendChild(h);
+        const g = document.createElement("style");
+        g.textContent = this.stylecontent, p.appendChild(g);
       }
     }
     //  public getReactSlots(): Record<string, any> {

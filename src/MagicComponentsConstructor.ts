@@ -103,18 +103,14 @@ const getMagicComponentsConstructor:GlobalElementConstructor=({connected},{allow
 
             if(this.adaptater==="react"){
 
-                try {
 
-                    // Vérifie si getSlotsForReact est bien importé
-                    if (typeof getSlotsForReact === "function") {
-                        return getSlotsForReact(template);
-                    } else {
-                        console.error("'getSlotsForReact' is not available. Make sure '@mindemangou/magiccomponents-react' is installed and externalized.");
-                    }
+            // Vérifie si getSlotsForReact est bien importé
+            if (typeof getSlotsForReact === "function") {
+                return getSlotsForReact(template);
+            } else {
+                console.error("'getSlotsForReact' is not available. Make sure '@mindemangou/magiccomponents-react' is installed and externalized.");
+            }
 
-                } catch (err) {
-                    console.error("Error while calling getSlotsForReact:", err);
-                }
              
 
             }
