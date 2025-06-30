@@ -1,7 +1,7 @@
 import { getProps, observer } from "./magiccomponents";
 import  type {Adaptaters, GlobalElementConstructor} from './magictypes'
 import Dompurify from 'dompurify'
-import {getSlotsForReact, SlotsType} from '@mindemangou/magiccomponents-react'
+ import {getSlotsForReact, SlotsType} from '@mindemangou/magiccomponents-react'
 
 const getMagicComponentsConstructor:GlobalElementConstructor=({connected},{allowShadowDom=false,stylecontent,whenVisible=false,adaptater})=> {
 
@@ -100,9 +100,24 @@ const getMagicComponentsConstructor:GlobalElementConstructor=({connected},{allow
 
         private getSlots(template:HTMLTemplateElement):SlotsType{
 
+
             if(this.adaptater==="react"){
-                return getSlotsForReact(template)
-            }   
+
+                try {
+
+                    // Vérifie si getSlotsForReact est bien importé
+                    if (typeof getSlotsForReact === "function") {
+                        return getSlotsForReact(template);
+                    } else {
+                        console.error("'getSlotsForReact' is not available. Make sure '@mindemangou/magiccomponents-react' is installed and externalized.");
+                    }
+
+                } catch (err) {
+                    console.error("Error while calling getSlotsForReact:", err);
+                }
+             
+
+            }
 
             return {allSlots:''}
         }
