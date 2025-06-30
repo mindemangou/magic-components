@@ -38,10 +38,10 @@ const getMagicComponentsConstructor:GlobalElementConstructor=({connected},{allow
         disconnectedCallback() {
 
             //Remove observer
-            if(this.whenVisibleAllowed){
+            if(this.whenVisibleAllowed && typeof window !== "undefined" && observer){
                 observer.unobserve(this)
             }
-
+            
             this.disconnected()
 
         }

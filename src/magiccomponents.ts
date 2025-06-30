@@ -3,20 +3,16 @@ import { registerCustomElement, safeStringParse } from './utiles.ts';
 import type { Define, GetProps, PropsType } from './magictypes';
 
 
-export const observer = new IntersectionObserver((elements, intersectionObserverInit) => {
-  
-   for (const element of elements) {
-   
-    if(element.isIntersecting) {
-     
-      element?.target?.setAttribute('data-render','true')
-      intersectionObserverInit.unobserve(element.target)
-  
-    }
-    
-  } 
-
-})
+export const observer = (typeof window !== "undefined" && typeof window.IntersectionObserver !== "undefined")
+  ? new IntersectionObserver((elements, intersectionObserverInit) => {
+      for (const element of elements) {
+        if(element.isIntersecting) {
+          element?.target?.setAttribute('data-render','true')
+          intersectionObserverInit.unobserve(element.target)
+        }
+      }
+    })
+  : undefined;
 
 // Helper: safely parse JSON, fallback to original value if parsing fails
 function safeParse(value: string): unknown {
@@ -55,16 +51,14 @@ export const define:Define=async ({tagname,allowShadowDom=false,stylecontent='',
  
   //keyVerification(keyList)
  
-  if(whenVisible) {
-    
+   if(whenVisible && typeof window !== "undefined" && observer) {
     const elements=document.querySelectorAll(tagname)
-    
     for (const element of elements) {
-
-          observer.observe(element)
+      observer.observe(element)
     }
-
   } 
+
+    
   
   
 }
