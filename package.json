@@ -58,6 +58,6 @@
     "vitest": "^3.1.4"
   },
   "dependencies": {
-    "@mindemangou/magiccomponents-react": "^4.1.0"
+    "@mindemangou/magiccomponents-react": "^4.1.4"
   }
 }

@@ -17,7 +17,7 @@ export default defineConfig({
     },
     rollupOptions: {
       external: [
-        '@mindemangou/magiccomponents-react'
+        '@mindemangou/magiccomponents-react','react','react-dom'
       ],
       output: {
         globals: {
