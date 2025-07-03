@@ -1,48 +1,56 @@
+// import Dompurify from 'dompurify'
  
- 
- export const  registerCustomElement=(tagName:string, ClassRef:CustomElementConstructor)=>{
-     if (!customElements.get(tagName)) {
+//  export const safeStringParse=<T>(value:T):T|string=>{
+
+//     if (typeof value === 'string') {
+//       // const div = document.createElement('div');
+//       // div.textContent = value;
+
+//       return Dompurify.sanitize(value);
+//     }
+
+//     //console.log(Dompurify.sanitize(`${value}`))
+//     return value;
+//  }
+
+  
+export const registerCustomElement = (tagName: string, ClassRef: CustomElementConstructor) => {
+  // In dev, allow redefinition by deleting the old constructor if possible (not standard, but helps with HMR)
+  // In production, just skip if already defined
+  if (customElements.get(tagName)) {
+    // Optionally, you can log or warn here
+    // In HMR, you might want to reload the page or replace the element
+    return;
+  }
+  customElements.define(tagName, ClassRef);
+};
+
+
+//  export const  registerCustomElement=(tagName:string, ClassRef:CustomElementConstructor)=>{
+//      if (!customElements.get(tagName)) {
     
-       customElements.define(tagName, ClassRef);
-     }
- }
-
- export const safeStringParse=<T>(value:T):T|string=>{
-
-    if (typeof value === 'string') {
-      const div = document.createElement('div');
-      div.textContent = value;
-
-      return div.innerHTML;
-    }
-    return value;
- }
- 
-//  const getDuplicateKey=(keyList:string[])=> {
-  
-//     const duplicates = keyList.reduce((acc, item) => {
-  
-      
-//       acc[item] = (acc[item] || 0) + 1;
-//       return acc;
-//     }, {} as Record<string, number>);
-
-//     const duplicateEntries = Object.entries(duplicates).filter(([_, count]) => count > 1);
-
-//     return duplicateEntries
+//        customElements.define(tagName, ClassRef);
+//      }
 //  }
 
-// export const keyVerification=(keyList:string[])=> {
-//       const duplicateKey=getDuplicateKey(keyList)
+//  export const safeStringParse=<T>(value:T):T|string=>{
 
-//       if(duplicateKey.length>0) {
+//     if (typeof value === 'string') {
+//       const div = document.createElement('div');
+//       div.textContent = value;
 
-//         for (const arr of duplicateKey) {
-//             const [key]=arr
-//             throw new Error(`The key '${key}' already exists`)
-//         }
-//       }
+//       return div.innerHTML;
+//     }
+//     return value;
 //  }
+
+
+
+
+
+
+
+
 
 
  

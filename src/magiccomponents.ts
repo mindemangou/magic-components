@@ -1,18 +1,21 @@
 import getCustomElementConstructor from './MagicComponentsConstructor.ts';
-import { registerCustomElement, safeStringParse } from './utiles.ts';
+import { registerCustomElement } from './utiles.ts';
 import type { Define, GetProps, PropsType } from './magictypes';
+import Dompurify from 'dompurify'
 
 // Lazy observer instance
 export let observer: IntersectionObserver | undefined;
 
 // Helper: safely parse JSON, fallback to original value if parsing fails
 function safeParse(value: string): unknown {
-  
+
+  const sanitizeValue=Dompurify.sanitize(value)
+
   try {
-    const parsed = value ? JSON.parse(value) : value;
-    return safeStringParse(parsed)
+    const parsed = sanitizeValue ? JSON.parse(sanitizeValue) : sanitizeValue;
+    return parsed
   } catch {
-    return safeStringParse(value)
+    return sanitizeValue
   }
   
 }
