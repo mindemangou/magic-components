@@ -1,124 +1,94 @@
-import {test,expect, vi, describe, afterEach, beforeEach} from 'vitest'
+import {expect, vi, describe, afterEach, beforeEach, it} from 'vitest'
 
-import { define, getPath } from '../src/magiccomponents';
-import { keyList } from '../src/MagicComponentsConstructor';
-import { keyVerification, registerCustomElement } from '../src/utiles';
-import getCustomElementConstructor from '../src/MagicComponentsConstructor'
-import { Browser } from 'happy-dom';
+import { define, getProps } from '../src/magiccomponents';
 
-describe('magiccomponents test suite',async ()=> {
-  
 
-  beforeEach(()=> {
- 
-    vi.mock('../src/utiles',{spy:true});
-  
-    vi.mock('../src/MagicComponentsConstructor',{spy:true});
+  describe('MagicComponents', () => {
 
-    vi.mock('../src/magiccomponents.ts',{spy:true}); 
-
-  })
-  
-  afterEach(()=> {
-
-    vi.unstubAllGlobals()
-    vi.resetAllMocks()
- 
-  })
- 
-  test('define should register a custom element and verify keys', async () => {
-
-    const mockConnected = vi.fn();
-    const mockDisconnected = vi.fn();
-    const mockCustomElementConstructor = vi.fn();
-
-    // Mock getCustomElementConstructor to return a fake constructor
-    vi.mocked(getCustomElementConstructor).mockReturnValue(mockCustomElementConstructor);
+    beforeEach(() => {
+      vi.mock('../src/utiles',{spy:true});
     
-   
-    // Add mock keys to keyMap
-    keyList.push('value1', 'value2');
+      vi.mock('../src/MagicComponentsConstructor',{spy:true});
 
-    const tagName = 'demo-demo'; 
-   await define({tagname:'demo-demo'},mockConnected, mockDisconnected);
-
-    // Ensure getCustomElementConstructor is called with the correct arguments
-   expect(getCustomElementConstructor).toHaveBeenCalledWith({connected:mockConnected, disconnected:mockDisconnected},{allowShadowDom:false,stylecontent:'',whenVisible:false});
-
-    // Ensure registerCustomElement is called with the correct arguments
-    expect(registerCustomElement).toHaveBeenCalledWith(tagName, mockCustomElementConstructor);
-
-    // Ensure keyVerification is called with the correct keys
-    expect(keyList).toEqual(['value1', 'value2']);
-   
-    expect(keyVerification).toBeCalledWith(['value1', 'value2']);
-  })
-
-    test('whenVisible option test',{only:true}, async () => {
-      
-      const browser=new Browser()
-
-      const page= browser.newPage();
- 
-      const mywindow = page.mainFrame.window;
-      const mydocument = page.mainFrame.window.document;
-
-      vi.stubGlobal('customElements', mywindow.customElements);
-      vi.stubGlobal('document', mydocument);
-          
-       
-      page.content = /*html*/`
-      <html>
-      <body>
-        <div></div>
-        <test-test ></test-test>
-      </body>
-      </html> 
-    `;
-
-      // Define the custom element
-      await define( 
-        { tagname: 'test-test', whenVisible: true },
-        ({ element }) => {
-         
-          element.innerHTML = /*html*/`
-          <h1>Name: John doe</h1>
-          `;
-        },
-        () => {}
-      );
+      vi.mock('../src/magiccomponents.ts',{spy:true}); 
 
 
-      const myElement = mydocument.querySelector('test-test') as unknown as HTMLElement;
+      //vi.stubGlobal('document', dom.document);
+      //vi.stubGlobal('customElements', dom.customElements);
 
-      myElement.setAttribute('data-render','true')
 
-      expect(myElement.textContent?.trim()).toBe('Name: John doe');
-      expect(myElement.hasAttribute('data-render')).toBeTruthy();
-
-      await browser.close();
     });
 
+    afterEach(()=> {
 
-
-  test.each([
-    {urlhref:'https://localhost:8000/home.php',urlhash:'#home',testhash:'',resultat:'https://localhost:8000/home.php?p=3&category=football#home'},
-    {urlhref:'https://localhost:8000/about.php',urlhash:'#about',testhash:'aboutme',resultat:'https://localhost:8000/about.php?p=3&category=football#aboutme'}
-  ])('getPath function test', async ({urlhref,urlhash,testhash,resultat}) => {
-
+      vi.unstubAllGlobals()
+      vi.resetAllMocks()
   
-    location.href=urlhref
-    location.hash=urlhash
+    })
   
-    const queryparams={p:'3',category:'football'};
+    it('should define and register a custom element', async () => {
 
-    const path=getPath(queryparams,testhash)
+      const connected = vi.fn();
 
-    expect(path).toBe(resultat)
-  })
+      await define({ tagname: 'test-element' }, connected);
 
+      const el = document.createElement('test-element');
 
+      document.body.appendChild(el);
+
+      expect(customElements.get('test-element')).toBeDefined();
+
+      // Wait for the custom element to be upgraded and connected
+      await customElements.whenDefined('test-element');
+      await Promise.resolve(); 
+
+      // connected doit être appelé lors de l'attachement
+      expect(connected).toHaveBeenCalled();
+
+    });
   
+    it('should extract props from data-* attributes', () => {
+      const el = document.createElement('div');
+      el.setAttribute('data-foo', 'bar');
+      el.setAttribute('data-json', '{"a":1}');
+      const props = getProps(el);
+      expect(props.foo).toBe('bar');
+      expect(props.json).toEqual({ a: 1 });
+    });
+  
+  
+    it('should support Shadow DOM', async () => {
+      // // Setup JSDOM environment
+      // const dom = new JSDOM(`<!DOCTYPE html><body></body>`);
+      // (globalThis as any).window = dom.window;
+      // (globalThis as any).document = dom.window.document;
+      // (globalThis as any).customElements = dom.window.customElements;
+      // (globalThis as any).HTMLElement = dom.window.HTMLElement;
 
-});
+      await define({ tagname: 'shadow-el',allowShadowDom:true }, ({ element }) => {
+        element.innerHTML = '<span>Shadow!</span>';
+      });
+
+      const el = document.createElement('shadow-el');
+      document.body.appendChild(el);
+
+      // Wait for the custom element to be upgraded and connected
+      await customElements.whenDefined('shadow-el');
+      await Promise.resolve();
+      
+      expect(el.shadowRoot).toBeTruthy()
+      expect(el.shadowRoot?.innerHTML).toBe('<span>Shadow!</span>');
+    });
+  
+    it('should hydrate SSR content', async () => {
+      await define({ tagname: 'ssr-el' }, () => {
+        // Ne rien faire, juste vérifier que le contenu n'est pas écrasé
+      });
+      const el = document.createElement('ssr-el');
+      el.innerHTML = '<span>SSR</span>';
+      document.body.appendChild(el);
+      expect(el.innerHTML).toBe('<span>SSR</span>');
+    });
+  
+  });
 
