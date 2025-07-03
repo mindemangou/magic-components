@@ -1,7 +1,7 @@
 import { getProps, observer } from "./magiccomponents";
 import type { Adaptaters, GlobalElementConstructor } from './magictypes'
 import Dompurify from 'dompurify'
-
+import {getSlotsForReact} from '@mindemangou/magiccomponents-react'
 
 const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, { allowShadowDom = false, stylecontent, whenVisible = false, adaptater }) => {
 
@@ -135,12 +135,10 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
 
                 try {
 
-                    // Import dynamique de la fonction
-                    const mod = await import('@mindemangou/magiccomponents-react');
 
-                    if (typeof mod.getSlotsForReact === "function") {
+                    if (typeof getSlotsForReact === "function") {
 
-                        return mod.getSlotsForReact(template);
+                        return getSlotsForReact(template);
 
                     } else {
 
