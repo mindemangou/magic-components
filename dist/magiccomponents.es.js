@@ -596,7 +596,7 @@ const gn = ({ connected: o }, { allowShadowDom: n = !1, stylecontent: r, whenVis
         } catch (f) {
           console.error("Error while importing getSlotsForReact:", f);
         }
-      return { allSlots: "" };
+      return {};
     }
     getTemplate() {
       const c = this.tagName.toLowerCase();
@@ -608,29 +608,6 @@ const gn = ({ connected: o }, { allowShadowDom: n = !1, stylecontent: r, whenVis
         f.textContent = this.stylecontent, c.appendChild(f);
       }
     }
-    //  public getReactSlots(): Record<string, any> {
-    //     const slots: Record<string, any> = {};
-    //     // Default slot (no name)
-    //     const defaultSlotNodes = Array.from(this.childNodes).filter(
-    //         node => !(node instanceof HTMLElement && node.hasAttribute('slot'))
-    //     );
-    //     if (defaultSlotNodes.length > 0) {
-    //         const container = document.createElement('div');
-    //         defaultSlotNodes.forEach(node => container.appendChild(node.cloneNode(true)));
-    //         slots.children = parse(container.innerHTML);
-    //     }
-    //     // Named slots
-    //     const namedSlotNodes = Array.from(this.children).filter(
-    //         el => el instanceof HTMLElement && el.hasAttribute('slot')
-    //     ) as HTMLElement[];
-    //     for (const el of namedSlotNodes) {
-    //         const slotName = el.getAttribute('slot');
-    //         if (slotName) {
-    //             slots[slotName] = parse(el.outerHTML);
-    //         }
-    //     }
-    //     return slots;
-    // }
   }
   return H(L, "observedAttributes", ["data-render"]), L;
 }, _n = (o, n) => {

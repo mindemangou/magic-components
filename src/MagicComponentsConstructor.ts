@@ -150,7 +150,7 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
                 }
             }
 
-            return { allSlots: '' };
+            return { };
         }
 
         private getTemplate() {
@@ -174,32 +174,7 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
             }
         }
 
-        //  public getReactSlots(): Record<string, any> {
-        //     const slots: Record<string, any> = {};
-
-        //     // Default slot (no name)
-        //     const defaultSlotNodes = Array.from(this.childNodes).filter(
-        //         node => !(node instanceof HTMLElement && node.hasAttribute('slot'))
-        //     );
-        //     if (defaultSlotNodes.length > 0) {
-        //         const container = document.createElement('div');
-        //         defaultSlotNodes.forEach(node => container.appendChild(node.cloneNode(true)));
-        //         slots.children = parse(container.innerHTML);
-        //     }
-
-        //     // Named slots
-        //     const namedSlotNodes = Array.from(this.children).filter(
-        //         el => el instanceof HTMLElement && el.hasAttribute('slot')
-        //     ) as HTMLElement[];
-        //     for (const el of namedSlotNodes) {
-        //         const slotName = el.getAttribute('slot');
-        //         if (slotName) {
-        //             slots[slotName] = parse(el.outerHTML);
-        //         }
-        //     }
-
-        //     return slots;
-        // }
+        
 
     }
 

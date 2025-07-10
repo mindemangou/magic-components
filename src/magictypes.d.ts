@@ -6,14 +6,14 @@ export type PropsType<T={ [k:string]:string}> = {
 
 export type ElementType=ShadowRoot|HTMLElement
 
-export type ConnectedParams<T = any,S=any>={
+export type ConnectedParams<T = any,Keys=any>={
   element:ElementType,
   props:{tagname: string}&T,
-  slots:SlotsType<S>
+  slots:SlotsType<Keys>
 
 }
 
-export type Connected = ({ element, props,slots }: ConnectedParams<T,S>) =>( (() => void)| Promise<void>|Promise<()=>void> | void );
+export type Connected = ({ element, props,slots }: ConnectedParams<T,Keys>) =>( (() => void)| Promise<void>|Promise<()=>void> | void );
 
 
 type CallbacksType={connected:Connected}

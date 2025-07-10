@@ -16,6 +16,7 @@ It supports Shadow DOM, prop validation, secure DOM manipulation, and seamless i
 - **React Slot Adaptation**: Pass slots as ReactNode to React components (with [`@mindemangou/magiccomponents-react`](https://www.npmjs.com/package/@mindemangou/magiccomponents-react)).
 - **TypeScript First**: Strong typing for all APIs.
 - **Lightweight**: Minimal dependencies, fast runtime.
+- **Magic Fragment**: Use `<magic-fragment>` to group multiple elements in slots or templates without extra wrappers.
 
 ---
 
@@ -97,6 +98,28 @@ MagicComponents supports named slots for flexible content distribution.
 
 ---
 
+### 🪄 Magic Fragment
+
+You can use the `<magic-fragment>` tag inside your templates or slots to group multiple elements **without adding extra wrappers**.  
+This is especially useful when you want to return multiple root nodes in a slot or template.
+
+**Example:**
+
+```html
+<my-layout>
+  <template data-for='my-layout'>
+    <magic-fragment slot="main">
+      <section>Section 1</section>
+      <section>Section 2</section>
+    </magic-fragment>
+  </template>
+</my-layout>
+```
+
+In your component, all children of `<magic-fragment>` will be injected as siblings, not wrapped in an extra element.
+
+---
+
 ### Intersection Observer (Lazy Rendering)
 
 Render components only when they become visible by using the `whenVisible` option.
@@ -110,7 +133,7 @@ define(
 );
 ```
 
-
+---
 
 ### React Slot Adaptation
 
