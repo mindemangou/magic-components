@@ -1,7 +1,7 @@
 import { getProps, observer } from "./magiccomponents";
 import type { Adaptaters, GlobalElementConstructor } from './magictypes'
 import Dompurify from 'dompurify'
-import {getSlotsForReact} from '@mindemangou/magiccomponents-react'
+
 
 const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, { allowShadowDom = false, stylecontent, whenVisible = false, adaptater }) => {
 
@@ -39,6 +39,25 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
             this.render();
         }
 
+         disconnectedCallback() {
+
+            //Remove observer
+            if (this.whenVisibleAllowed && typeof window !== "undefined" && observer) {
+                observer.unobserve(this)
+            }
+
+            this.disconnected()
+
+        }
+
+        attributeChangedCallback(name: string, _: string, newValue: string) {
+
+            if (name === "data-render" && newValue === "true") {
+                this.render();
+            }
+
+        }
+
         /**
          * Hydrate SSR content if present.
          * Returns true if hydration was performed (so render should be skipped).
@@ -66,24 +85,7 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
             return false;
         }
 
-        disconnectedCallback() {
-
-            //Remove observer
-            if (this.whenVisibleAllowed && typeof window !== "undefined" && observer) {
-                observer.unobserve(this)
-            }
-
-            this.disconnected()
-
-        }
-
-        attributeChangedCallback(name: string, _: string, newValue: string) {
-
-            if (name === "data-render" && newValue === "true") {
-                this.render();
-            }
-
-        }
+       
 
         private async render() {
 
@@ -116,7 +118,7 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
 
         }
 
-        private async addTemplateSlot(template: HTMLTemplateElement) {
+        private  addTemplateSlot(template: HTMLTemplateElement) {
 
 
             if (template) {
@@ -135,10 +137,12 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
 
                 try {
 
+                    // Import dynamique de la fonction
+                    const mod = await import('@mindemangou/magiccomponents-react');
 
-                    if (typeof getSlotsForReact === "function") {
+                    if (typeof mod.getSlotsForReact === "function") {
 
-                        return getSlotsForReact(template);
+                        return mod.getSlotsForReact(template);
 
                     } else {
 
@@ -150,7 +154,7 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
                 }
             }
 
-            return { };
+            return { allSlots: '' };
         }
 
         private getTemplate() {
@@ -174,7 +178,7 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
             }
         }
 
-        
+       
 
     }
 
