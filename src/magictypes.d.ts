@@ -36,6 +36,5 @@ export type GetProps=(element: HTMLElement) => PropsType
  declare module '@mindemangou/magiccomponents' {
 
     const define:Define;
-    const getProps:GetProps
 
 }
