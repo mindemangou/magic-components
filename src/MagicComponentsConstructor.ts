@@ -1,7 +1,7 @@
 import { getProps, observer } from "./magiccomponents";
 import type { Adaptaters, GlobalElementConstructor } from './magictypes'
 import Dompurify from 'dompurify'
-
+import {getSlotsForReact}  from "@mindemangou/magiccomponents-react"
 
 const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, { allowShadowDom = false, stylecontent, whenVisible = false, adaptater }) => {
 
@@ -67,8 +67,8 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
             if (this.allowShadowDom && this.shadowRoot && this.shadowRoot.hasChildNodes()) {
                 // Optionnel : attacher les comportements JS ici si besoin
                 const props = getProps(this);
-                const template = this.getTemplate();
-                const slots = await this.getSlots(template);
+                const container = this.getSlotContainer();
+                const slots =  this.getSlots(container);
                 const result = connected({ element: this.shadowRoot, props, slots });
                 this.disconnected = typeof result === "function" ? result : () => {};
                 return true;
@@ -76,8 +76,8 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
             // Si pas de shadow DOM, hydrate si le composant a déjà du contenu
             if (!this.allowShadowDom && this.hasChildNodes()) {
                 const props = getProps(this);
-                const template = this.getTemplate();
-                const slots = await this.getSlots(template);
+                const container = this.getSlotContainer();
+                const slots =  this.getSlots(container);
                 const result = connected({ element: this, props, slots });
                 this.disconnected = typeof result === "function" ? result : () => {};
                 return true;
@@ -90,8 +90,8 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
         private async render() {
 
             const props = getProps(this);
-            const template = this.getTemplate();
-            const slots = await this.getSlots(template);
+            const container = this.getSlotContainer();
+            const slots =  this.getSlots(container);
 
             if (this.allowShadowDom) {
 
@@ -99,7 +99,7 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
 
                     const shadow = this.attachShadow({ mode: "open" });
 
-                    this.addTemplateSlot(template);
+                    this.addSlotInShadowDom(container);
 
                     const result = connected({ element: shadow, props, slots });
 
@@ -118,35 +118,34 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
 
         }
 
-        private  addTemplateSlot(template: HTMLTemplateElement) {
+        private  addSlotInShadowDom(element: HTMLElement|null) {
 
+            if (element) {
 
-            if (template) {
-
-                const content = Dompurify.sanitize(template.content, { RETURN_DOM_FRAGMENT: true })
+                const dirty=element instanceof HTMLTemplateElement ?element.content:element
+                
+                const content = Dompurify.sanitize(dirty, { RETURN_DOM_FRAGMENT: true ,FORBID_TAGS: ['style', 'script', 'iframe', 'object', 'embed',"link","meta"] })
 
                 this.appendChild(content)
             }
+
         }
 
 
         // Remplace le type SlotsType par any pour la compatibilité dynamique
-        private async getSlots(template: HTMLTemplateElement): Promise<any> {
+        private  getSlots(element: HTMLElement|null) {
 
             if (this.adaptater === "react") {
 
                 try {
 
-                    // Import dynamique de la fonction
-                    const mod = await import('@mindemangou/magiccomponents-react');
+                    if (typeof getSlotsForReact === "function") {
 
-                    if (typeof mod.getSlotsForReact === "function") {
-
-                        return mod.getSlotsForReact(template);
+                        return getSlotsForReact(element);
 
                     } else {
 
-                        console.error("'getSlotsForReact' is not available. Make sure '@mindemangou/magiccomponents-react' is installed and externalized.");
+                        console.error("'getSlotsForReact' is not available. Make sure '@mindemangou/magiccomponents-react' is installed ");
                     }
 
                 } catch (err) {
@@ -154,15 +153,16 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
                 }
             }
 
-            return { allSlots: '' };
+            return {  };
         }
 
-        private getTemplate() {
+        private getSlotContainer() {
+
             const tagname = this.tagName.toLowerCase();
 
-            const template = this.querySelector(`[data-for='${tagname}']`) as HTMLTemplateElement
+            const container = this.querySelector(`[data-for='${tagname}']`) as HTMLElement
 
-            return template
+            return container
 
         }
 

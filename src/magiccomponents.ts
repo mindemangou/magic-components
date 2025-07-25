@@ -9,7 +9,7 @@ export let observer: IntersectionObserver | undefined;
 // Helper: safely parse JSON, fallback to original value if parsing fails
 function safeParse(value: string): unknown {
 
-  const sanitizeValue=Dompurify.sanitize(value)
+  const sanitizeValue=Dompurify.sanitize(value,{FORBID_TAGS: ['style', 'script', 'iframe', 'object', 'embed',"link","meta"]})
 
   try {
     const parsed = sanitizeValue ? JSON.parse(sanitizeValue) : sanitizeValue;
