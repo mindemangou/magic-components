@@ -590,7 +590,7 @@ const En = ({ connected: o }, { allowShadowDom: n = !1, stylecontent: r, whenVis
       if (this.adaptater === "react")
         try {
           const c = await import("@mindemangou/magiccomponents-react");
-          if (typeof c.getSlotsForReact == "function")
+          if (console.log(c), console.log(typeof c.getSlotsForReact), typeof c.getSlotsForReact == "function")
             return c.getSlotsForReact(f);
           console.error("'getSlotsForReact' is not available. Make sure '@mindemangou/magiccomponents-react' is installed and externalized.");
         } catch (c) {
