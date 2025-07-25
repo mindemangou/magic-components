@@ -596,7 +596,7 @@ const En = ({ connected: o }, { allowShadowDom: n = !1, stylecontent: r, whenVis
         } catch (c) {
           console.error("Error while importing getSlotsForReact:", c);
         }
-      return { allSlots: "" };
+      return {};
     }
     getTemplate() {
       const f = this.tagName.toLowerCase();

@@ -140,6 +140,8 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
                     // Import dynamique de la fonction
                     const mod = await import('@mindemangou/magiccomponents-react');
 
+                    
+
                     if (typeof mod.getSlotsForReact === "function") {
 
                         return mod.getSlotsForReact(template);
@@ -154,7 +156,7 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
                 }
             }
 
-            return { allSlots: '' };
+            return {};
         }
 
         private getTemplate() {
