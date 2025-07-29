@@ -107,12 +107,12 @@ This is especially useful when you want to return multiple root nodes in a slot 
 
 ```html
 <my-layout>
-  <template data-for='my-layout'>
+  <div data-for='my-layout'>
     <magic-fragment slot="main">
       <section>Section 1</section>
       <section>Section 2</section>
     </magic-fragment>
-  </template>
+  </div>
 </my-layout>
 ```
 
@@ -137,11 +137,12 @@ define(
 
 ### React Slot Adaptation
 
-To use slots as ReactNode in React components, set `adaptater: "react"` and install `@mindemangou/magiccomponents-react`:
+To use slots as ReactNode in React components, set `adaptater: ReactAdaptater` and install `@mindemangou/magiccomponents-react`:
 
 ```typescript
+import {ReactAdaptater} from '@mindemangou/magiccomponents-react`
 define(
-  { tagname: 'my-react-comp', adaptater: 'react' },
+  { tagname: 'my-react-comp', adaptater: ReactAdaptater },
   ({ element, props, slots }) => {
     // slots.header, slots.footer, etc. are ReactNode
     // Use them in your React rendering logic
@@ -165,12 +166,6 @@ define(
 
 ---
 
-## ⚡ SSR & Astro Compatibility
-
-- The library auto-detects the environment and disables browser-only features (like IntersectionObserver) in SSR.
-- Works out-of-the-box with Astro, Next.js, and other SSR frameworks.
-
----
 
 ## 🧑‍💻 Contributing
 

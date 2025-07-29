@@ -1,9 +1,8 @@
 import { getProps, observer } from "./magiccomponents";
 import type { Adaptaters, GlobalElementConstructor } from './magictypes'
 import Dompurify from 'dompurify'
-import {getSlotsForReact}  from "@mindemangou/magiccomponents-react"
 
-const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, { allowShadowDom = false, stylecontent, whenVisible = false, adaptater }) => {
+const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, { allowShadowDom = false, stylecontent, whenVisible = false, adaptater=()=>({}) }) => {
 
     class MagicConstructor extends HTMLElement {
 
@@ -17,7 +16,7 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
 
         private whenVisibleAllowed: boolean = whenVisible
 
-        private adaptater: Adaptaters | undefined = adaptater
+        private adaptater: Adaptaters  = adaptater
 
         constructor() {
 
@@ -135,25 +134,11 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
         // Remplace le type SlotsType par any pour la compatibilité dynamique
         private  getSlots(element: HTMLElement|null) {
 
-            if (this.adaptater === "react") {
-
-                try {
-
-                    if (typeof getSlotsForReact === "function") {
-
-                        return getSlotsForReact(element);
-
-                    } else {
-
-                        console.error("'getSlotsForReact' is not available. Make sure '@mindemangou/magiccomponents-react' is installed ");
-                    }
-
-                } catch (err) {
-                    console.error("Error while importing getSlotsForReact:", err);
+                if(typeof this.adaptater === 'function' ){
+                    return this.adaptater(element)
                 }
-            }
 
-            return {  };
+                return {};
         }
 
         private getSlotContainer() {
@@ -177,8 +162,6 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
                 shadow.appendChild(style)
             }
         }
-
-       
 
     }
 

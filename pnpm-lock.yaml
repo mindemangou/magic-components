@@ -7,14 +7,13 @@ settings:
 importers:
 
   .:
-    dependencies:
-      '@mindemangou/magiccomponents-react':
-        specifier: ^4.2.3
-        version: 4.2.3(@types/react@19.1.6)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       '@eslint/js':
         specifier: ^9.27.0
         version: 9.27.0
+      '@mindemangou/magiccomponents-react':
+        specifier: ^4.2.4
+        version: 4.2.4(@types/react@19.1.6)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@testing-library/dom':
         specifier: ^10.4.0
         version: 10.4.0
@@ -24,9 +23,6 @@ importers:
       '@types/jsdom':
         specifier: ^21.1.7
         version: 21.1.7
-      '@types/lodash.camelcase':
-        specifier: ^4.3.9
-        version: 4.3.9
       '@types/node':
         specifier: ^22.15.26
         version: 22.15.26
@@ -57,12 +53,6 @@ importers:
       happy-dom:
         specifier: ^17.5.6
         version: 17.5.6
-      html-react-parser:
-        specifier: ^5.2.5
-        version: 5.2.5(@types/react@19.1.6)(react@19.1.0)
-      htmx.org:
-        specifier: 2.0.4
-        version: 2.0.4
       jsdom:
         specifier: ^26.1.0
         version: 26.1.0
@@ -434,8 +424,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@mindemangou/magiccomponents-react@4.2.3':
-    resolution: {integrity: sha512-sZ5dtUiMGsLDftrwMLq/gYev9mbcnffw9AQaz7DHIlev672kcs9ez/0JdQTk+z7a1fxwGvmpjyBMS0FuDbI1Lw==}
+  '@mindemangou/magiccomponents-react@4.2.4':
+    resolution: {integrity: sha512-/SEYh8DlcDZVt8S8DdsAyWCaQDFmUzS5iQB99377FzJRhbTKRmhRlySuWr1Lwdff9BCsj/jZ+ouLe0OWJQOgtg==}
     peerDependencies:
       react: '>=18.0.0'
       react-dom: '>=18.0.0'
@@ -597,12 +587,6 @@ packages:
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
-
-  '@types/lodash.camelcase@4.3.9':
-    resolution: {integrity: sha512-ys9/hGBfsKxzmFI8hckII40V0ASQ83UM2pxfQRghHAwekhH4/jWtjz/3/9YDy7ZpUd/H0k2STSqmPR28dnj7Zg==}
-
-  '@types/lodash@4.17.17':
-    resolution: {integrity: sha512-RRVJ+J3J+WmyOTqnz3PiBLA501eKwXl2noseKOrNo/6+XEHjTAxO4xHvxQB6QuNm+s4WRbn6rSiap8+EA+ykFQ==}
 
   '@types/node@22.15.26':
     resolution: {integrity: sha512-lgISkNrqdQ5DAzjBhnDNGKDuXDNo7/1V4FhNzsKREhWLZTOELQAptuAnJMzHtUl1qyEBBy9lNBKQ9WjyiSloTw==}
@@ -1051,9 +1035,6 @@ packages:
 
   htmlparser2@10.0.0:
     resolution: {integrity: sha512-TwAZM+zE5Tq3lrEHvOlvwgj1XLWQCtaaibSN11Q+gGBAS7Y1uZSWwXXRe4iF6OXnaq1riyQAPFOBtYc77Mxq0g==}
-
-  htmx.org@2.0.4:
-    resolution: {integrity: sha512-HLxMCdfXDOJirs3vBZl/ZLoY+c7PfM4Ahr2Ad4YXh6d22T5ltbTXFFkpx9Tgb2vvmWFMbIc3LqN2ToNkZJvyYQ==}
 
   http-proxy-agent@7.0.2:
     resolution: {integrity: sha512-T1gkAiYYDWYx3V5Bmyu7HcfcvL7mUrTWiM6yOfa3PIphViJ/gFPbvidQ+veqSOHci/PxBcDabeUNCzpOODJZig==}
@@ -1872,7 +1853,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@mindemangou/magiccomponents-react@4.2.3(@types/react@19.1.6)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+  '@mindemangou/magiccomponents-react@4.2.4(@types/react@19.1.6)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
       dompurify: 3.2.6
       html-react-parser: 5.2.5(@types/react@19.1.6)(react@19.1.0)
@@ -2008,12 +1989,6 @@ snapshots:
       parse5: 7.3.0
 
   '@types/json-schema@7.0.15': {}
-
-  '@types/lodash.camelcase@4.3.9':
-    dependencies:
-      '@types/lodash': 4.17.17
-
-  '@types/lodash@4.17.17': {}
 
   '@types/node@22.15.26':
     dependencies:
@@ -2530,8 +2505,6 @@ snapshots:
       domhandler: 5.0.3
       domutils: 3.2.2
       entities: 6.0.0
-
-  htmx.org@2.0.4: {}
 
   http-proxy-agent@7.0.2:
     dependencies:

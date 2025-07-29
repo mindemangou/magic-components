@@ -1,24 +1,26 @@
-import {SlotsType} from '@mindemangou/magiccomponents-react'
+import type {ReactNode} from 'react'
 
-export type PropsType<T={ [k:string]:string}> = {
+export type PropsType<T={ [k:PropertyKey]:string}> = {
   tagname: string
 }& T
 
 export type ElementType=ShadowRoot|HTMLElement
 
-export type ConnectedParams<T = any,Keys=any>={
-  element:ElementType,
-  props:{tagname: string}&T,
-  slots:SlotsType<Keys>
+type ReactAdaptater=(element:HTMLElement|null)=>({[key:PropertyKey]:ReactNode})
 
+export type ConnectedParams<T = { [k:PropertyKey]:string}>={
+  element:ElementType,
+  props:PropsType<T>,
+  slots:ReturnType<ReactAdaptater>
 }
 
-export type Connected = ({ element, props,slots }: ConnectedParams<T,Keys>) =>( (() => void)| Promise<void>|Promise<()=>void> | void );
+export type Connected = ({ element, props,slots }: ConnectedParams<T>) =>( (() => void)| Promise<void>|Promise<()=>void> | void );
 
 
 type CallbacksType={connected:Connected}
 
-export type Adaptaters="react"
+
+export type Adaptaters=ReactAdaptater
 
 type ConponentConfigType={allowShadowDom?:boolean,stylecontent?:string,whenVisible?:boolean,tagname:string,adaptater?:Adaptaters}
 
@@ -38,3 +40,4 @@ export type GetProps=(element: HTMLElement) => PropsType
     const define:Define;
 
 }
+
