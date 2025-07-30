@@ -6,12 +6,12 @@ export type PropsType<T={ [k:PropertyKey]:string}> = {
 
 export type ElementType=ShadowRoot|HTMLElement
 
-type ReactAdaptater=(element:HTMLElement|null)=>({[key:PropertyKey]:ReactNode})
+type ReactAdapter=(element:HTMLElement|null)=>({[key:PropertyKey]:ReactNode})
 
 export type ConnectedParams<T = { [k:PropertyKey]:string}>={
   element:ElementType,
   props:PropsType<T>,
-  slots:ReturnType<ReactAdaptater>
+  slots:ReturnType<ReactAdapter>
 }
 
 export type Connected = ({ element, props,slots }: ConnectedParams<T>) =>( (() => void)| Promise<void>|Promise<()=>void> | void );
@@ -20,9 +20,9 @@ export type Connected = ({ element, props,slots }: ConnectedParams<T>) =>( (() =
 type CallbacksType={connected:Connected}
 
 
-export type Adaptaters=ReactAdaptater
+export type Adapters=ReactAdapter
 
-type ConponentConfigType={allowShadowDom?:boolean,stylecontent?:string,whenVisible?:boolean,tagname:string,adaptater?:Adaptaters}
+type ConponentConfigType={allowShadowDom?:boolean,stylecontent?:string,whenVisible?:boolean,tagname:string,adapter?:Adapters}
 
 export type GlobalElementConstructor=(
   {connected}:CallbacksType,

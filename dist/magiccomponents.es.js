@@ -526,7 +526,7 @@ function bt() {
   }, n;
 }
 var Lt = bt();
-const En = ({ connected: o }, { allowShadowDom: n = !1, stylecontent: r, whenVisible: s = !1, adaptater: p = () => ({}) }) => {
+const En = ({ connected: o }, { allowShadowDom: n = !1, stylecontent: r, whenVisible: s = !1, adapter: p = () => ({}) }) => {
   class L extends HTMLElement {
     constructor() {
       super();
@@ -535,7 +535,7 @@ const En = ({ connected: o }, { allowShadowDom: n = !1, stylecontent: r, whenVis
       H(this, "disconnected", () => {
       });
       H(this, "whenVisibleAllowed", s);
-      H(this, "adaptater", p);
+      H(this, "adapter", p);
     }
     async connectedCallback() {
       this.whenVisibleAllowed || await this.hydrateIfNeeded() || this.render();
@@ -587,7 +587,7 @@ const En = ({ connected: o }, { allowShadowDom: n = !1, stylecontent: r, whenVis
     }
     // Remplace le type SlotsType par any pour la compatibilité dynamique
     getSlots(c) {
-      return typeof this.adaptater == "function" ? this.adaptater(c) : {};
+      return typeof this.adapter == "function" ? this.adapter(c) : {};
     }
     getSlotContainer() {
       const c = this.tagName.toLowerCase();
@@ -618,10 +618,10 @@ function An(o) {
     ([n, r]) => [n, gn(r ?? "")]
   );
 }
-const yn = async ({ tagname: o, allowShadowDom: n = !1, stylecontent: r = "", whenVisible: s = !1, adaptater: p }, L) => {
+const yn = async ({ tagname: o, allowShadowDom: n = !1, stylecontent: r = "", whenVisible: s = !1, adapter: p }, L) => {
   if (!o || typeof o != "string" || !/^[a-z][.0-9_a-z-]*-[.0-9_a-z-]+$/.test(o))
     throw new Error(`Invalid or missing tagname: "${o}". A valid custom element name must contain a hyphen.`);
-  const M = En({ connected: L }, { allowShadowDom: n, stylecontent: r, whenVisible: s, adaptater: p });
+  const M = En({ connected: L }, { allowShadowDom: n, stylecontent: r, whenVisible: s, adapter: p });
   if (_n(o, M), s && typeof window < "u" && (!V && typeof window.IntersectionObserver < "u" && (V = new IntersectionObserver((U, c) => {
     var u;
     for (const h of U)

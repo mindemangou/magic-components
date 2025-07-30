@@ -1,8 +1,8 @@
 import { getProps, observer } from "./magiccomponents";
-import type { Adaptaters, GlobalElementConstructor } from './magictypes'
+import type { Adapters, GlobalElementConstructor } from './magictypes'
 import Dompurify from 'dompurify'
 
-const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, { allowShadowDom = false, stylecontent, whenVisible = false, adaptater=()=>({}) }) => {
+const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, { allowShadowDom = false, stylecontent, whenVisible = false, adapter=()=>({}) }) => {
 
     class MagicConstructor extends HTMLElement {
 
@@ -16,7 +16,7 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
 
         private whenVisibleAllowed: boolean = whenVisible
 
-        private adaptater: Adaptaters  = adaptater
+        private adapter: Adapters  = adapter
 
         constructor() {
 
@@ -134,8 +134,8 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
         // Remplace le type SlotsType par any pour la compatibilité dynamique
         private  getSlots(element: HTMLElement|null) {
 
-                if(typeof this.adaptater === 'function' ){
-                    return this.adaptater(element)
+                if(typeof this.adapter === 'function' ){
+                    return this.adapter(element)
                 }
 
                 return {};
