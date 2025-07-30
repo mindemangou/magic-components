@@ -140,9 +140,9 @@ define(
 To use slots as ReactNode in React components, set `adaptater: ReactAdaptater` and install `@mindemangou/magiccomponents-react`:
 
 ```typescript
-import {ReactAdaptater} from '@mindemangou/magiccomponents-react`
+import {ReactAdapter} from '@mindemangou/magiccomponents-react`
 define(
-  { tagname: 'my-react-comp', adaptater: ReactAdaptater },
+  { tagname: 'my-react-comp', adapter: ReactAdapter },
   ({ element, props, slots }) => {
     // slots.header, slots.footer, etc. are ReactNode
     // Use them in your React rendering logic
