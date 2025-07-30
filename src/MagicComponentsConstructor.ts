@@ -133,7 +133,7 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
 
         // Remplace le type SlotsType par any pour la compatibilité dynamique
         private  getSlots(element: HTMLElement|null) {
-
+               
                 if(typeof this.adapter === 'function' ){
                     return this.adapter(element)
                 }

@@ -137,7 +137,7 @@ define(
 
 ### React Slot Adaptation
 
-To use slots as ReactNode in React components, set `adaptater: ReactAdaptater` and install `@mindemangou/magiccomponents-react`:
+To use slots as ReactNode in React components, set `adapter: ReactAdapter` and install `@mindemangou/magiccomponents-react`:
 
 ```typescript
 import {ReactAdapter} from '@mindemangou/magiccomponents-react`

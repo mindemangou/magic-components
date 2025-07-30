@@ -12,8 +12,8 @@ importers:
         specifier: ^9.27.0
         version: 9.27.0
       '@mindemangou/magiccomponents-react':
-        specifier: ^4.2.4
-        version: 4.2.4(@types/react@19.1.6)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: ^4.2.6
+        version: 4.2.6(@types/react@19.1.6)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@testing-library/dom':
         specifier: ^10.4.0
         version: 10.4.0
@@ -424,8 +424,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@mindemangou/magiccomponents-react@4.2.4':
-    resolution: {integrity: sha512-/SEYh8DlcDZVt8S8DdsAyWCaQDFmUzS5iQB99377FzJRhbTKRmhRlySuWr1Lwdff9BCsj/jZ+ouLe0OWJQOgtg==}
+  '@mindemangou/magiccomponents-react@4.2.6':
+    resolution: {integrity: sha512-RxOiKoIi0ismwb8lH9hmZ1x0HB8ELSoLe5yvcy98Co6p05Cg3CTB/9wks0FozWnovXiWyjTkEc8P2uNXLGEQlQ==}
     peerDependencies:
       react: '>=18.0.0'
       react-dom: '>=18.0.0'
@@ -1853,7 +1853,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@mindemangou/magiccomponents-react@4.2.4(@types/react@19.1.6)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+  '@mindemangou/magiccomponents-react@4.2.6(@types/react@19.1.6)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
       dompurify: 3.2.6
       html-react-parser: 5.2.5(@types/react@19.1.6)(react@19.1.0)

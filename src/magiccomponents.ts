@@ -36,7 +36,7 @@ export const define:Define=async ({tagname,allowShadowDom=false,stylecontent='',
   }
 
   const customElementConstructor=getCustomElementConstructor({connected},{allowShadowDom,stylecontent,whenVisible,tagname,adapter})
-
+ 
   registerCustomElement(tagname,customElementConstructor)
 
   // Instanciation de l'observer uniquement si nécessaire
