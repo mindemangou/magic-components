@@ -1,31 +1,28 @@
-import {expect, vi, describe, afterEach, beforeEach, it} from 'vitest'
+import {expect, vi, describe,it, test} from 'vitest'
 
 import { define, getProps } from '../src/magiccomponents';
 
 
   describe('MagicComponents', () => {
 
-    beforeEach(() => {
-      vi.mock('../src/utiles',{spy:true});
+    // beforeEach(() => {
+    //   vi.mock('../src/utiles',{spy:true});
     
-      vi.mock('../src/MagicComponentsConstructor',{spy:true});
+    //   vi.mock('../src/MagicComponentsConstructor',{spy:true});
 
-      vi.mock('../src/magiccomponents.ts',{spy:true}); 
+    //   vi.mock('../src/magiccomponents.ts',{spy:true}); 
 
+    // });
 
-      //vi.stubGlobal('document', dom.document);
-      //vi.stubGlobal('customElements', dom.customElements);
+    // afterEach(()=> {
 
-
-    });
-
-    afterEach(()=> {
-
-      vi.unstubAllGlobals()
-      vi.resetAllMocks()
+    //   vi.unstubAllGlobals()
+    //   vi.resetAllMocks()
   
-    })
-  
+    // })
+
+
+    
     it('should define and register a custom element', async () => {
 
       const connected = vi.fn();
@@ -58,12 +55,6 @@ import { define, getProps } from '../src/magiccomponents';
   
   
     it('should support Shadow DOM', async () => {
-      // // Setup JSDOM environment
-      // const dom = new JSDOM(`<!DOCTYPE html><body></body>`);
-      // (globalThis as any).window = dom.window;
-      // (globalThis as any).document = dom.window.document;
-      // (globalThis as any).customElements = dom.window.customElements;
-      // (globalThis as any).HTMLElement = dom.window.HTMLElement;
 
       await define({ tagname: 'shadow-el',allowShadowDom:true }, ({ element }) => {
         element.innerHTML = '<span>Shadow!</span>';
