@@ -146,7 +146,6 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
             const tagname = this.tagName.toLowerCase();
 
             const container = this.querySelector(`[data-for='${tagname}']`) as HTMLElement
-
             return container
 
         }
