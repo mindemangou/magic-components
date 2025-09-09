@@ -36,16 +36,16 @@ import {ReactAdapter} from "@mindemangou/magiccomponents-react"
 
     test('React slot test',async ()=>{
 
-         const connected = vi.fn(({element,props,slots}:ConnectedParams)=>{
-          
+         const connected = vi.fn(({element}:ConnectedParams)=>{
+                    const slots=ReactAdapter(element)
                     render(<UserList lists={slots.lists} />,{container:element})
          });
 
-        await define({ tagname: 'my-users',adapter:ReactAdapter }, connected);
+        await define({ tagname: 'my-users' }, connected);
 
         const myElement=document.createElement('my-users');
 
-         myElement.innerHTML=`<div data-for='my-users'><magic-fragment slot="lists"><li>Gaut</li><li>Aya</li><li>doe</li></magic-fragment></div>`
+         myElement.innerHTML=`<magic-fragment slot="lists"><li>Gaut</li><li>Aya</li><li>doe</li></magic-fragment>`
         document.body.appendChild(myElement)
 
 
