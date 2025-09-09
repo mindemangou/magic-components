@@ -89,11 +89,12 @@ MagicComponents supports named slots for flexible content distribution.
 
 ```html
 <my-layout>
-  <template data-for='my-layout'>
-    <div slot="header">Header Content</div>
-    <div slot="main">Main Content</div>
-  </template>
+
+  <div slot="header">Header Content</div>
+  <div slot="main">Main Content</div>
+
 </my-layout>
+
 ```
 
 ---
@@ -107,13 +108,11 @@ This is especially useful when you want to return multiple root nodes in a slot 
 
 ```html
 <my-layout>
-  <div data-for='my-layout'>
     <magic-fragment slot="main">
       <section>Section 1</section>
       <section>Section 2</section>
     </magic-fragment>
   </div>
-</my-layout>
 ```
 
 In your component, all children of `<magic-fragment>` will be injected as siblings, not wrapped in an extra element.
@@ -137,17 +136,44 @@ define(
 
 ### React Slot Adaptation
 
-To use slots as ReactNode in React components, set `adapter: ReactAdapter` and install `@mindemangou/magiccomponents-react`:
+To use slots as ReactNode in React components install `@mindemangou/magiccomponents-react`:
+
+```html
+<my-layout>
+
+  <div slot="header">Header Content</div>
+  <div slot="main">Main Content</div>
+
+</my-layout>
+
+```
 
 ```typescript
-import {ReactAdapter} from '@mindemangou/magiccomponents-react`
+import {ReactAdapter} from '@mindemangou/magiccomponents-react'
+
 define(
-  { tagname: 'my-react-comp', adapter: ReactAdapter },
-  ({ element, props, slots }) => {
-    // slots.header, slots.footer, etc. are ReactNode
+  { tagname: 'my-react-comp'},
+  ({ element, props }) => {
+    const {header,main}=ReactAdapter(element)
     // Use them in your React rendering logic
   }
 );
+```
+You can use the data-hider attribute to hide or perfom actions on child element of the custom elements before running connected callback
+
+```html
+<my-layout data-hider > <!-- add data-hider  -->
+  <div slot="info"></div>
+</my-layout>
+
+```
+
+```css
+  /* Hide slot with css */
+ [data-hider] > [slot] {
+  opacity:0
+ }
+
 ```
 
 ---
