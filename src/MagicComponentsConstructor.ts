@@ -35,6 +35,7 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
             if (needHydrate) {
                 return;
             }
+
             this.render();
         }
 
@@ -102,7 +103,7 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
         }
 
        
-
+        
         private async render() {
 
             const props = getProps(this);
@@ -137,40 +138,6 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
             }
 
         }
-
-        // private  addSlotInShadowDom(element: HTMLElement|null) {
-
-        //     if (element) {
-
-        //         const dirty=element instanceof HTMLTemplateElement ?element.content:element
-                
-        //         const content = Dompurify.sanitize(dirty, { RETURN_DOM_FRAGMENT: true ,FORBID_TAGS: ['style', 'script', 'iframe', 'object', 'embed',"link","meta"] })
-
-        //         this.appendChild(content)
-        //     }
-
-        // }
-
-
-        // Remplace le type SlotsType par any pour la compatibilité dynamique
-        // private  getSlots(element: HTMLElement|null) {
-               
-        //         if(typeof this.adapter === 'function' ){
-        //             return this.adapter(element)
-        //         }
-
-        //         return {};
-        // }
-
-        // private getSlotContainer() {
-
-        //     const tagname = this.tagName.toLowerCase();
-
-        //     const container = this.querySelector(`[data-for='${tagname}']`) as HTMLElement
-        //     return container
-
-        // }
-
 
         private addStyle(shadow: ShadowRoot) {
 
