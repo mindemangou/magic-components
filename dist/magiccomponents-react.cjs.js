@@ -1,0 +1,1 @@
+"use strict";Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});const r=require("./magiccomponents.cjs.js"),i=require("react-dom/client"),c=(t,n)=>{r.define(t,({element:e,props:o})=>{i.createRoot(e).render(n({element:e,props:o}))})};exports.define=c;

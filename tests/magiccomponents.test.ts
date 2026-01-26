@@ -40,7 +40,8 @@ import { define, getProps } from '../src/magiccomponents';
       await Promise.resolve(); 
 
       // connected doit être appelé lors de l'attachement
-      expect(connected).toHaveBeenCalled();
+      //reprendre le test
+      expect(connected).toHaveBeenCalled(); 
 
     });
   

@@ -23,9 +23,11 @@ function safeParse(value: string): unknown {
 
 // Helper: extract dataset as entries with parsed values
 function extractDatasetProps(element: HTMLElement): [string, unknown][] {
+  
   return Object.entries({ ...element.dataset }).map(
     ([key, value]: [string, string | undefined]) => [key, safeParse(value ?? "")]
   );
+  
 }
 
 //create custom element

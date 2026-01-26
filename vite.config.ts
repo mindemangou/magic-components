@@ -13,16 +13,15 @@ export default defineConfig({
   build: {
     
     lib: {
-      entry: ['src/magiccomponents.ts'],
+
+      entry: ['src/magiccomponents.ts','src/magiccomponents-react.ts'],
       fileName: (format, entryName) => `${entryName}.${format}.js`,
-      name: 'magiccomponents',
     },
     
     rollupOptions: {
-      external: ['@mindemangou/magiccomponents-react', 'react', 'react-dom'],
+      external: [ 'react', 'react-dom/client'],
       output: {
         globals: {
-          '@mindemangou/magiccomponents-react': 'MagicComponentsReact',
           'react': 'React',
           'react-dom': 'ReactDOM'
         }
