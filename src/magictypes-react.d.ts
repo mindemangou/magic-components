@@ -11,7 +11,7 @@ import { ComponentConfigType, ConnectedParams } from './magictypes';
   {allowShadowDom,stylecontent,whenVisible,tagname}:ComponentConfigType
 )=>CustomElementConstructor;
 
- type Define=({tagname,allowShadowDom,stylecontent,whenVisible}:ComponentConfigType, connected: Connected) => Promise<void>;
+ export type Define=({tagname,allowShadowDom,stylecontent,whenVisible}:ComponentConfigType & {autoUnmount?:boolean}, connected: Connected) => Promise<void>|void;
 
 
 

@@ -1,7 +1,7 @@
 
 export type PropsType<T={ [k:PropertyKey]:string}> = {
-  tagname: string
-}& T
+  [Key in keyof T]:T[Key]
+} & {  tagname: string}
 
 type ComponentConfigType={allowShadowDom?:boolean,stylecontent?:string,whenVisible?:boolean,tagname:string}
 
@@ -12,7 +12,7 @@ export type ElementType=ShadowRoot|HTMLElement
 
 export type ConnectedParams<P = { [k:PropertyKey]:string}>={
   element:ShadowRoot|HTMLElement,
-  props:PropsType<T>
+  props:PropsType<P>
 }
 
 export type Connected = ({ element, props }: ConnectedParams) =>( (() => void)| Promise<void>|Promise<()=>void> | void );
@@ -24,7 +24,7 @@ export type GlobalElementConstructor=(
   {allowShadowDom,stylecontent,whenVisible,tagname}:ComponentConfigType
 )=>CustomElementConstructor;
 
-export type Define=({tagname,allowShadowDom,stylecontent,whenVisible}:ComponentConfigType, connected: Connected) => Promise<void>;
+export type Define=({tagname,allowShadowDom,stylecontent,whenVisible}:ComponentConfigType, connected: Connected) => Promise<void>|void;
 
 
 export type GetProps=(element: HTMLElement) => PropsType

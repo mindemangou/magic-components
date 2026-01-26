@@ -1,14 +1,13 @@
 import { define as def } from "./magiccomponents";
-import { type ReactNode} from "react";
-import type {  ComponentConfigType, ConnectedParams } from "./magictypes";
 import {
 
     createRoot
 
 } from "react-dom/client"
+import { Define } from "./magictypes-react";
 
 
-export const define =( obj: ComponentConfigType & {autoUnmount?:boolean}, cb:(params:ConnectedParams)=>ReactNode )=>{
+export const define:Define =( obj, cb )=>{
 
 
     const {autoUnmount,...rest}=obj
@@ -16,7 +15,8 @@ export const define =( obj: ComponentConfigType & {autoUnmount?:boolean}, cb:(pa
     def(rest,({element,props})=>{
 
         const root=createRoot(element)
-
+        
+        //mount component
         root.render( cb({element,props}) )
 
         //Unmount component
