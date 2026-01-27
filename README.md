@@ -13,10 +13,10 @@ It supports Shadow DOM, prop validation, secure DOM manipulation, and seamless i
 - **Secure by Default**: DOMPurify integration for safe HTML injection.
 - **Data Attributes as Props**: All `data-*` attributes are automatically parsed and available as props.
 - **Intersection Observer**: Lazy rendering when components become visible.
-- **React Slot Adaptation**: Pass slots as ReactNode to React components (with [`@mindemangou/magiccomponents-react`](https://www.npmjs.com/package/@mindemangou/magiccomponents-react)).
+
 - **TypeScript First**: Strong typing for all APIs.
 - **Lightweight**: Minimal dependencies, fast runtime.
-- **Magic Fragment**: Use `<magic-fragment>` to group multiple elements in slots or templates without extra wrappers.
+
 
 ---
 
@@ -28,7 +28,6 @@ npm install @mindemangou/magiccomponents
 pnpm install @mindemangou/magiccomponents
 ```
 
-> **Note:** For React slot support, also install [`@mindemangou/magiccomponents-react`](https://www.npmjs.com/package/@mindemangou/magiccomponents-react).
 
 ---
 
@@ -134,31 +133,7 @@ define(
 
 ---
 
-### React Slot Adaptation
 
-To use slots as ReactNode in React components install `@mindemangou/magiccomponents-react`:
-
-```html
-<my-layout>
-
-  <div slot="header">Header Content</div>
-  <div slot="main">Main Content</div>
-
-</my-layout>
-
-```
-
-```typescript
-import {ReactAdapter} from '@mindemangou/magiccomponents-react'
-
-define(
-  { tagname: 'my-react-comp'},
-  ({ element, props }) => {
-    const {header,main}=ReactAdapter(element)
-    // Use them in your React rendering logic
-  }
-);
-```
 You can use the data-hider attribute to hide or perfom actions on child element of the custom elements before running connected callback
 
 ```html
