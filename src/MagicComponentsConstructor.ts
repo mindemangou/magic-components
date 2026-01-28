@@ -46,6 +46,8 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
                 observer.unobserve(this)
             }
 
+            
+
             this.disconnected()
 
         }
@@ -93,6 +95,8 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
 
                 this.removeAttribute(this.hider)
 
+
+
                 this.disconnected = typeof result === "function" ? result : () => {};
                 
                 return true;
@@ -132,6 +136,7 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
                 //Remove attribute data-hider
                 this.removeAttribute(this.hider)
 
+
                 this.disconnected = typeof result === "function" ? result : () => {};
                 
 
@@ -144,7 +149,7 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
             if (this.stylecontent) {
                 const style = document.createElement('style')
 
-                style.textContent = this.stylecontent
+                style.textContent = String(this.stylecontent)
 
                 shadow.appendChild(style)
             }
