@@ -1,25 +1,9 @@
-import {expect, vi, describe,it, test} from 'vitest'
+import {expect, vi, describe,it} from 'vitest'
 
 import { define, getProps } from '../src/magiccomponents';
 
 
   describe('MagicComponents', () => {
-
-    // beforeEach(() => {
-    //   vi.mock('../src/utiles',{spy:true});
-    
-    //   vi.mock('../src/MagicComponentsConstructor',{spy:true});
-
-    //   vi.mock('../src/magiccomponents.ts',{spy:true}); 
-
-    // });
-
-    // afterEach(()=> {
-
-    //   vi.unstubAllGlobals()
-    //   vi.resetAllMocks()
-  
-    // })
 
 
     
@@ -58,7 +42,11 @@ import { define, getProps } from '../src/magiccomponents';
     it('should support Shadow DOM', async () => {
 
       await define({ tagname: 'shadow-el',allowShadowDom:true }, ({ element }) => {
-        element.innerHTML = '<span>Shadow!</span>';
+
+        if(element.shadowRoot){
+          element.shadowRoot.innerHTML = '<span>Shadow!</span>';
+        }
+        
       });
 
       const el = document.createElement('shadow-el');
@@ -70,17 +58,40 @@ import { define, getProps } from '../src/magiccomponents';
       
       expect(el.shadowRoot).toBeTruthy()
       expect(el.shadowRoot?.innerHTML).toBe('<span>Shadow!</span>');
+
+      document.body.removeChild(el)
+    });
+
+    it('should call cleanUp function', async () => {
+
+      const myCleanUp=vi.fn(()=>{
+        console.log("unmount")
+      })
+
+        await define({ tagname: 'user-img'}, () => {
+
+           return {cleanUp:()=>{
+            myCleanUp()
+           } }
+           
+        });
+
+        const el = document.createElement('user-img');
+        document.body.appendChild(el);
+
+        // Wait for the custom element to be upgraded and connected
+        await customElements.whenDefined('user-img');
+        await Promise.resolve();
+
+        document.body.removeChild(el)
+
+
+        expect(myCleanUp).toBeCalled()
+
+
     });
   
-    it('should hydrate SSR content', async () => {
-      await define({ tagname: 'ssr-el' }, () => {
-        // Ne rien faire, juste vérifier que le contenu n'est pas écrasé
-      });
-      const el = document.createElement('ssr-el');
-      el.innerHTML = '<span>SSR</span>';
-      document.body.appendChild(el);
-      expect(el.innerHTML).toBe('<span>SSR</span>');
-    });
+
   
   });
 

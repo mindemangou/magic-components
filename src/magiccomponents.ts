@@ -1,25 +1,7 @@
 import getCustomElementConstructor from './MagicComponentsConstructor.ts';
-import { registerCustomElement } from './utiles.ts';
+import { registerCustomElement, safeParse } from './utiles.ts';
 import type { Define, GetProps, PropsType } from './magictypes';
-import Dompurify from 'dompurify'
 
-// Lazy observer instance
-export let observer: IntersectionObserver | undefined;
-
-// Helper: safely parse JSON, fallback to original value if parsing fails
-function safeParse(value: string): unknown {
-
-  const sanitizeValue=Dompurify.sanitize(value,{FORBID_TAGS: ['style', 'script', 'iframe', 'object', 'embed',"link","meta"]})
-
-  try {
-    const parsed = sanitizeValue ? JSON.parse(sanitizeValue) : sanitizeValue;
-    return parsed
-  } catch {
-    return sanitizeValue
-  }
-  
-  
-}
 
 // Helper: extract dataset as entries with parsed values
 function extractDatasetProps(element: HTMLElement): [string, unknown][] {
@@ -41,33 +23,6 @@ export const define:Define=async ({tagname,allowShadowDom=false,stylecontent='',
   const customElementConstructor=getCustomElementConstructor({connected},{allowShadowDom,stylecontent,whenVisible,tagname})
  
   registerCustomElement(tagname,customElementConstructor)
-
-  // Instanciation de l'observer uniquement si nécessaire
-  if(whenVisible && typeof window !== "undefined") {
-
-    if (!observer && typeof window.IntersectionObserver !== "undefined") {
-
-      observer = new IntersectionObserver((elements, intersectionObserverInit) => {
-
-        for (const element of elements) {
-          if(element.isIntersecting) {
-            element?.target?.setAttribute('data-render','true')
-            intersectionObserverInit.unobserve(element.target)
-          }
-        }
-
-      });
-
-    }
-
-    if (observer) {
-      const elements=document.querySelectorAll(tagname)
-      for (const element of elements) {
-        observer.observe(element)
-      }
-    }
-
-  }
 
 }
 

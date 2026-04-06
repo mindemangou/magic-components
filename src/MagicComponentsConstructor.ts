@@ -1,5 +1,7 @@
-import { getProps, observer } from "./magiccomponents";
-import type {  GlobalElementConstructor } from './magictypes'
+import { getProps } from "./magiccomponents";
+import type {  GlobalElementConstructor, PropsType } from './magictypes'
+import Dompurify from 'dompurify'
+
 
 const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, { allowShadowDom = false, stylecontent, whenVisible = false }) => {
 
@@ -13,9 +15,11 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
 
         private disconnected = () => { }
 
-        private hider="data-hider"
+        private hidde="data-hidde"
 
         private whenVisibleAllowed: boolean = whenVisible
+
+        private observer:IntersectionObserver|undefined;
 
         constructor() {
 
@@ -26,87 +30,70 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
        async connectedCallback() {
 
             if (this.whenVisibleAllowed) {
+                this.renderWhenVisible()
                 return;
             }
 
-            const needHydrate=await this.hydrateIfNeeded()
-
-            // SSR hydration support
-            if (needHydrate) {
-                return;
-            }
 
             this.render();
         }
 
+
+
          disconnectedCallback() {
 
-            //Remove observer
-            if (this.whenVisibleAllowed && typeof window !== "undefined" && observer) {
-                observer.unobserve(this)
-            }
 
-            
-
-            this.disconnected()
+             this.disconnected()
 
         }
 
-       async attributeChangedCallback(name: string, _: string, newValue: string) {
+        attributeChangedCallback(name: string, _: string, newValue: string) {
+
+
+            if(!this.whenVisibleAllowed) {
+                return false
+            }
 
             if (name === "data-render" && newValue === "true") {
-
-                const needHydrate=await this.hydrateIfNeeded()
-
-                // SSR hydration support
-                if (needHydrate) {
-                    return;
-                }
 
                 this.render();
             }
 
         }
 
-        /**
-         * Hydrate SSR content if present.
-         * Returns true if hydration was performed (so render should be skipped).
-         */
-        private async hydrateIfNeeded(): Promise<boolean> {
+        private renderWhenVisible(){
 
-            const props = getProps(this);
-
-            // Si shadow DOM, hydrate le shadowRoot si déjà présent
-            if (this.allowShadowDom && this.shadowRoot && this.shadowRoot.hasChildNodes()) {
-                // Optionnel : attacher les comportements JS ici si besoin
- 
-                const result = connected({ element: this.shadowRoot, props });
-
-                this.removeAttribute(this.hider)
-
-                this.disconnected = typeof result === "function" ? result : () => {};
-                return true;
+            if(this.whenVisibleAllowed !== true){
+                return;
             }
 
-            // Si pas de shadow DOM, hydrate si le composant a déjà du contenu
-            if (!this.allowShadowDom && this.hasChildNodes()) {
+            if(this.observer===undefined){
 
-                const result = connected({ element: this, props });
+                this.observer=new IntersectionObserver((elements, intersectionObserverInit) => {
 
-                this.removeAttribute(this.hider)
+                        for (const element of elements) {
+
+                              if(element.isIntersecting) {
+
+                                element?.target?.setAttribute('data-render','true')
+
+                                intersectionObserverInit.unobserve(element.target)
+
+                              }
 
 
+                        }
 
-                this.disconnected = typeof result === "function" ? result : () => {};
-                
-                return true;
+                });
 
             }
 
-            return false;
+
+            this.observer.observe(this)
+            
+
         }
 
-       
         
         private async render() {
 
@@ -118,40 +105,93 @@ const getMagicComponentsConstructor: GlobalElementConstructor = ({ connected }, 
                 if (!this.shadowRoot) {
 
                     const shadow = this.attachShadow({ mode: "open" });
-                    
-                    const result = connected({ element: shadow, props });
 
-                    //Remove attribute data-hider
-                    this.removeAttribute(this.hider)
-
-                    this.disconnected = typeof result === "function" ? result : () => {};
                     
-                    this.addStyle(shadow);
+                    // const result = await connected({ element: this, props });
+
+                    // //Add view in custom element
+                    // const view=result.view
+
+                    // //Add view in custom element
+
+                    // if(view!==undefined && typeof view==="string"){
+
+
+                    //     const safeView=Dompurify.sanitize(view,{FORBID_TAGS: ['script', 'iframe', 'object', 'embed',"link","meta"]})
+
+                    //     //Important Purify le texte provenent de l'utilisateur
+                    //      shadow.innerHTML=String(safeView)
+
+                    // }
+
+
+                    // //Remove attribute data-hidde
+                    // this.removeAttribute(this.hidde)
+
+                    // this.disconnected = typeof result.cleanUp === "function" ? result.cleanUp : () => {};
+
+                    this.mount({props,shadow})
+                    
+                     this.addStyle(shadow);
                 }
+
 
             } else {
 
-                const result = connected({ element: this, props })
-
-                //Remove attribute data-hider
-                this.removeAttribute(this.hider)
-
-
-                this.disconnected = typeof result === "function" ? result : () => {};
                 
+                this.mount({props})
 
             }
 
         }
 
+        private async mount({props,shadow}:{props:PropsType,shadow?:ShadowRoot}){
+
+                const result= await connected( { element: this, props } )
+
+                const view=result?.view
+
+                //Add view in custom element
+
+                if(view!==undefined && typeof view==="string"){
+
+                    //Purify le texte provenent de l'utilisateur
+
+                    const safeView=Dompurify.sanitize(view,{FORBID_TAGS: ['script', 'iframe', 'object', 'embed',"link","meta"]})
+
+                    if(shadow!==undefined) {
+                        shadow.innerHTML=String(safeView)
+
+                    }else{
+
+                        this.innerHTML=String(safeView)
+
+                    }
+                     
+
+
+                }
+
+                //Remove attribute data-hidde
+                this.removeAttribute(this.hidde)
+
+                this.disconnected = typeof result?.cleanUp === "function" ? result.cleanUp : () => {};
+            
+
+        }
+
+
+
         private addStyle(shadow: ShadowRoot) {
 
             if (this.stylecontent) {
+
                 const style = document.createElement('style')
 
                 style.textContent = String(this.stylecontent)
 
                 shadow.appendChild(style)
+
             }
         }
 

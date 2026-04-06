@@ -22,23 +22,18 @@
     "custom elements",
     "component"
   ],
-
-  "exports":{
-
-    ".":{
-        "import":"./dist/magiccomponents.es.js",
-        "types":"./dist/magictypes.d.ts",
-        "require":"./dist/magiccomponents.cjs.js"
+  "exports": {
+    ".": {
+      "import": "./dist/magiccomponents.es.js",
+      "types": "./dist/magictypes.d.ts",
+      "require": "./dist/magiccomponents.cjs.js"
     },
-
-    "./react":{
-      "import":"./dist/magiccomponents-react.es.js",
-      "types":"./dist/magictypes-react.d.ts",
-      "require":"./dist/magiccomponents-react.cjs.js"
+    "./react": {
+      "import": "./dist/magiccomponents-react.es.js",
+      "types": "./dist/magictypes-react.d.ts",
+      "require": "./dist/magiccomponents-react.cjs.js"
     }
-
   },
-  
   "scripts": {
     "dev": "vite",
     "build": "tsc -b  && vite build && cp ./src/magictypes.d.ts ./dist/magictypes.d.ts && cp ./src/magictypes-react.d.ts ./dist/magictypes-react.d.ts",
@@ -49,7 +44,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
-    "@mindemangou/magiccomponents-react": "^4.2.7",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/react": "^16.3.2",
     "@types/jsdom": "^21.1.7",
@@ -64,6 +58,8 @@
     "globals": "^15.15.0",
     "happy-dom": "^17.6.3",
     "jsdom": "^26.1.0",
+    "lit": "^3.3.2",
+    "lit-html": "^3.3.2",
     "morphdom": "^2.7.8",
     "nanostores": "^1.1.0",
     "react": "^19.2.3",

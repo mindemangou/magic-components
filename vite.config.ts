@@ -7,8 +7,12 @@ export default defineConfig({
   plugins: [react()],
 
   test: {
-    environment: 'jsdom' 
-   },
+    environment: 'jsdom',
+    setupFiles: ['tests/setup.ts'],
+    // globals: true,
+    // restoreMocks: true,
+    // clearMocks: true
+  },
   
   build: {
     

@@ -1,3 +1,6 @@
+import Dompurify from 'dompurify'
+
+
 export const registerCustomElement = (tagName: string, ClassRef: CustomElementConstructor) => {
   
   // In dev, allow redefinition by deleting the old constructor if possible (not standard, but helps with HMR)
@@ -11,6 +14,23 @@ export const registerCustomElement = (tagName: string, ClassRef: CustomElementCo
   
   customElements.define(tagName, ClassRef);
 };
+
+
+// Helper: safely parse JSON, fallback to original value if parsing fails
+export const  safeParse=(value: string): unknown=>{
+
+  const sanitizeValue=Dompurify.sanitize(value,{FORBID_TAGS: ['script', 'iframe', 'object', 'embed',"link","meta"]})
+
+  try {
+    const parsed = sanitizeValue ? JSON.parse(sanitizeValue) : sanitizeValue;
+    return parsed
+  } catch {
+    return sanitizeValue
+  }
+  
+  
+}
+
 
 
 

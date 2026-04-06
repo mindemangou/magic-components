@@ -1,15 +1,9 @@
 import type {ReactNode} from 'react'
-import { ComponentConfigType, ConnectedParams } from './magictypes';
+import type { ComponentConfigType, ConnectedParams } from './magictypes';
 
 
- type Connected = ({ element, props }: ConnectedParams) =>ReactNode;
+ type Connected = ({ element, props }: ConnectedParams) =>{component:ReactNode,cleanUp?:()=>any}|Promise<{component:ReactNode,cleanUp?:()=>any}>;
 
-
-
- type GlobalElementConstructor=(
-  {connected}:{connected:Connected},
-  {allowShadowDom,stylecontent,whenVisible,tagname}:ComponentConfigType
-)=>CustomElementConstructor;
 
  export type Define=({tagname,allowShadowDom,stylecontent,whenVisible}:ComponentConfigType & {autoUnmount?:boolean}, connected: Connected) => Promise<void>|void;
 

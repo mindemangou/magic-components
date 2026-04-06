@@ -5,32 +5,28 @@ export type PropsType<T={ [k:PropertyKey]:string}> = {
 
 type ComponentConfigType={allowShadowDom?:boolean,stylecontent?:string,whenVisible?:boolean,tagname:string}
 
-//type X=ConponentConfigType["allowShadowDom"] extends true ?true:false
 
-export type ElementType=ShadowRoot|HTMLElement
-
-
-export type ConnectedParams<P = { [k:PropertyKey]:string}>={
-  element:ShadowRoot|HTMLElement,
+export type ConnectedParams<P = Record<PropertyKey,string>>={
+  element:HTMLElement,
   props:PropsType<P>
 }
 
-export type Connected = ({ element, props }: ConnectedParams) =>( (() => void)| Promise<void>|Promise<()=>void> | void );
-
+export type Connected= ({ element, props }: ConnectedParams) =>( {view?:string,cleanUp?:()=>void }| Promise<{view?:string,cleanUp?:()=>void }>|void|Promise<void> )  //( (() => void)| Promise<void>|Promise<()=>void> | void );
 
 
 export type GlobalElementConstructor=(
-  {connected}:{connected:Connected},
-  {allowShadowDom,stylecontent,whenVisible,tagname}:ComponentConfigType
+  connected:{connected:Connected},
+  config:ComponentConfigType
 )=>CustomElementConstructor;
 
-export type Define=({tagname,allowShadowDom,stylecontent,whenVisible}:ComponentConfigType, connected: Connected) => Promise<void>|void;
+
+export type Define=(config:ComponentConfigType, connected: Connected) => Promise<void>|void
 
 
 export type GetProps=(element: HTMLElement) => PropsType
 
 
- declare module '@mindemangou/magiccomponents' {
+declare module '@mindemangou/magiccomponents' {
 
     const define:Define;
 
